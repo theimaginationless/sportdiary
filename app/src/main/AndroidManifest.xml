@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.app.dmitryteplyakov.sportdiary">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        >
+
+        <activity android:name=".Settings.SettingsActivity"
+            android:label="@string/settings_title"/>
+        <activity android:name=".Training.TrainingListActivity"
+                  android:parentActivityName=".GeneralActivity"/>
+        <activity android:name=".Programs.ProgramsListActivity"
+            android:label="@string/programs_title"
+                  android:parentActivityName=".GeneralActivity"/>
+        <activity android:name=".Programs.ProgramExerciseListActivity"
+            android:parentActivityName=".Programs.ProgramsListActivity"/>
+        <activity android:name=".Programs.ProgramActivity"
+                  android:parentActivityName=".Programs.ProgramExerciseListActivity"/>
+        <activity android:name=".Training.NewDayActivity"
+                  android:parentActivityName=".GeneralActivity"/>
+        <activity android:name=".Training.ExerciseActivity"
+            android:parentActivityName=".Training.ExerciseListActivity"/>
+        <activity android:name=".Training.ExerciseListActivity"
+            android:parentActivityName=".GeneralActivity"/>
+        <activity android:name=".GeneralActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">SportDiary</string>
+    <string name="action_overview_tab_title">Сводка</string>
+    <string name="action_training_tab_title">Тренировки</string>
+    <string name="action_nutrition_tab_title">Питание</string>
+    <string name="settings_title">Настройки</string>
+    <string name="programs_title">Программа</string>
+    <string name="fragment_list_programs_empty_text">Добавьте программу</string>
+    <string name="fragment_list_programs_empty_text_exercises">Добавьте упражнения</string>
+    <string name="fragment_days_list_empty_text">Начните тренироваться</string>
+    <string name="add_program">Добавление упражнения</string>
+    <string name="details_title">Упражнение</string>
+    <string name="fragment_program_exercise_title_hint">Название упражнения</string>
+    <string name="fragment_program_replays_title">Количество повторов:</string>
+    <string name="fragment_program_approach_title">Количество подходов:</string>
+    <string name="exercise_no_title">Упражнение без названия</string>
+    <string name="training_no_title">Тренировка без названия</string>
+    <string name="training_title">Название тренировки</string>
+    <string name="training_title_picker_hint">Название тренировки</string>
+    <string name="fragment_program_interval_timer_title">Включить интервальный таймер</string>
+    <string name="delete_dialog_title">Удалить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="menu_delete_item">Удалить</string>
+    <string name="edit_training_title_menu">Изменить</string>
+    <string name="fragment_new_day_hint">Название дня</string>
+    <string name="fragment_new_day_start_time">Время начала тренировки:</string>
+    <string name="fragment_new_day_dummy_time">Вы пока не начали тренировку</string>
+    <string name="fragment_new_day_spinner_trainings_title">Группа упражнений:</string>
+    <string name="fragment_new_day_start_training">Начать тренировку</string>
+    <string name="snackbar_day_deleted">День удалён</string>
+    <string name="training_is_empty_snackbar">Сначала добавьте программу</string>
+    <string name="add">Добавить</string>
+    <string name="confirm_delete_training_dialog">Вы действительно хотите удалить?</string>
+    <plurals name="confirm_delete_training_with_day_dialog_plural">
+        <item quantity="one">Вы действительно хотите удалить?
+Эта тренировка выполнялась %1$s день.</item>
+        <item quantity="few">Вы действительно хотите удалить?
+Эта тренировка выполнялась %1$s дня.</item>
+        <item quantity="other">Вы действительно хотите удалить?
+Эта тренировка выполнялась %1$s дней.</item>
+    </plurals>
+    <string name="fragment_program_pull_counter_title">Счётчик подтягиваний</string>
+    <string name="fragment_using_exercise_start_date_training">Начало тренировки: </string>
+    <string name="fragment_using_exercise_end_date_training">Окончание тренировки: </string>
+    <string name="days_list_item_group_exercises_text_view">Программа: </string>
+    <string name="days_list_item_duration_exercises_text_view">Продолжительность: </string>
+    <string name="days_list_item_count_exercises_text_view">Выполнено упражнений: </string>
+    <string name="fragment_using_exercise_end_training_waiting">Ожидание</string>
+    <string name="fragment_using_exercise_end_training_button_title">Завершить упражнение</string>
+    <string name="fragment_using_exercise_already_ended_snackbar">Упражнение уже завершено!</string>
+    <plurals name="minutes_plural">
+        <item quantity="zero">%1$s минут</item>
+        <item quantity="one">%1$s минута</item>
+        <item quantity="few">%1$s минуты</item>
+        <item quantity="other">%1$s минут</item>
+    </plurals>
+    <string name="time_na">0</string>
+    <string name="check_date_with_no_ended_exercise">Сначала завершите упражнение!</string>
+    <string name="fragment_program_weight_title">Вес: </string>
+    <string name="fragment_program_weight_hint">Кг</string>
+    <string name="fragment_program_energy_hint">ККал</string>
+    <string name="fragment_program_energy_title">Сжигаемая энергия: </string>
+</resources>
