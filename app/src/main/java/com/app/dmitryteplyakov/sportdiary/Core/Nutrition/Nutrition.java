@@ -12,7 +12,7 @@ public class Nutrition {
     private UUID mParentDay;
     private UUID mAssociatedDay;
     private int mEnergy;
-    private int mWeight;
+    private double mWeight;
     private boolean mIsAssociatedWithDay;
 
     public Nutrition(UUID mId, UUID mParentDay) {
@@ -62,11 +62,11 @@ public class Nutrition {
         mEnergy = energy;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return mWeight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         mWeight = weight;
     }
 
