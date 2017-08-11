@@ -66,7 +66,7 @@ public class Nutrition {
         return mWeight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         mWeight = weight;
     }
 
