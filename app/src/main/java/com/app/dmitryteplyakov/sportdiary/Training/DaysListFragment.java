@@ -57,6 +57,7 @@ public class DaysListFragment extends Fragment {
         mRecyclerView.setLayoutManager(manager);
         mFAB = (FloatingActionButton) getActivity().findViewById(R.id.activity_common_fab_add);
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
+        mEmptyTextView.setText(getString(R.string.fragment_days_list_empty_text));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

@@ -26,6 +26,8 @@
             android:parentActivityName=".Training.ExerciseListActivity"/>
         <activity android:name=".Training.ExerciseListActivity"
             android:parentActivityName=".GeneralActivity"/>
+        <activity android:name=".Nutrition.NutritionActivity"
+                  android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".GeneralActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -1,6 +1,5 @@
 package com.app.dmitryteplyakov.sportdiary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,12 +18,11 @@ import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
-import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListFragment;
+import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionDaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Overview.OverviewFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListActivity;
 import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
-import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
 
 import java.util.UUID;
@@ -132,7 +129,7 @@ public class GeneralActivity extends AppCompatActivity {
 
     private void onNutritionTab() {
         TAB_STATE = 2;
-        Fragment fragment = new NutritionListFragment();
+        Fragment fragment = new NutritionDaysListFragment();
         mFab.show();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
