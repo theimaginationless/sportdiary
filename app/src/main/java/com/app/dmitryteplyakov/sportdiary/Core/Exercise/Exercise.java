@@ -16,7 +16,6 @@ public class Exercise implements Comparable<Exercise> {
     private int mReplays;
     private int mEnergy;
     private int mApproach;
-    private int mFactApproach;
     private boolean needTimer;
     private double weight;
     private UUID mId;
@@ -124,16 +123,6 @@ public class Exercise implements Comparable<Exercise> {
 
     public void setEnergy(int energy) {
         mEnergy = energy;
-    }
-
-    // Todo: Delete Fact.
-    @Deprecated
-    public int getFactApproach() {
-        return mFactApproach;
-    }
-    @Deprecated
-    public void setFactApproach(int factApproach) {
-        mFactApproach = factApproach;
     }
 
     public double getWeight() {
