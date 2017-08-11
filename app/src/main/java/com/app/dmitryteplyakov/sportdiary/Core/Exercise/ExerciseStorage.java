@@ -21,7 +21,6 @@ import static com.app.dmitryteplyakov.sportdiary.database.Exercise.ExerciseDbSch
 
 public class ExerciseStorage {
     private static ExerciseStorage sExerciseStorage;
-    private List<Exercise> mExercises;
     private Context mContext;
     private SQLiteDatabase mDatabase;
     private UUID parentUUID;
@@ -88,24 +87,6 @@ public class ExerciseStorage {
         }
         return exercises;
     }
-    // Todo: Remove getExercisesByParentTrainingDayId as deprecated
-    @Deprecated
-    public List<Exercise> getExercisesByParentTrainingDayId(UUID id) {
-        List<Exercise> exercises = new ArrayList<>();
-        ExerciseCursorWrapper cursor = queryExercises(ExerciseTable.Cols.PARENTTRAININGDAYUUID + " = ?",
-                new String[] { id.toString() }
-        );
-        try {
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()) {
-                exercises.add(cursor.getExercise());
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-        return exercises;
-    }
 
     public List<Exercise> getExercisesByParentId(UUID id) {
         List<Exercise> exercises = new ArrayList<>();
@@ -151,10 +132,6 @@ public class ExerciseStorage {
 
         mDatabase.update(ExerciseTable.NAME, values, ExerciseTable.Cols.UUID + " = ?",
                 new String[] { uuidString });
-    }
-
-    public void updateUUID() {
-        parentUUID = UUID.randomUUID();
     }
 
     public void deleteExercise(Exercise exercise) {
