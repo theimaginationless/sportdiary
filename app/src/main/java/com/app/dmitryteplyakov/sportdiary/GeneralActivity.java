@@ -20,6 +20,7 @@ import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
+import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListFragment;
 import com.app.dmitryteplyakov.sportdiary.Overview.OverviewFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListActivity;
 import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
@@ -131,7 +132,7 @@ public class GeneralActivity extends AppCompatActivity {
 
     private void onNutritionTab() {
         TAB_STATE = 2;
-        Fragment fragment = new NutritionFragment();
+        Fragment fragment = new NutritionListFragment();
         mFab.show();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
