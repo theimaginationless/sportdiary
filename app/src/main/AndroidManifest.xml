@@ -13,10 +13,8 @@
 
         <activity android:name=".Settings.SettingsActivity"
             android:label="@string/settings_title"/>
-        <activity android:name=".Training.TrainingListActivity"
-                  android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".Programs.ProgramsListActivity"
-            android:label="@string/programs_title"
+                  android:label="@string/programs_title"
                   android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".Programs.ProgramExerciseListActivity"
             android:parentActivityName=".Programs.ProgramsListActivity"/>
