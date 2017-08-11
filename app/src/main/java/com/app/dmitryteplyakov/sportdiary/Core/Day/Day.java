@@ -13,13 +13,11 @@ public class Day implements Comparable<Day> {
     private String mTitle;
     private UUID mId;
     private UUID trainingId;
-    //private UUID mParentDay; // Connected with ParentUUID
     private Date mDate; // Connected with start time
     private Date mStartDate;
     private Date mEndDate;
 
     public Day(UUID id) {
-        //mParentDay = pId;
         mId = id;
         mDate = new Date();
     }

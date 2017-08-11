@@ -133,12 +133,12 @@ public class DaysListFragment extends Fragment {
             return new ExerciseHolder(view);
         }
 
-        @Override        public void onBindViewHolder(ExerciseHolder holder, int position) {
+        @Override
+        public void onBindViewHolder(ExerciseHolder holder, int position) {
             Day day = mDays.get(position);
             SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy, HH:mm");
             UUID trainingId = day.getTrainingId();
             List<Exercise> exerciseList = CompExerciseStorage.get(getActivity()).getExercisesByParentTrainingDayId(day.getId());
-            //holder.countExercises.setText(Integer.toString(exerciseList.size()));
             int count = 0;
             for(Exercise exercise : exerciseList) {
                 if (exercise.isAlreadyEnded())
@@ -176,7 +176,6 @@ public class DaysListFragment extends Fragment {
 
     private void updateUI() {
         List<Day> day = DayStorage.get(getActivity()).getDays();
-        //Collections.sort(day);
         if(mAdapter == null) {
             mAdapter = new ExerciseAdapter(day);
             mRecyclerView.setAdapter(mAdapter);
@@ -194,7 +193,6 @@ public class DaysListFragment extends Fragment {
 
     private void updateUI(boolean isAdd, int num) {
         List<Day> day = DayStorage.get(getActivity()).getDays();
-        //Collections.sort(day);
         mAdapter.setDays(day);
         if(isAdd)
             mAdapter.notifyItemInserted(num);
@@ -227,11 +225,9 @@ public class DaysListFragment extends Fragment {
                 Day day = DayStorage.get(getActivity()).getDay(dayId);
                 DayStorage dayStorage = DayStorage.get(getActivity());
                 CompTrainingStorage compTrainingStorage = CompTrainingStorage.get(getActivity());
-                //compTrainingStorage.deleteTraining(day.getTrainingId());
                 compTrainingStorage.deleteTrainingByDayId(day.getId());
                 CompExerciseStorage compExerciseStorage = CompExerciseStorage.get(getActivity());
                 compExerciseStorage.deleteExercisesByParentTrainingDayId(day.getId());
-                //compExerciseStorage.deleteExercisesByParentId(day.getTrainingId());
                 Log.d("DLF", Integer.toString(compExerciseStorage.getExercises().size()));
                 int num = DayStorage.get(getActivity()).getDays().indexOf(day);
                 dayStorage.deleteDay(day);
@@ -239,12 +235,6 @@ public class DaysListFragment extends Fragment {
                 Snackbar mSnackBar = Snackbar.make(getActivity().findViewById(R.id.snackbar_place), getString(R.string.snackbar_day_deleted) , Snackbar.LENGTH_LONG);
                 mSnackBar.show();
             }
-            /*else if(resultCode == DeleteFragment.RESULT_DELETE_WITH_DAYS) {
-                UUID dayId = (UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID);
-                DayStorage dayStorage = DayStorage.get(getActivity());
-                Day day = dayStorage.getDay(dayId);
-                dayStorage.deleteDay(day);
-            }*/
         }
     }
 

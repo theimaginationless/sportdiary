@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.app.dmitryteplyakov.sportdiary.database.Exercise.ExerciseBaseHelper;
 import com.app.dmitryteplyakov.sportdiary.database.Exercise.ExerciseCursorWrapper;

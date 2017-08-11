@@ -23,7 +23,6 @@ public class ProgramExerciseListActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context contextPackage, UUID trainingId) {
         Intent intent = new Intent(contextPackage, ProgramExerciseListActivity.class);
-        //trainingUUID = trainingId;
         intent.putExtra(EXTRA_TRAINING_UUID, trainingId);
         Log.d("PELA", "SCHEMA");
         return intent;

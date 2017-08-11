@@ -85,14 +85,6 @@ public class DeleteFragment extends DialogFragment {
             UUID id = (UUID) getArguments().getSerializable(ARG_TRAINING_UUID_DELETE);
             data = new Intent();
             data.putExtra(EXTRA_RETURN_DELETE_UUID, id);
-            /*if(getTargetRequestCode() == ProgramExerciseListFragment.REQUEST_DELETE_EXERCISE) {
-                UUID id = (UUID) getArguments().getSerializable(ARG_TRAINING_UUID_DELETE);
-                //ExerciseStorage.get(getActivity()).deleteExerciseById(id);
-            } else if(getTargetRequestCode() == ProgramsListFragment.REQUEST_TRAINING_DELETE) {
-                UUID parentId = (UUID) getArguments().getSerializable(ARG_TRAINING_UUID_DELETE);
-                //ExerciseStorage.get(getActivity()).deleteExercisesByParentId(parentId);
-                //TrainingStorage.get(getActivity()).deleteTraining(parentId);
-            }*/
         }
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, data);
     }

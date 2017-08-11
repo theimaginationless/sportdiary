@@ -88,50 +88,10 @@ public class CompExerciseStorage {
         return exercises;
     }
 
-    public List<Exercise> getExercisesByParentId(UUID id) {
-        List<Exercise> exercises = new ArrayList<>();
-
-        ExerciseCursorWrapper cursor = queryExercises(ExerciseTable.Cols.PARENTUUID + " = ?",
-                new String[] { id.toString() }
-        );
-
-        try {
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()) {
-                exercises.add(cursor.getExercise());
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-        return exercises;
-    }
-
     public List<Exercise> getExercisesByParentTrainingDayId(UUID id) {
         List<Exercise> exercises = new ArrayList<>();
 
         ExerciseCursorWrapper cursor = queryExercises(ExerciseTable.Cols.PARENTTRAININGDAYUUID + " = ?",
-                new String[] { id.toString() }
-        );
-
-        try {
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()) {
-                exercises.add(cursor.getExercise());
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-        Log.d("CORE CES", Integer.toString(exercises.size()));
-        return exercises;
-    }
-    // Todo: Remove getExercisesByParentDayId in future as deprecated
-    @Deprecated
-    public List<Exercise> getExercisesByParentDayId(UUID id) {
-        List<Exercise> exercises = new ArrayList<>();
-
-        ExerciseCursorWrapper cursor = queryExercises(ExerciseTable.Cols.PARENTDAYID + " = ?",
                 new String[] { id.toString() }
         );
 

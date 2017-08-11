@@ -34,7 +34,6 @@ public class GeneralActivity extends AppCompatActivity {
     private BottomNavigationView mBottomNavigationView;
     private FloatingActionButton mFab;
     private static final int REQUEST_ADD_DAY = 2;
-    private static final String EXTRA_ADD_DAY_PARENTUUID = "extra_add_day_parent_uuid";
     private static final String SAVE_STATE = "com.app.generalactivity.save_state";
     private int TAB_STATE;
 
@@ -48,7 +47,6 @@ public class GeneralActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragment);
 
         mFab = (FloatingActionButton) findViewById(R.id.activity_common_fab_add);
-        //mFab.setVisibility(View.GONE);
 
 
         FragmentManager fm = getSupportFragmentManager();
@@ -92,7 +90,6 @@ public class GeneralActivity extends AppCompatActivity {
     private void onOverviewTab() {
         TAB_STATE = 0;
         Fragment fragment = new OverviewFragment();
-        //mFab.setVisibility(View.GONE);
         mFab.hide();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -103,7 +100,6 @@ public class GeneralActivity extends AppCompatActivity {
     private void onTrainingTab() {
         TAB_STATE = 1;
         Fragment fragment = new DaysListFragment();
-        //mFab.setVisibility(View.VISIBLE);
         mFab.show();
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +132,6 @@ public class GeneralActivity extends AppCompatActivity {
     private void onNutritionTab() {
         TAB_STATE = 2;
         Fragment fragment = new NutritionFragment();
-        //mFab.setVisibility(View.VISIBLE);
         mFab.show();
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)

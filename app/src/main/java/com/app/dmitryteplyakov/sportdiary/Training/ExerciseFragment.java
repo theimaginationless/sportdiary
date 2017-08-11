@@ -199,10 +199,6 @@ public class ExerciseFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        /*if(!mExercise.isAlreadyEnded()) {
-            mExercise.setEndDate(new Date());
-            mExercise.setAlreadyEnded(true);
-        }*/
         CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
     }
 

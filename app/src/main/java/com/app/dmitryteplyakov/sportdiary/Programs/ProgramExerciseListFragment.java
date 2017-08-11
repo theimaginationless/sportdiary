@@ -176,9 +176,6 @@ public class ProgramExerciseListFragment extends Fragment {
 
     private void updateUI() {
         List<Exercise> exerciseList = ExerciseStorage.get(getActivity()).getExercisesByParentId(parentUUID);
-        /*for(Exercise exercise : ExerciseStorage.get(getActivity()).getExercises())
-            if(exercise.getParentUUID().equals(parentUUID))
-                exerciseList.add(exercise);*/
         if(mAdapter == null) {
             mAdapter = new ProgramExerciseAdapter(exerciseList);
             mRecyclerView.setAdapter(mAdapter);

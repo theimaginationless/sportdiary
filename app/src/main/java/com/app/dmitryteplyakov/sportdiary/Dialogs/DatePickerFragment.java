@@ -82,28 +82,6 @@ public class DatePickerFragment extends DialogFragment {
             }
         });
         return alertDialog;
-        /*return new AlertDialog.Builder(getActivity())
-                .setView(v)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth());
-                        mDate = calendar.getTime();
-                        FragmentManager manager = getFragmentManager();
-                        TimePickerFragment dialogFragment = new TimePickerFragment();
-                        dialogFragment.setTargetFragment(DatePickerFragment.this, REQUEST_TIME);
-                        dialogFragment.show(manager, DIALOG_TIME);
-
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //
-                    }
-                })
-                .create();*/
     }
 
     @Override

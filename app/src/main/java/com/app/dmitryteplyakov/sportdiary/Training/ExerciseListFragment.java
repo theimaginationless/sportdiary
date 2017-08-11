@@ -66,7 +66,6 @@ public class ExerciseListFragment extends Fragment {
             mExerciseTitle.setText(exercise.getTitle());
             mExercise = exercise;
             Log.d("ELF PARENTCHECK", "EXTITLE: " + mExercise.getTitle() + " ALREADYENDED " + Boolean.toString(mExercise.isAlreadyEnded()) + " DAY ID: " + mExercise.getParentTrainingDayId() + " UUID: " + mExercise.getId());
-            //Log.d("ELF", exercise.getTitle());
         }
 
         @Override
@@ -76,7 +75,6 @@ public class ExerciseListFragment extends Fragment {
             if(!mExercise.isAlreadyWorking()) {
                 mExercise.setStartDate(new Date());
                 mExercise.setAlreadyWorking(true);
-                //CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
                 Log.d("ELF", "IS ALREADY WORKING: " + Boolean.toString(mExercise.isAlreadyWorking()));
             }
             CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
