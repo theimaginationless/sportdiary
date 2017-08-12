@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.Nutrition;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
