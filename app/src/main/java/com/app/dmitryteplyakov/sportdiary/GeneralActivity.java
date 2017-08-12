@@ -17,7 +17,10 @@ import android.view.View;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
+import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
+import com.app.dmitryteplyakov.sportdiary.Nutrition.NewNutritionDayActivity;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionDaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Overview.OverviewFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListActivity;
@@ -131,6 +134,15 @@ public class GeneralActivity extends AppCompatActivity {
         TAB_STATE = 2;
         Fragment fragment = new NutritionDaysListFragment();
         mFab.show();
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NutritionDay nutritionDay = new NutritionDay(UUID.randomUUID());
+                NutritionDayStorage.get(GeneralActivity.this).addNutritionDay(nutritionDay);
+                Intent intent = NewNutritionDayActivity.newIntent(GeneralActivity.this, nutritionDay.getId());
+                startActivity(intent);
+            }
+        });
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)

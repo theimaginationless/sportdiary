@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.Nutrition;
+import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
+import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class NutritionDaysListFragment extends Fragment {
     private TextView mEmptyTextView;
     private RecyclerView mRecyclerView;
+    private NutritionDayAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,38 +33,39 @@ public class NutritionDaysListFragment extends Fragment {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.training_list_fragment_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        updateUI();
         return v;
     }
 
-    private class NutritionHolder extends RecyclerView.ViewHolder {
-        private Nutrition mNutritionDay;
-        public NutritionHolder(View itemView) {
+    private class NutritionDayHolder extends RecyclerView.ViewHolder {
+        private NutritionDay mNutritionDay;
+        public NutritionDayHolder(View itemView) {
             super(itemView);
 
         }
 
-        public void bindNutrition(Nutrition nutritionDay) {
+        public void bindNutritionDay(NutritionDay nutritionDay) {
             mNutritionDay = nutritionDay;
         }
     }
 
-    private class NutritionAdapter extends RecyclerView.Adapter<NutritionHolder> {
-        private List<Nutrition> mNutritionDays;
+    private class NutritionDayAdapter extends RecyclerView.Adapter<NutritionDayHolder> {
+        private List<NutritionDay> mNutritionDays;
 
-        public NutritionAdapter(List<Nutrition> nutritionDays)  {
+        public NutritionDayAdapter(List<NutritionDay> nutritionDays)  {
             mNutritionDays = nutritionDays;
         }
 
         @Override
-        public NutritionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public NutritionDayHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.nutritions_day_list_item, parent, false);
-            return new NutritionHolder(view);
+            return new NutritionDayHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(NutritionHolder holder, int position) {
-            Nutrition nutritionDay = mNutritionDays.get(position);
-            holder.bindNutrition(nutritionDay);
+        public void onBindViewHolder(NutritionDayHolder holder, int position) {
+            NutritionDay nutritionDay = mNutritionDays.get(position);
+            holder.bindNutritionDay(nutritionDay);
         }
 
         @Override
@@ -69,14 +73,21 @@ public class NutritionDaysListFragment extends Fragment {
             return mNutritionDays.size();
         }
 
-        public void setNutrtitions(List<Nutrition> nutritionDays) {
+        public void setNutritionDay(List<NutritionDay> nutritionDays) {
             mNutritionDays = nutritionDays;
         }
     }
 
     private void updateUI() {
-        List<Nutrition> nutritionDaysList;
-
+        List<NutritionDay> nutritionDayList;
+        nutritionDayList = NutritionDayStorage.get(getActivity()).getNutritionDays();
+        if (mAdapter == null) {
+            mAdapter = new NutritionDayAdapter(nutritionDayList);
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.setNutritionDay(nutritionDayList);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 }
