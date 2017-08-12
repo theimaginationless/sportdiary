@@ -19,8 +19,7 @@ import android.widget.Toast;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.CompExerciseStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.Exercise;
-import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
-import com.app.dmitryteplyakov.sportdiary.Dialogs.DatePickerFragment;
+import com.app.dmitryteplyakov.sportdiary.Dialogs.TimePickerFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.text.SimpleDateFormat;
@@ -35,9 +34,9 @@ public class ExerciseFragment extends Fragment {
 
     private Exercise mExercise;
     private static final String ARG_TRAINING_UUID = "com.app.exercisefragment.arg_training_uuid";
-    private static final int REQUEST_START_DATE = 12;
-    private static final int REQUEST_END_DATE = 13;
-    private static final String DIALOG_DATE_PICKER = "com.app.exercisefragment.dialog_date_picker";
+    private static final int REQUEST_START_TIME = 12;
+    private static final int REQUEST_END_TIME = 13;
+    private static final String DIALOG_TIME_PICKER = "com.app.exercisefragment.dialog_date_picker";
     private EditText mCountReplays;
     private EditText mCountApproach;
     private Button mStartDateButton;
@@ -147,7 +146,7 @@ public class ExerciseFragment extends Fragment {
         mCountReplays.setText(Integer.toString(mExercise.getReplays()));
         mCountApproach = (EditText) v.findViewById(R.id.fragment_using_exercise_count_approach_edit_text);
         mCountApproach.setText(Integer.toString(mExercise.getApproach()));
-        final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+        final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         mEndDateButton = (Button) v.findViewById(R.id.fragment_using_exercise_end_date_training_button);
         mEndDateButton.setText(format.format(mExercise.getEndDate()));
         mEndDateButton.setOnClickListener(new View.OnClickListener() {
@@ -157,9 +156,9 @@ public class ExerciseFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.check_date_with_no_ended_exercise), Toast.LENGTH_SHORT).show();
                 } else {
                     FragmentManager manager = getFragmentManager();
-                    DatePickerFragment dialog = DatePickerFragment.newInstance(mExercise.getId());
-                    dialog.setTargetFragment(ExerciseFragment.this, REQUEST_END_DATE);
-                    dialog.show(manager, DIALOG_DATE_PICKER);
+                    TimePickerFragment dialog = TimePickerFragment.newInstance(mExercise.getId());
+                    dialog.setTargetFragment(ExerciseFragment.this, REQUEST_END_TIME);
+                    dialog.show(manager, DIALOG_TIME_PICKER);
                 }
             }
         });
@@ -170,9 +169,9 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(mExercise.getId());
-                dialog.setTargetFragment(ExerciseFragment.this, REQUEST_START_DATE);
-                dialog.show(manager, DIALOG_DATE_PICKER);
+                TimePickerFragment dialog = TimePickerFragment.newInstance(mExercise.getId());
+                dialog.setTargetFragment(ExerciseFragment.this, REQUEST_START_TIME);
+                dialog.show(manager, DIALOG_TIME_PICKER);
             }
         });
         Log.d("ELF", "ALREADY ENDED: " + Boolean.toString(mExercise.isAlreadyEnded()));
@@ -205,14 +204,14 @@ public class ExerciseFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == Activity.RESULT_OK) {
-            Date date = (Date) data.getSerializableExtra(DatePickerFragment.RETURN_DATE);
-            if (requestCode == REQUEST_START_DATE) {
+            Date date = (Date) data.getSerializableExtra(TimePickerFragment.RETURN_TIME);
+            if (requestCode == REQUEST_START_TIME) {
                 mExercise.setStartDate(date);
-                SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 mStartDateButton.setText(format.format(mExercise.getStartDate()));
-            } else if (requestCode == REQUEST_END_DATE) {
+            } else if (requestCode == REQUEST_END_TIME) {
                 mExercise.setEndDate(date);
-                SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 mEndDateButton.setText(format.format(mExercise.getEndDate()));
             }
             CompExerciseStorage.get(getActivity()).updateExercise(mExercise);

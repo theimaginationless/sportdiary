@@ -48,6 +48,10 @@ public class TimePickerFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Calendar calendar = Calendar.getInstance();
+                        Calendar currentDate = Calendar.getInstance();
+                        int year = currentDate.get(Calendar.YEAR);
+                        int month = currentDate.get(Calendar.MONTH);
+                        int day = currentDate.get(Calendar.DAY_OF_MONTH);
                         int minute;
                         int hour;
                         if(Build.VERSION.SDK_INT >= 23) {
@@ -57,7 +61,7 @@ public class TimePickerFragment extends DialogFragment {
                             hour = mTimePicker.getCurrentHour();
                             minute = mTimePicker.getCurrentMinute();
                         }
-                        calendar.set(0, 0, 0, hour, minute);
+                        calendar.set(year, month, day, hour, minute);
                         sendResult(Activity.RESULT_OK, calendar.getTime());
                     }
                 }).create();
