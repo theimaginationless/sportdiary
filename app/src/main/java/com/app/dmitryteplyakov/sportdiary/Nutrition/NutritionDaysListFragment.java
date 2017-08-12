@@ -90,4 +90,10 @@ public class NutritionDaysListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
 }

@@ -62,4 +62,5 @@
     <string name="fragment_program_energy_hint">ККал</string>
     <string name="fragment_program_energy_title">Сжигаемая энергия: </string>
     <string name="fragment_nutrition_days_empty_text">Начните следить за питанием!</string>
+    <string name="fragment_new_nutrition_day">Добавьте приём пищи</string>
 </resources>
