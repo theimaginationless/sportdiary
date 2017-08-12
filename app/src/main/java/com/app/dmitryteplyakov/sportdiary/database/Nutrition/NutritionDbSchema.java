@@ -12,10 +12,8 @@ public class NutritionDbSchema {
             public static final String TITLE = "nutrition_title";
             public static final String UUID = "nutrition_uuid";
             public static final String PARENTDAYUUID = "nutrition_parent_uuid";
-            public static final String ASSOCIATEDDAYUUID = "nutrition_associated_day_uuid";
             public static final String ENERGY = "nutrition_energy";
             public static final String WEIGHT = "nutrition_weight";
-            public static final String ISASSOCIATEDWITHDAY = "nutrition_is_associated_with_day";
         }
     }
 }

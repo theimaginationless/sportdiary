@@ -39,9 +39,7 @@ public class NutritionStorage {
         values.put(NutritionTable.Cols.UUID, nutrition.getId().toString());
         values.put(NutritionTable.Cols.TITLE, nutrition.getProductTitle());
         values.put(NutritionTable.Cols.PARENTDAYUUID, nutrition.getParentDay().toString());
-        values.put(NutritionTable.Cols.ASSOCIATEDDAYUUID, nutrition.getAssociatedDay().toString());
         values.put(NutritionTable.Cols.ENERGY, nutrition.getEnergy());
-        values.put(NutritionTable.Cols.ISASSOCIATEDWITHDAY, nutrition.isAssociatedWithDay() ? 1 : 0);
         values.put(NutritionTable.Cols.WEIGHT, nutrition.getWeight());
         return values;
     }
@@ -86,27 +84,6 @@ public class NutritionStorage {
             cursor.moveToFirst();
             while(!cursor.isAfterLast()) {
                 nutritions.add(cursor.getNutrition());
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-
-        return nutritions;
-    }
-
-    public List<Nutrition> getNutritionsByAssociatedDayId(UUID associatedId) {
-        List<Nutrition> nutritions = new ArrayList<>();
-
-        NutritionCursorWrapper cursor = queryNutritions(NutritionTable.Cols.ASSOCIATEDDAYUUID + " = ?",
-                new String[] { associatedId.toString() }
-        );
-
-        cursor.moveToFirst();
-
-        try {
-            while(!cursor.isAfterLast()) {
-                nutritions.add(cursor.getNutrition());;
                 cursor.moveToNext();
             }
         } finally {

@@ -10,16 +10,13 @@ public class Nutrition {
     private String mProductTitle;
     private UUID mId;
     private UUID mParentDay;
-    private UUID mAssociatedDay;
     private int mEnergy;
     private double mWeight;
-    private boolean mIsAssociatedWithDay;
+
 
     public Nutrition(UUID mId, UUID mParentDay) {
         this.mId = mId;
         this.mParentDay = mParentDay;
-        this.mAssociatedDay = UUID.randomUUID();
-        this.setAssociatedWithDay(false);
     }
 
     public Nutrition() {
@@ -46,14 +43,6 @@ public class Nutrition {
         mParentDay = parentDay;
     }
 
-    public UUID getAssociatedDay() {
-        return mAssociatedDay;
-    }
-
-    public void setAssociatedDay(UUID associatedDay) {
-        mAssociatedDay = associatedDay;
-    }
-
     public int getEnergy() {
         return mEnergy;
     }
@@ -68,13 +57,5 @@ public class Nutrition {
 
     public void setWeight(double weight) {
         mWeight = weight;
-    }
-
-    public boolean isAssociatedWithDay() {
-        return mIsAssociatedWithDay;
-    }
-
-    public void setAssociatedWithDay(boolean associatedWithDay) {
-        mIsAssociatedWithDay = associatedWithDay;
     }
 }

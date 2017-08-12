@@ -25,8 +25,6 @@ public class NutritionBaseHelper extends SQLiteOpenHelper {
                 NutritionTable.Cols.TITLE + ", " +
                 NutritionTable.Cols.UUID + ", " +
                 NutritionTable.Cols.PARENTDAYUUID + ", " +
-                NutritionTable.Cols.ASSOCIATEDDAYUUID + ", " +
-                NutritionTable.Cols.ISASSOCIATEDWITHDAY + ", " +
                 NutritionTable.Cols.ENERGY + ", " +
                 NutritionTable.Cols.WEIGHT +
                 ")"
