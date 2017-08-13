@@ -1,5 +1,6 @@
 package com.app.dmitryteplyakov.sportdiary.Nutrition;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,15 +37,26 @@ public class NutritionDaysListFragment extends Fragment {
         return v;
     }
 
-    private class NutritionDayHolder extends RecyclerView.ViewHolder {
+    private class NutritionDayHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private NutritionDay mNutritionDay;
+
         public NutritionDayHolder(View itemView) {
             super(itemView);
-
         }
 
         public void bindNutritionDay(NutritionDay nutritionDay) {
             mNutritionDay = nutritionDay;
+        }
+
+        @Override
+        public void onClick(View v) {
+            //Preparing for running NutritionList
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            // Preparing for optionsMenu
+            return true;
         }
     }
 
