@@ -73,10 +73,6 @@ public class TrainingStorage {
         return trainings;
     }
 
-    public static TrainingStorage getTrainingStorage() {
-        return sTrainingStorage;
-    }
-
     public static void setTrainingStorage(TrainingStorage trainingStorage) {
         sTrainingStorage = trainingStorage;
     }

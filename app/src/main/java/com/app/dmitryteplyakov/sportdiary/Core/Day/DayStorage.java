@@ -75,11 +75,6 @@ public class DayStorage {
         return days;
     }
 
-
-    public static DayStorage getDayStorage() {
-        return sDayStorage;
-    }
-
     public static void setDayStorage(DayStorage dayStorage) {
         sDayStorage = dayStorage;
     }

@@ -75,10 +75,6 @@ public class CompTrainingStorage {
         return trainings;
     }
 
-    public static CompTrainingStorage getTrainingStorage() {
-        return sTrainingStorage;
-    }
-
     public static void setTrainingStorage(CompTrainingStorage trainingStorage) {
         sTrainingStorage = trainingStorage;
     }
