@@ -65,5 +65,5 @@
     <string name="fragment_new_nutrition_day">Добавьте приём пищи</string>
     <string name="nutritions_day_list_item_no_associated_day">Нет связанной тренировки</string>
     <string name="nutritions_day_list_item_associated_day">Связан с тренировкой </string>
-    <string name="nutritions_day_list_item_summary_energy">Суммарная потреблённая энергия: </string>
+    <string name="nutritions_day_list_item_summary_energy">Общая энергия: </string>
 </resources>
