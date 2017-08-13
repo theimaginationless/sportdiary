@@ -9,6 +9,7 @@ import com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayBase
 import com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayCursorWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class NutritionDayStorage {
         ContentValues values = new ContentValues();
         values.put(NutritionDayTable.Cols.UUID, nutritionDay.getId().toString());
         values.put(NutritionDayTable.Cols.ASSOCIATEDDAYUUID, nutritionDay.getAssociatedDay().toString());
-        values.put(NutritionDayTable.Cols.Date, nutritionDay.getDate().toString());
+        values.put(NutritionDayTable.Cols.Date, nutritionDay.getDate().getTime());
         values.put(NutritionDayTable.Cols.ISASSOCIATEDWITHDAY, nutritionDay.isAssociatedWithDay() ? 1 : 0);
 
         return values;
@@ -75,7 +76,7 @@ public class NutritionDayStorage {
         } finally {
             cursor.close();
         }
-
+        Collections.sort(nutritions);
         return nutritions;
     }
 
@@ -92,7 +93,7 @@ public class NutritionDayStorage {
         } finally {
             cursor.close();
         }
-
+        Collections.sort(nutritionDays);
         return nutritionDays;
     }
 

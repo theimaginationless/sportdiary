@@ -22,7 +22,7 @@ public class NutritionDayCursorWrapper extends CursorWrapper {
     public NutritionDay getNutritionDay() {
         String uuidString = getString(getColumnIndex(NutritionDayTable.Cols.UUID));
         String associatedDayUuidString = getString(getColumnIndex(NutritionDayTable.Cols.ASSOCIATEDDAYUUID));
-        Long dateLong = getLong(getColumnIndex(NutritionDayTable.Cols.Date));
+        long dateLong = getLong(getColumnIndex(NutritionDayTable.Cols.Date));
         int isAssociatedWithDay = getInt(getColumnIndex(NutritionDayTable.Cols.ISASSOCIATEDWITHDAY));
 
         NutritionDay nutritionDay = new NutritionDay(UUID.fromString(uuidString));

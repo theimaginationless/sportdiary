@@ -63,4 +63,7 @@
     <string name="fragment_program_energy_title">Сжигаемая энергия: </string>
     <string name="fragment_nutrition_days_empty_text">Начните следить за питанием!</string>
     <string name="fragment_new_nutrition_day">Добавьте приём пищи</string>
+    <string name="nutritions_day_list_item_no_associated_day">Нет связанной тренировки</string>
+    <string name="nutritions_day_list_item_associated_day">Связан с тренировкой </string>
+    <string name="nutritions_day_list_item_summary_energy">Суммарная потреблённая энергия: </string>
 </resources>
