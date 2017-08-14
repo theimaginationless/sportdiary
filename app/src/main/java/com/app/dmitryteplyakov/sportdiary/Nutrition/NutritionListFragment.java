@@ -63,6 +63,7 @@ public class NutritionListFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        updateUI();
         return v;
     }
 
@@ -122,5 +123,11 @@ public class NutritionListFragment extends Fragment {
             mEmptyTextView.setVisibility(View.GONE);
         else
             mEmptyTextView.setVisibility(mEmptyTextView.VISIBLE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        updateUI();
     }
 }
