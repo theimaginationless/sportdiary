@@ -28,8 +28,6 @@
             android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".Nutrition.NutritionActivity"
                   android:parentActivityName=".GeneralActivity"/>
-        <activity android:name=".Nutrition.NewNutritionDayActivity"
-                  android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".Nutrition.NutritionListActivity"
                   android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".GeneralActivity">

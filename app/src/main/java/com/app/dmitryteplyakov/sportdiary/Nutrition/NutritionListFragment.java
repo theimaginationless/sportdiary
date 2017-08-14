@@ -59,7 +59,7 @@ public class NutritionListFragment extends Fragment {
             public void onClick(View v) {
                 Nutrition nutrition = new Nutrition();
                 NutritionStorage.get(getActivity()).addNutrition(nutrition);
-                Intent intent = NewNutritionDayActivity.newIntent(getActivity(), nutrition.getId());
+                Intent intent = NutritionActivity.newIntent(getActivity(), nutrition.getId());
                 startActivity(intent);
             }
         });
