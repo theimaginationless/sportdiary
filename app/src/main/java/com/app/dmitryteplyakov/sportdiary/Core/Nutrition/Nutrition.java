@@ -81,4 +81,11 @@ public class Nutrition {
             return true;
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this.getId().equals(((Nutrition) o).getId()))
+            return true;
+        return false;
+    }
 }
