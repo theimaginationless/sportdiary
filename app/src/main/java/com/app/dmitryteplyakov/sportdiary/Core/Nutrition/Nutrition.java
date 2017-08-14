@@ -11,7 +11,7 @@ public class Nutrition {
     private UUID mId;
     private UUID mParentDay;
     private int mEnergy;
-    private double mWeight;
+    private int mWeight;
 
 
     public Nutrition(UUID mId, UUID mParentDay) {
@@ -51,11 +51,18 @@ public class Nutrition {
         mEnergy = energy;
     }
 
-    public double getWeight() {
+    public int getWeight() {
         return mWeight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         mWeight = weight;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this.getId().equals(((Nutrition) o).getId()))
+            return true;
+        return false;
     }
 }
