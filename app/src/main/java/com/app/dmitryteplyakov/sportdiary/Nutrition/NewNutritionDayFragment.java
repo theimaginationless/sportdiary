@@ -31,7 +31,7 @@ public class NewNutritionDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_programs, null);
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_programs_empty_text);
-        mEmptyTextView.setText(getString(R.string.fragment_new_nutrition_day));
+        mEmptyTextView.setText(getString(R.string.fragment_nutrition_days_empty_text));
         return v;
     }
 
