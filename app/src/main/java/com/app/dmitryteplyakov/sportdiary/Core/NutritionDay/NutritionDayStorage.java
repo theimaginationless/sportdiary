@@ -111,8 +111,8 @@ public class NutritionDayStorage {
         }
     }
 
-    public void addNutritionDay(NutritionDay nutrition) {
-        ContentValues values = getContentValues(nutrition);
+    public void addNutritionDay(NutritionDay nutritionDay) {
+        ContentValues values = getContentValues(nutritionDay);
         mDatabase.insert(NutritionDayTable.NAME, null, values);
     }
 

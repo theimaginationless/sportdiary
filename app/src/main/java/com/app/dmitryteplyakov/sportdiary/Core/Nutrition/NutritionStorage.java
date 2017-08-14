@@ -9,6 +9,7 @@ import com.app.dmitryteplyakov.sportdiary.database.Nutrition.NutritionBaseHelper
 import com.app.dmitryteplyakov.sportdiary.database.Nutrition.NutritionCursorWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,7 @@ public class NutritionStorage {
         values.put(NutritionTable.Cols.PARENTDAYUUID, nutrition.getParentDay().toString());
         values.put(NutritionTable.Cols.ENERGY, nutrition.getEnergy());
         values.put(NutritionTable.Cols.WEIGHT, nutrition.getWeight());
+        values.put(NutritionTable.Cols.RESULTENERGY, nutrition.getResultEnergy());
         return values;
     }
 
@@ -70,7 +72,7 @@ public class NutritionStorage {
         } finally {
             cursor.close();
         }
-
+        Collections.reverse(nutritions);
         return nutritions;
     }
 
@@ -89,7 +91,7 @@ public class NutritionStorage {
         } finally {
             cursor.close();
         }
-
+        Collections.reverse(nutritions);
         return nutritions;
     }
 

@@ -1,9 +1,14 @@
 package com.app.dmitryteplyakov.sportdiary.Nutrition;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,12 +23,14 @@ import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.Nutrition;
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.NutritionStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
+import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by dmitry21 on 12.08.17.
@@ -34,6 +41,8 @@ public class NutritionDaysListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private NutritionDayAdapter mAdapter;
     private FloatingActionButton mFab;
+    private static final int REQUEST_DELETE_DAY = 15;
+    private static final String DIALOG_DELETE_DAY = "com.app.nutritiondayslistfragment.dialog_delete_day";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,12 +71,16 @@ public class NutritionDaysListFragment extends Fragment {
         private TextView mDateTextView;
         private TextView mSummaryEnergyTextView;
         private TextView mAssociatedDay;
+        private CharSequence options[];
 
         public NutritionDayHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             mDateTextView = (TextView) itemView.findViewById(R.id.nutritions_day_list_item_date_text_view);
             mSummaryEnergyTextView = (TextView) itemView.findViewById(R.id.nutritions_day_list_item_summary_energy_text_view);
             mAssociatedDay = (TextView) itemView.findViewById(R.id.nutritions_day_list_item_associated_day_text_view);
+            options = new CharSequence[] {getString(R.string.menu_delete_item)};
         }
 
         public void bindNutritionDay(NutritionDay nutritionDay) {
@@ -82,20 +95,35 @@ public class NutritionDaysListFragment extends Fragment {
             List<Nutrition> nutritionList = NutritionStorage.get(getActivity()).getNutritionsByParentDayId(mNutritionDay.getId());
             int summaryEnergy = 0;
             for(Nutrition nutrition : nutritionList)
-                summaryEnergy += nutrition.getEnergy();
+                summaryEnergy += nutrition.getResultEnergy();
             mSummaryEnergyTextView.setText(Integer.toString(summaryEnergy));
         }
 
         @Override
         public void onClick(View v) {
-            //Preparing for running NutritionList
+            Intent intent = NutritionListActivity.newIntent(getActivity(), mNutritionDay.getId());
+            startActivity(intent);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            // Preparing for optionsMenu
+            AlertDialog.Builder optionsDialog = new AlertDialog.Builder(getActivity());
+            optionsDialog.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch(which) {
+                        case 0:
+                            FragmentManager manager = getFragmentManager();
+                            DeleteFragment deleteDialog = DeleteFragment.newInstance(mNutritionDay.getId());
+                            deleteDialog.setTargetFragment(NutritionDaysListFragment.this, REQUEST_DELETE_DAY);
+                            deleteDialog.show(manager, DIALOG_DELETE_DAY);
+                    }
+                }
+            });
+            optionsDialog.show();
             return true;
         }
+
     }
 
     private class NutritionDayAdapter extends RecyclerView.Adapter<NutritionDayHolder> {
@@ -169,4 +197,19 @@ public class NutritionDaysListFragment extends Fragment {
         updateUI();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == REQUEST_DELETE_DAY) {
+                UUID dayId = (UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID);
+                NutritionDay day = NutritionDayStorage.get(getActivity()).getNutritionDay(dayId);
+                int num = NutritionDayStorage.get(getActivity()).getNutritionDays().indexOf(day);
+                NutritionDayStorage.get(getActivity()).deleteNutritionDay(day);
+                NutritionStorage.get(getActivity()).deleteNutritionsByParentDayId(dayId);
+                updateUI(false, num);
+                Snackbar mSnackBar = Snackbar.make(getActivity().findViewById(R.id.snackbar_place), getString(R.string.snackbar_day_deleted), Snackbar.LENGTH_LONG);
+                mSnackBar.show();
+            }
+        }
+    }
 }

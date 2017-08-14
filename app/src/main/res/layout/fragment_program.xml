@@ -7,21 +7,18 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
-                    android:text="@string/details_title"
+                <android.support.design.widget.TextInputLayout
+                    android:hint="@string/fragment_program_exercise_title_hint"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="?android:textAppearanceListItem"/>
+                    android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/fragment_program_exercise_title"
-                    android:hint="@string/fragment_program_exercise_title_hint"
                     android:inputType="textAutoComplete|textAutoCorrect|textCapSentences"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                </android.support.design.widget.TextInputLayout>
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
@@ -38,7 +35,6 @@
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
@@ -55,7 +51,6 @@
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
@@ -73,7 +68,6 @@
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
@@ -91,7 +85,6 @@
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView

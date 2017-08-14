@@ -14,6 +14,7 @@ public class NutritionDbSchema {
             public static final String PARENTDAYUUID = "nutrition_parent_uuid";
             public static final String ENERGY = "nutrition_energy";
             public static final String WEIGHT = "nutrition_weight";
+            public static final String RESULTENERGY = "nutrition_result_energy";
         }
     }
 }

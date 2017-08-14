@@ -114,13 +114,15 @@ public class ProgramFragment extends Fragment {
         mExerciseTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
-                mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
+                if(mExercise.getTitle().equals(""))
+                    mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
             }
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
-                mExercise.setTitle(c.toString());
                 if(count == 0)
                     mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
+                else
+                    mExercise.setTitle(c.toString());
             }
             @Override
             public void afterTextChanged(Editable c) {

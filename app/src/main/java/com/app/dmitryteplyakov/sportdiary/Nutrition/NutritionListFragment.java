@@ -1,11 +1,16 @@
 package com.app.dmitryteplyakov.sportdiary.Nutrition;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +18,7 @@ import android.widget.TextView;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.Nutrition;
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.NutritionStorage;
+import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.util.List;
@@ -24,6 +30,8 @@ import java.util.UUID;
 
 public class NutritionListFragment extends Fragment {
     public static final String ARG_NUTRITION_DAY_UUID = "com.app.nutritionlistfragment.arg_nutrition_day_uuid";
+    public static final int REQUEST_DELETE_NUTRITION = 16;
+    private static final String DIALOG_DELETE_NUTRITION = "com.app.nutritionlistfragment.dialog_delete_nutrition";
     private TextView mEmptyTextView;
     private RecyclerView mRecyclerView;
     private NutritionAdapter mAdapter;
@@ -58,6 +66,7 @@ public class NutritionListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Nutrition nutrition = new Nutrition();
+                nutrition.setParentDay((UUID) getArguments().getSerializable(ARG_NUTRITION_DAY_UUID));
                 NutritionStorage.get(getActivity()).addNutrition(nutrition);
                 Intent intent = NutritionActivity.newIntent(getActivity(), nutrition.getId());
                 startActivity(intent);
@@ -67,15 +76,47 @@ public class NutritionListFragment extends Fragment {
         return v;
     }
 
-    private class NutritionHolder extends RecyclerView.ViewHolder {
+    private class NutritionHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private Nutrition mNutrition;
+        private TextView mNutritionTitle;
+        private CharSequence options[];
 
         public NutritionHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+            mNutritionTitle = itemView.findViewById(R.id.group_name);
+            options = new CharSequence[]{getString(R.string.menu_delete_item)};
         }
 
         public void bindNutrition(Nutrition nutrition) {
             mNutrition = nutrition;
+            mNutritionTitle.setText(mNutrition.getProductTitle());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = NutritionActivity.newIntent(getActivity(), mNutrition.getId());
+            startActivity(intent);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            AlertDialog.Builder optionsDialog  = new AlertDialog.Builder(getActivity());
+            optionsDialog.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0:
+                            FragmentManager manager = getFragmentManager();
+                            DeleteFragment deleteDialog = DeleteFragment.newInstance(mNutrition.getId());
+                            deleteDialog.setTargetFragment(NutritionListFragment.this, REQUEST_DELETE_NUTRITION);
+                            deleteDialog.show(manager, DIALOG_DELETE_NUTRITION);
+                    }
+                }
+            });
+            optionsDialog.show();
+            return true;
         }
     }
 
@@ -87,13 +128,13 @@ public class NutritionListFragment extends Fragment {
         }
         @Override
         public NutritionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.programs_list_item, null);
-
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.programs_list_item, parent, false);
             return new NutritionHolder(view);
         }
         @Override
         public void onBindViewHolder(NutritionHolder holder, int position) {
             Nutrition nutrition = mNutritions.get(position);
+            Log.d("NLF", "TITLE: " + nutrition.getProductTitle());
             holder.bindNutrition(nutrition);
         }
 
@@ -119,15 +160,46 @@ public class NutritionListFragment extends Fragment {
         if (!mRecyclerView.canScrollVertically(1)) {
             mFab.show();
         }
-        if(nutritionList.size() == 0)
+        if(nutritionList.size() != 0)
             mEmptyTextView.setVisibility(View.GONE);
         else
-            mEmptyTextView.setVisibility(mEmptyTextView.VISIBLE);
+            mEmptyTextView.setVisibility(View.VISIBLE);
+        Log.d("NLF", "CALL UPDATE");
+    }
+
+    private void updateUI(boolean isAdd, int position) {
+        List<Nutrition> nutritionList = NutritionStorage.get(getActivity()).getNutritionsByParentDayId((UUID) getArguments().getSerializable(ARG_NUTRITION_DAY_UUID));
+        mAdapter.setNutritions(nutritionList);
+        if (isAdd) {
+            mAdapter.notifyItemInserted(position);
+        } else {
+            mAdapter.notifyItemRemoved(position);
+        }
+        if (!mRecyclerView.canScrollVertically(1)) {
+            mFab.show();
+        }
+        if(nutritionList.size() != 0)
+            mEmptyTextView.setVisibility(View.GONE);
+        else
+            mEmptyTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onResume() {
+        super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == REQUEST_DELETE_NUTRITION) {
+                UUID nutritionId = (UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID);
+                Nutrition nutrition = NutritionStorage.get(getActivity()).getNutrition(nutritionId);
+                int num = NutritionStorage.get(getActivity()).getNutritions().indexOf(nutrition);
+                NutritionStorage.get(getActivity()).deleteNutrition(nutrition);
+                updateUI(false, num);
+            }
+        }
     }
 }

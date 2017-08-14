@@ -4,11 +4,14 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
+    <android.support.design.widget.TextInputLayout
+        android:hint="@string/training_title_picker_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <EditText xmlns:android="http://schemas.android.com/apk/res/android"
-              android:hint="@string/training_title_picker_hint"
               android:id="@+id/training_title_picker_edit_text"
               android:inputType="textAutoComplete|textCapSentences"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    </EditText>
+              android:layout_height="match_parent"/>
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>

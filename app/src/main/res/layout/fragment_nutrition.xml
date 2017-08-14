@@ -1,7 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:padding="16dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:hint="@string/fragment_nutrition_title_hint"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/fragment_nutrition_title"
+            android:inputType="textAutoComplete|textCapSentences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:text="@string/fragment_nutrition_energy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_weight="3"
+            android:inputType="numberDecimal"
+            android:hint="@string/fragment_program_energy_hint"
+            android:id="@+id/fragment_nutrition_energy_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:text="@string/fragment_nutrition_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_weight="3"
+            android:inputType="numberDecimal"
+            android:hint="@string/fragment_nutrition_weight_hint"
+            android:id="@+id/fragment_nutrition_weight_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="1"
+            android:text="@string/fragment_nutrition_result_energy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:layout_weight="3"
+            android:inputType="numberDecimal"
+            android:hint="@string/fragment_program_energy_hint"
+            android:id="@+id/fragment_nutrition_result_energy_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </LinearLayout>

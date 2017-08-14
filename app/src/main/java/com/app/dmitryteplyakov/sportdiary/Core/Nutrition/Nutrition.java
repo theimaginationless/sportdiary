@@ -1,5 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary.Core.Nutrition;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.UUID;
 
 /**
@@ -11,7 +13,8 @@ public class Nutrition {
     private UUID mId;
     private UUID mParentDay;
     private int mEnergy;
-    private int mWeight;
+    private float mWeight;
+    private int mResultEnergy;
 
 
     public Nutrition(UUID mId, UUID mParentDay) {
@@ -51,12 +54,25 @@ public class Nutrition {
         mEnergy = energy;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return mWeight;
     }
 
-    public void setWeight(int weight) {
-        mWeight = weight;
+    public void setWeight(float weight) {
+        DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+        dfs.setDecimalSeparator('.');
+        DecimalFormat df = new DecimalFormat("#0.00");
+        df.setDecimalFormatSymbols(dfs);
+        String formattedFloat = df.format(weight);
+        mWeight = Float.parseFloat(formattedFloat);
+    }
+
+    public int getResultEnergy() {
+        return mResultEnergy;
+    }
+
+    public void setResultEnergy(int resultEnergy) {
+        mResultEnergy = resultEnergy;
     }
 
     @Override

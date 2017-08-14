@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.NutritionStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
+import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramExerciseListFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
@@ -63,7 +65,8 @@ public class DeleteFragment extends DialogFragment {
         else if(getTargetRequestCode() == ProgramExerciseListFragment.REQUEST_DELETE_EXERCISE) {
             Log.d("DF", "ID FOR TITLE: " + id.toString());
             dialogTitle = ExerciseStorage.get(getActivity()).getExercise(id).getTitle();
-        }
+        } else if(getTargetRequestCode() == NutritionListFragment.REQUEST_DELETE_NUTRITION)
+            dialogTitle = NutritionStorage.get(getActivity()).getNutrition(id).getProductTitle();
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(dialogTitle)
