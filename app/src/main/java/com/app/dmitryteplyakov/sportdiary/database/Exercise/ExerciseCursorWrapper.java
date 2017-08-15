@@ -36,7 +36,7 @@ public class ExerciseCursorWrapper extends CursorWrapper {
         int needPullCounter = getInt(getColumnIndex(ExerciseTable.Cols.NEEDPULLCOUNTER));
         int alreadyWorking = getInt(getColumnIndex(ExerciseTable.Cols.ALREADYWORKING));
         int alreadyEnded = getInt(getColumnIndex(ExerciseTable.Cols.ALREADYENDED));
-        double weight = getDouble(getColumnIndex(ExerciseTable.Cols.WEIGHT));
+        float weight = getFloat(getColumnIndex(ExerciseTable.Cols.WEIGHT));
         int energy = getInt(getColumnIndex(ExerciseTable.Cols.ENERGY));
 
         Exercise exercise = new Exercise(UUID.fromString(uuidString), UUID.fromString(parentUuidString));

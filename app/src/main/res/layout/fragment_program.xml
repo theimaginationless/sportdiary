@@ -30,6 +30,7 @@
                         android:id="@+id/fragment_program_exercise_replays_count"
                         android:layout_weight="3"
                         android:inputType="numberDecimal"
+                        android:digits="0123456789"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -46,6 +47,7 @@
                         android:id="@+id/fragment_program_exercise_approach_count"
                         android:layout_weight="3"
                         android:inputType="numberDecimal"
+                        android:digits="0123456789"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -62,7 +64,7 @@
                         android:id="@+id/fragment_program_exercise_weight"
                         android:hint="@string/fragment_program_weight_hint"
                         android:layout_weight="3"
-                        android:inputType="numberSigned"
+                        android:inputType="numberDecimal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -78,6 +80,7 @@
                     <EditText
                         android:id="@+id/fragment_program_exercise_energy"
                         android:hint="@string/fragment_program_energy_hint"
+                        android:digits="0123456789"
                         android:layout_weight="3"
                         android:inputType="numberDecimal"
                         android:layout_width="match_parent"
@@ -95,6 +98,7 @@
                     <Switch
                         android:id="@+id/fragment_program_interval_timer_switch"
                         android:layout_weight="3"
+                        android:digits="0123456789"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

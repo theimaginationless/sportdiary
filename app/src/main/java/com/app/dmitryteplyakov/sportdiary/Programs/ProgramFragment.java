@@ -109,7 +109,7 @@ public class ProgramFragment extends Fragment {
         mExerciseReplaysEditText.setText(Integer.toString(mExercise.getReplays()));
         mExerciseApproachEditText.setText(Integer.toString(mExercise.getApproach()));
         if(mExercise.getWeight() != 0)
-            mExerciseWeightEditText.setText(Double.toString(mExercise.getWeight()));
+            mExerciseWeightEditText.setText(Float.toString(mExercise.getWeight()));
 
         mExerciseTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,9 +139,9 @@ public class ProgramFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 if(c.toString().equals(""))
-                    mExercise.setWeight(0.0);
+                    mExercise.setWeight(0.0f);
                 else
-                    mExercise.setWeight(Double.parseDouble(c.toString()));
+                    mExercise.setWeight(Float.parseFloat(c.toString()));
             }
 
             @Override

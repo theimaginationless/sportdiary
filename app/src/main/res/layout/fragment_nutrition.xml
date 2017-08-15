@@ -26,6 +26,7 @@
         <EditText
             android:layout_weight="3"
             android:inputType="numberDecimal"
+            android:digits="0123456789"
             android:hint="@string/fragment_program_energy_hint"
             android:id="@+id/fragment_nutrition_energy_edit_text"
             android:layout_width="match_parent"
@@ -40,13 +41,16 @@
             android:text="@string/fragment_nutrition_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <EditText
-            android:layout_weight="3"
-            android:inputType="numberDecimal"
-            android:hint="@string/fragment_nutrition_weight_hint"
             android:id="@+id/fragment_nutrition_weight_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:digits="0123456789"
+            android:hint="@string/fragment_nutrition_weight_hint"
+            android:inputType="numberDecimal"
+            />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -60,6 +64,7 @@
         <EditText
             android:layout_weight="3"
             android:inputType="numberDecimal"
+            android:digits="0123456789"
             android:hint="@string/fragment_program_energy_hint"
             android:id="@+id/fragment_nutrition_result_energy_edit_text"
             android:layout_width="match_parent"

@@ -23,7 +23,7 @@ public class NutritionCursorWrapper extends CursorWrapper {
         String uuidString = getString(getColumnIndex(NutritionTable.Cols.UUID));
         String parentDayUuid = getString(getColumnIndex(NutritionTable.Cols.PARENTDAYUUID));
         int energy = getInt(getColumnIndex(NutritionTable.Cols.ENERGY));
-        float weight = getFloat(getColumnIndex(NutritionTable.Cols.WEIGHT));
+        int weight = getInt(getColumnIndex(NutritionTable.Cols.WEIGHT));
         int resultEnergy = getInt(getColumnIndex(NutritionTable.Cols.RESULTENERGY));
 
         Nutrition nutrition = new Nutrition(UUID.fromString(uuidString), UUID.fromString(parentDayUuid));

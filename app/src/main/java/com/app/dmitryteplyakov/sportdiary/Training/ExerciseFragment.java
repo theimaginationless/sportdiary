@@ -123,7 +123,7 @@ public class ExerciseFragment extends Fragment {
 
         mWeightEditText = (EditText) v.findViewById(R.id.fragment_using_exercise_weight_edit_text);
         if(mExercise.getWeight() != 0)
-            mWeightEditText.setText(Double.toString(mExercise.getWeight()));
+            mWeightEditText.setText(Float.toString(mExercise.getWeight()));
         mWeightEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -133,7 +133,8 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 if(count != 0)
-                    mExercise.setWeight(Double.parseDouble(c.toString()));
+                    mExercise.setWeight(Float.parseFloat(c.toString()));
+                Log.d("EF", Float.toString(mExercise.getWeight()));
             }
 
             @Override

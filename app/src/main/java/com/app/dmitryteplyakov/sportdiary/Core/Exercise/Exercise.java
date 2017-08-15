@@ -1,5 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary.Core.Exercise;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ public class Exercise implements Comparable<Exercise> {
     private int mEnergy;
     private int mApproach;
     private boolean needTimer;
-    private double weight;
+    private float weight;
     private UUID mId;
     private UUID mParentUUID;
     private UUID mParentTrainingDayId;
@@ -125,12 +127,12 @@ public class Exercise implements Comparable<Exercise> {
         mEnergy = energy;
     }
 
-    public double getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setWeight(float weight) {
+        this.weight = (float) ((int) Math.round(weight * 100))/100;
     }
 
     public String toString() {

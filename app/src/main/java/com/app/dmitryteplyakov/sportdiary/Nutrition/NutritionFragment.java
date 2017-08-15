@@ -57,7 +57,7 @@ public class NutritionFragment extends Fragment {
         if(mNutrition.getEnergy() != 0)
             mEnergy.setText(Integer.toString(mNutrition.getEnergy()));
         if(mNutrition.getWeight() != 0)
-            mWeight.setText(Double.toString(mNutrition.getWeight()));
+            mWeight.setText(Integer.toString(mNutrition.getWeight()));
         if (mNutrition.getResultEnergy() != 0)
             mResultEnergy.setText(Integer.toString(mNutrition.getResultEnergy()));
 
@@ -119,9 +119,9 @@ public class NutritionFragment extends Fragment {
                 if (c.toString().equals(""))
                     mNutrition.setWeight(0);
                 else {
-                    mNutrition.setWeight(Float.parseFloat(c.toString()));
+                    mNutrition.setWeight(Integer.parseInt(c.toString()));
                     if(!mResultEnergy.isFocused()) {
-                        mNutrition.setResultEnergy((int) mNutrition.getWeight() * mNutrition.getEnergy() / 100);
+                        mNutrition.setResultEnergy( mNutrition.getWeight() * mNutrition.getEnergy() / 100);
                         mResultEnergy.setText(Integer.toString(mNutrition.getResultEnergy()));
                     }
                 }
@@ -147,12 +147,12 @@ public class NutritionFragment extends Fragment {
                     mNutrition.setResultEnergy(Integer.parseInt(c.toString()));
                     if(!mWeight.isFocused() && !mEnergy.isFocused()) {
                         mNutrition.setResultEnergy(Integer.parseInt(c.toString()));
-                        float weight = 0;
+                        Integer weight = 0;
                         if(mNutrition.getEnergy() != 0)
-                            weight = (float) mNutrition.getResultEnergy() / mNutrition.getEnergy() * 100;
-                        Log.d("NF", Float.toString(weight) + " " + Integer.toString(mNutrition.getEnergy()));
+                            weight =  mNutrition.getResultEnergy() * 100 / mNutrition.getEnergy();
+                        Log.d("NF", Integer.toString(weight) + " " + Integer.toString(mNutrition.getEnergy()));
                         mNutrition.setWeight(weight);
-                        mWeight.setText(Float.toString(mNutrition.getWeight()));
+                        mWeight.setText(Integer.toString(mNutrition.getWeight()));
                     }
                 }
             }

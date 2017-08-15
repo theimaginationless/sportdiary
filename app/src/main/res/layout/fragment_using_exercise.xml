@@ -54,6 +54,7 @@
                 <EditText
                     android:id="@+id/fragment_using_exercise_count_replays_edit_text"
                     android:inputType="numberDecimal"
+                    android:digits="0123456789"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -70,6 +71,7 @@
                 <EditText
                     android:id="@+id/fragment_using_exercise_count_approach_edit_text"
                     android:inputType="numberDecimal"
+                    android:digits="0123456789"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -86,7 +88,7 @@
                 <EditText
                     android:id="@+id/fragment_using_exercise_weight_edit_text"
                     android:hint="@string/fragment_program_weight_hint"
-                    android:inputType="numberSigned"
+                    android:inputType="numberDecimal"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -104,6 +106,7 @@
                     android:id="@+id/fragment_using_exercise_energy_edit_text"
                     android:hint="@string/fragment_program_energy_hint"
                     android:inputType="numberDecimal"
+                    android:digits="0123456789"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
