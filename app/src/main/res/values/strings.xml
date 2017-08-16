@@ -73,4 +73,5 @@
     <string name="no_title">Без названия</string>
     <string name="fragment_nutrition_result_energy">Итоговая энергетическая ценность: </string>
     <string name="overview_fragment_no_data_for_graph">Нет данных о питании.</string>
+    <string name="overview_fragment_nutrition_stats">Статистика питания</string>
 </resources>
