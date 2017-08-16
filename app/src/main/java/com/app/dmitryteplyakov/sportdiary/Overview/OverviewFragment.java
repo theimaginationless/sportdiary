@@ -47,7 +47,7 @@ public class OverviewFragment extends Fragment {
     private SharedPreferences sp;
     private LineData mGraphs;
     ArrayList<ILineDataSet> lines;
-    boolean isTriggered;
+    private static boolean isTriggered;
     private static LineDataSet tempSet;
 
     @Override
@@ -73,8 +73,10 @@ public class OverviewFragment extends Fragment {
         lines = new ArrayList<>();
 
             lines.add(getFirstGraph());
-        if(bSwitch)
+        if(bSwitch) {
             lines.add(getSecondGraph());
+            isTriggered = true;
+        }
 
             mGraphs = new LineData(lines);
         Log.d("INOF", "CALL");
@@ -117,7 +119,6 @@ public class OverviewFragment extends Fragment {
                     count++;
                 }
             }
-            //Log.d("OF J", Integer.toString(6 - j));
             if(skipFlag)
                 continue;
             labels.add(dateFormatter.format(calendar.getTime()));
@@ -152,7 +153,7 @@ public class OverviewFragment extends Fragment {
 
     public LineDataSet getSecondGraph() {
         ///
-        isTriggered = true;
+        //isTriggered = true;
         ArrayList<Entry> exEntries = new ArrayList<>();
         List<Day> dayList = DayStorage.get(getActivity()).getDays();
         boolean skipFlag;
@@ -196,25 +197,18 @@ public class OverviewFragment extends Fragment {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean bSwitch = sp.getBoolean("switch_overlay_exercise_on_graph", false);
-        tempSet = null;
-        if(bSwitch) {
-            Log.d("OF", "CALL!");
-            tempSet = getSecondGraph();
-            lines.add(tempSet);
+        if(bSwitch && !isTriggered) {
+            isTriggered = true;
+            lines.add(getSecondGraph());
             Collections.reverse(lines);
-            //mGraphs.addDataSet(getSecondGraph());
-
             mGraphs = new LineData(lines);
             mLineChart.notifyDataSetChanged();
             mLineChart.setData(mGraphs);
             mLineChart.invalidate();
         } else if(!bSwitch && isTriggered) {
-            Log.d("OF", "DISABLE CALL");
-            //lines.remove(getSecondGraph());
+            isTriggered = false;
             lines = new ArrayList<>();
             lines.add(getFirstGraph());
-            Log.d("OFFFFB", Boolean.toString(getSecondGraph() == null));
-            //mGraphs.addDataSet(getSecondGraph());
             mGraphs = new LineData(lines);
             mLineChart.notifyDataSetChanged();
             mLineChart.setData(mGraphs);
