@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
@@ -13,9 +14,9 @@ import com.app.dmitryteplyakov.sportdiary.R;
  * Created by dmitry21 on 16.08.17.
  */
 
-public class SettingsActivity extends ActivityBaseStructure {
+public class SettingsActivity extends AppCompatActivity {
 
-    @Override
+    //@Override
     protected Fragment createFragment() {
         return new PreferenceFragment().newInstance((String) getIntent().getSerializableExtra("preferences"));
     }
