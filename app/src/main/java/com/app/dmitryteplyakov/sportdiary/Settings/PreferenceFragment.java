@@ -23,8 +23,10 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String s) {
         if(getArguments().getSerializable(ARG_PREF) != null) {
             String sett = (String) getArguments().getSerializable(ARG_PREF);
-            if (sett.equals("general"))
+            if(sett.equals("general"))
                 addPreferencesFromResource(R.xml.preferences_general);
+            else if(sett.equals("graph"))
+                addPreferencesFromResource(R.xml.preferences_graph);
         }
         else
             addPreferencesFromResource(R.xml.preferences);

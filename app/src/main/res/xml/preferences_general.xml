@@ -2,9 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/settings_general">
-        <SwitchPreference
-            android:key="switch_overlay_exercise_on_graph"
-            android:summary="@string/overlay_exercise_graph_settings_desc"
-            android:title="Наложение упражнений"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

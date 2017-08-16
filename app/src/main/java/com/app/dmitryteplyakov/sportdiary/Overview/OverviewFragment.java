@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
@@ -47,6 +48,7 @@ public class OverviewFragment extends Fragment {
     private SharedPreferences sp;
     private LineData mGraphs;
     ArrayList<ILineDataSet> lines;
+    private TextView mGraphTitle;
     private static boolean isTriggered;
     private static LineDataSet tempSet;
 
@@ -54,6 +56,8 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
         mLineChart = (LineChart) v.findViewById(R.id.overview_linechart_nutrition);
+        mGraphTitle = (TextView) v.findViewById(R.id.overview_graph_title);
+
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mLineChart.getAxisRight().setDrawGridLines(false);
         mLineChart.setScaleEnabled(false);
@@ -61,21 +65,22 @@ public class OverviewFragment extends Fragment {
         mLineChart.getXAxis().setDrawAxisLine(false);
         mLineChart.getAxisLeft().setEnabled(false);
         mLineChart.getAxisRight().setEnabled(false);
-        mLineChart.getLegend().setEnabled(false);
         mLineChart.getXAxis().setGranularity(1f);
         mLineChart.getXAxis().setGranularityEnabled(true);
         mLineChart.getAxisLeft().setGranularityEnabled(true);
         mLineChart.getAxisLeft().setGranularity(1f);
         mLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean bSwitch = sp.getBoolean("switch_overlay_exercise_on_graph", false);
-        Log.d("OF", Boolean.toString(bSwitch));
+        boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
+            mLineChart.getLegend().setEnabled(legendSwitch);
         lines = new ArrayList<>();
-            lines.add(getFirstGraph());
-        if(bSwitch) {
+        /*if(bSwitch) {
             lines.add(getSecondGraph());
             isTriggered = true;
         }
+        lines.add(getFirstGraph());*/
+        String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
+        graphEnabler(mode);
         mGraphs = new LineData(lines);
         Log.d("INOF", "CALL");
         mLineChart.setData(mGraphs);
@@ -85,6 +90,31 @@ public class OverviewFragment extends Fragment {
         mLineChart.setDescription(description);
         return v;
     }
+
+    public void graphEnabler(String mode) {
+        lines = new ArrayList<>();
+        mGraphs = new LineData(lines);
+        Log.d("OF MODE: ", mode);
+        if(mode.equals("")) {
+            return;
+        }
+        if(mode.equals(getString(R.string.nutrition))) {
+            lines.add(getFirstGraph());
+            mGraphTitle.setText(getString(R.string.overview_fragment_nutrition_stats));
+        }
+        else if(mode.equals(getString(R.string.training))) {
+            lines.add(getSecondGraph());
+            mGraphTitle.setText(getString(R.string.overview_fragment_training_stats));
+        }
+        else if(mode.equals(getString(R.string.combined))) {
+            lines.add(getSecondGraph());
+            lines.add(getFirstGraph());
+            mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
+        }
+        mGraphs = new LineData(lines);
+        mLineChart.setData(mGraphs);
+    }
+
 
     public LineDataSet getFirstGraph() {
         ArrayList<Entry> entries = new ArrayList<>();
@@ -120,7 +150,7 @@ public class OverviewFragment extends Fragment {
         Collections.reverse(entries);
         Collections.reverse(labels);
 
-        LineDataSet dataset = new LineDataSet(entries, "Nutrition");
+        LineDataSet dataset = new LineDataSet(entries, getString(R.string.action_nutrition_tab_title));
         dataset.setFillColor(Color.GREEN);
         dataset.setColor(Color.GREEN);
         dataset.setFillAlpha(100);
@@ -170,7 +200,7 @@ public class OverviewFragment extends Fragment {
             exEntries.add(new Entry(6 - j, 0));
         }
         Collections.reverse(exEntries);
-        LineDataSet exDataset = new LineDataSet(exEntries, "Exercise");
+        LineDataSet exDataset = new LineDataSet(exEntries, getString(R.string.action_training_tab_title));
         exDataset.setFillColor(Color.RED);
         exDataset.setColor(Color.RED);
         exDataset.setFillAlpha(100);
@@ -186,8 +216,14 @@ public class OverviewFragment extends Fragment {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean bSwitch = sp.getBoolean("switch_overlay_exercise_on_graph", false);
-        if(bSwitch && !isTriggered) {
+        boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
+        mLineChart.getLegend().setEnabled(legendSwitch);
+        String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
+
+        graphEnabler(mode);
+        mLineChart.notifyDataSetChanged();
+        mLineChart.invalidate();
+        /*if(bSwitch && !isTriggered) {
             isTriggered = true;
             lines.add(getSecondGraph());
             Collections.reverse(lines);
@@ -203,6 +239,6 @@ public class OverviewFragment extends Fragment {
             mLineChart.notifyDataSetChanged();
             mLineChart.setData(mGraphs);
             mLineChart.invalidate();
-        }
+        }*/
     }
 }

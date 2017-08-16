@@ -73,8 +73,28 @@
     <string name="no_title">Без названия</string>
     <string name="fragment_nutrition_result_energy">Итоговая энергетическая ценность: </string>
     <string name="overview_fragment_no_data_for_graph">Нет данных о питании.</string>
+
     <string name="overview_fragment_nutrition_stats">Статистика питания</string>
+    <string name="overview_fragment_training_stats">Статистика тренировок</string>
+    <string name="overview_fragment_combined_stats">Статистика питания и тренировок</string>
+
     <string name="settings_general">Общие настройки</string>
-    <string name="overlay_exercise_graph_settings">Наложение упражнений на график</string>
-    <string name="overlay_exercise_graph_settings_desc">Накладывать статистику по тренировкам на питание</string>
+    <string name="switch_on_legend">Включить легенду</string>
+    <string name="switch_on_legend_desc">Описание данных графика</string>
+    <string name="settings_graph">Настройки графиков</string>
+    <string name="list_combined_graph">Режим отображения графика</string>
+    <string name="list_combined_graph_desc">Комбинирование отображаемых данных</string>
+    <string name="nutrition">Питание</string>
+    <string name="training">Тренировки</string>
+    <string name="combined">Вместе</string>
+    <string-array name="entries">
+        <item>Питание</item>
+        <item>Тренировки</item>
+        <item>Вместе</item>
+    </string-array>
+    <string-array name="entry_values">
+        <item>@string/nutrition</item>
+        <item>@string/training</item>
+        <item>@string/combined</item>
+    </string-array>
 </resources>
