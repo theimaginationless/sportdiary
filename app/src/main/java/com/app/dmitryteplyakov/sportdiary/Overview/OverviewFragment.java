@@ -1,10 +1,12 @@
 package com.app.dmitryteplyakov.sportdiary.Overview;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.service.autofill.Dataset;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.SharedPreferencesCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +14,14 @@ import android.view.ViewGroup;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.Exercise.CompExerciseStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.Exercise.Exercise;
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.Nutrition;
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.NutritionStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -25,6 +30,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +46,8 @@ import java.util.List;
 public class OverviewFragment extends Fragment {
     private LineChart mLineChart;
     private ArrayList<String> labels;
-
+    private SharedPreferences sp;
+    private LineData mGraphs;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
@@ -58,19 +65,20 @@ public class OverviewFragment extends Fragment {
         mLineChart.getAxisLeft().setGranularityEnabled(true);
         mLineChart.getAxisLeft().setGranularity(1f);
         mLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
-
-        //if(NutritionStorage.get(getActivity()).getNutritions().size() >= 7) {
-        if(true) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean bSwitch = sp.getBoolean("switch_overlay_exercise_on_graph", false);
+        Log.d("OF", Boolean.toString(bSwitch));
             ArrayList<Entry> entries = new ArrayList<>();
             labels = new ArrayList<>();
             List<NutritionDay> nutritionDayList = NutritionDayStorage.get(getActivity()).getNutritionDays();
             Collections.reverse(nutritionDayList);
+            //
+            List<Day> dayList = DayStorage.get(getActivity()).getDays();
+            //
             SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
             int count = 0;
             boolean skipFlag;
-            //for (NutritionDay nDay : nutritionDayList) {
             for(int j = 0; j < 7; j++) {
-                Log.d("OF size", Integer.toString(entries.size()));
                 skipFlag = false;
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(new Date());
@@ -79,10 +87,8 @@ public class OverviewFragment extends Fragment {
                 Calendar date = Calendar.getInstance();
                 for (NutritionDay nDay : nutritionDayList) {
                     date.setTime(nDay.getDate());
-                    Log.d("OF compare", Integer.toString(day) + " " + dateFormatter.format(date.getTime()));
                     if(date.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
                         labels.add(dateFormatter.format(nDay.getDate()));
-                        Log.d("OF", dateFormatter.format(nDay.getDate()));
                         int resultEnergy = 0;
                         for (Nutrition nutrition : NutritionStorage.get(getActivity()).getNutritionsByParentDayId(nDay.getId())) {
                             resultEnergy += nutrition.getResultEnergy();
@@ -92,65 +98,96 @@ public class OverviewFragment extends Fragment {
                         count++;
                     }
                 }
-                Log.d("OF J", Integer.toString(6 - j));
+                //Log.d("OF J", Integer.toString(6 - j));
                 if(skipFlag)
                     continue;
                 labels.add(dateFormatter.format(calendar.getTime()));
                 entries.add(new Entry(6 - j, 0));
-                Log.d("OF", dateFormatter.format(calendar.getTime()));
                 count++;
             }
             Collections.reverse(entries);
             Collections.reverse(labels);
-            /*for(int i = 0; i < nutritionDayList.size(); i++) {
-                NutritionDay nDay;
-                if(nutritionDayList.size() - 7 < 0) {
-                    entries.add(new Entry(count, 0));
-                } else {
-                    nDay = nutritionDayList.get(i);
-                    if (new Date().getTime() - nDay.getDate().getTime() <= (1000 * 60 * 60 * 24 * 7)) {
-                        labels.set(i, dateFormatter.format(nDay.getDate()));
-                        Log.d("OF", "size labels: " + Integer.toString(labels.size()));
+
+        ArrayList<ILineDataSet> lines = new ArrayList<>();
+
+
+
+
+        if(bSwitch) {
+            ///
+            ArrayList<Entry> exEntries = new ArrayList<>();
+
+            for (int j = 0; j < 7; j++) {
+                skipFlag = false;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                int iday = calendar.get(Calendar.DAY_OF_MONTH) - j;
+                calendar.set(Calendar.DAY_OF_MONTH, iday);
+                Calendar date = Calendar.getInstance();
+                for (Day day : dayList) {
+                    date.setTime(day.getDate());
+                    if (date.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
                         int resultEnergy = 0;
-                        for (Nutrition nutrition : NutritionStorage.get(getActivity()).getNutritionsByParentDayId(nDay.getId())) {
-                            resultEnergy += nutrition.getResultEnergy();
+                        for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentTrainingDayId(day.getId())) {
+                            resultEnergy += exercise.getEnergy();
                         }
-                        entries.add(new Entry(count, resultEnergy));
-                        Log.d("OF", "size entries: " + Integer.toString(entries.size()));
+                        exEntries.add(new Entry(6 - j, resultEnergy));
+                        skipFlag = true;
+                        count++;
                     }
                 }
+                if (skipFlag)
+                    continue;
+                exEntries.add(new Entry(6 - j, 0));
                 count++;
-            }*/
-            LineDataSet dataset = new LineDataSet(entries, "");
+            }
+            Collections.reverse(exEntries);
+            LineDataSet exDataset = new LineDataSet(exEntries, "Exercise");
+            exDataset.setFillColor(Color.BLACK);
+            exDataset.setColor(Color.GREEN);
+            exDataset.setFillAlpha(100);
+            exDataset.setHighlightEnabled(false);
+            exDataset.setValueTextSize(10f);
+            exDataset.setDrawFilled(true);
+            exDataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lines.add(exDataset);
+        }
+            LineDataSet dataset = new LineDataSet(entries, "Nutrition");
             dataset.setFillColor(Color.GREEN);
             dataset.setColor(Color.GREEN);
-            dataset.setFillAlpha(90);
+            dataset.setFillAlpha(100);
             dataset.setHighlightEnabled(false);
             dataset.setValueTextSize(10f);
             dataset.setDrawFilled(true);
             mLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
                 @Override
                 public String getFormattedValue(float value, AxisBase axisBase) {
-                    Log.d("OF FL", Float.toString(value));
                     if(value < 0)
                             return "";
                     else if(value == 0) {
-                        Log.d("OF", labels.get(0) + Integer.toString((int) labels.size()));
                         return labels.get(0);
                     } else {
-                        Log.d("OF", labels.get(((int) (value))) + Integer.toString((int) labels.size()));
                         return labels.get(((int) (value)));
                     }
                 }
             });
             dataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            LineData data = new LineData(dataset);
-            mLineChart.setData(data);
+
+            lines.add(dataset);
+            mGraphs = new LineData(lines);
+            mLineChart.setData(mGraphs);
             mLineChart.animateY(600);
             Description description = new Description();
             description.setText(getString(R.string.fragment_program_energy_hint));
             mLineChart.setDescription(description);
-        }
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("OF", "CALL!");
+        mLineChart.notifyDataSetChanged();
+        mLineChart.invalidate();
     }
 }

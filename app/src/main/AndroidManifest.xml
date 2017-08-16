@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Settings.SettingsActivity"
-            android:label="@string/settings_title"/>
-        <activity
             android:name=".Programs.ProgramsListActivity"
             android:label="@string/programs_title"
             android:parentActivityName=".GeneralActivity"/>
@@ -37,6 +34,13 @@
         <activity
             android:name=".Nutrition.NutritionListActivity"
             android:parentActivityName=".GeneralActivity"/>
+        <activity android:name=".Settings.SettingsActivity"
+                  android:parentActivityName=".GeneralActivity">
+            <intent-filter>
+                <action android:name="com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".GeneralActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

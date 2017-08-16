@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -18,7 +19,6 @@ import java.util.UUID;
  */
 
 public class ProgramExerciseListActivity extends AppCompatActivity {
-
     public static final String EXTRA_TRAINING_UUID = "com.app.extra_training_uuid";
 
     public static Intent newIntent(Context contextPackage, UUID trainingId) {
@@ -36,7 +36,6 @@ public class ProgramExerciseListActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programs_common);
-
         Log.d("PELA", "CALL PELA ONCREATE!");
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.programs_fragment_container);

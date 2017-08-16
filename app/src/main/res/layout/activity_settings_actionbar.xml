@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   app:theme="@style/ToolbarColor"
+                                   android:id="@+id/toolbar"
+                                   android:layout_width="match_parent"
+                                   app:navigationIcon="?attr/homeAsUpIndicator"
+                                   android:layout_height="?attr/actionBarSize">
+
+</android.support.v7.widget.Toolbar>

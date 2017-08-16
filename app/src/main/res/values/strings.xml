@@ -74,4 +74,7 @@
     <string name="fragment_nutrition_result_energy">Итоговая энергетическая ценность: </string>
     <string name="overview_fragment_no_data_for_graph">Нет данных о питании.</string>
     <string name="overview_fragment_nutrition_stats">Статистика питания</string>
+    <string name="settings_general">Общие настройки</string>
+    <string name="overlay_exercise_graph_settings">Наложение упражнений на график</string>
+    <string name="overlay_exercise_graph_settings_desc">Накладывать статистику по тренировкам на питание</string>
 </resources>
