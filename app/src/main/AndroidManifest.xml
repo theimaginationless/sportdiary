@@ -35,6 +35,7 @@
             android:name=".Nutrition.NutritionListActivity"
             android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".Settings.SettingsActivity"
+                  android:label="@string/settings_title"
                   android:parentActivityName=".GeneralActivity">
             <intent-filter>
                 <action android:name="com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity"/>
