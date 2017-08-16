@@ -71,20 +71,18 @@ public class OverviewFragment extends Fragment {
         boolean bSwitch = sp.getBoolean("switch_overlay_exercise_on_graph", false);
         Log.d("OF", Boolean.toString(bSwitch));
         lines = new ArrayList<>();
-
             lines.add(getFirstGraph());
         if(bSwitch) {
             lines.add(getSecondGraph());
             isTriggered = true;
         }
-
-            mGraphs = new LineData(lines);
+        mGraphs = new LineData(lines);
         Log.d("INOF", "CALL");
-            mLineChart.setData(mGraphs);
-            mLineChart.animateY(600);
-            Description description = new Description();
-            description.setText(getString(R.string.fragment_program_energy_hint));
-            mLineChart.setDescription(description);
+        mLineChart.setData(mGraphs);
+        mLineChart.animateY(600);
+        Description description = new Description();
+        description.setText(getString(R.string.fragment_program_energy_hint));
+        mLineChart.setDescription(description);
         return v;
     }
 
@@ -93,11 +91,7 @@ public class OverviewFragment extends Fragment {
         labels = new ArrayList<>();
         List<NutritionDay> nutritionDayList = NutritionDayStorage.get(getActivity()).getNutritionDays();
         Collections.reverse(nutritionDayList);
-        //
-
-        //
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
-        int count = 0;
         boolean skipFlag;
         for(int j = 0; j < 7; j++) {
             skipFlag = false;
@@ -116,14 +110,12 @@ public class OverviewFragment extends Fragment {
                     }
                     entries.add(new Entry(6 - j, resultEnergy));
                     skipFlag = true;
-                    count++;
                 }
             }
             if(skipFlag)
                 continue;
             labels.add(dateFormatter.format(calendar.getTime()));
             entries.add(new Entry(6 - j, 0));
-            count++;
         }
         Collections.reverse(entries);
         Collections.reverse(labels);
@@ -152,8 +144,6 @@ public class OverviewFragment extends Fragment {
     }
 
     public LineDataSet getSecondGraph() {
-        ///
-        //isTriggered = true;
         ArrayList<Entry> exEntries = new ArrayList<>();
         List<Day> dayList = DayStorage.get(getActivity()).getDays();
         boolean skipFlag;
