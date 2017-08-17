@@ -15,8 +15,7 @@ import com.app.dmitryteplyakov.sportdiary.R;
  */
 
 public class SettingsActivity extends AppCompatActivity {
-
-    //@Override
+    
     protected Fragment createFragment() {
         return new PreferenceFragment().newInstance((String) getIntent().getSerializableExtra("preferences"));
     }

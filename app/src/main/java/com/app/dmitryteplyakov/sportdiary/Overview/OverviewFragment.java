@@ -72,13 +72,8 @@ public class OverviewFragment extends Fragment {
         mLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
-            mLineChart.getLegend().setEnabled(legendSwitch);
+        mLineChart.getLegend().setEnabled(legendSwitch);
         lines = new ArrayList<>();
-        /*if(bSwitch) {
-            lines.add(getSecondGraph());
-            isTriggered = true;
-        }
-        lines.add(getFirstGraph());*/
         String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
         graphEnabler(mode);
         mGraphs = new LineData(lines);
@@ -219,26 +214,8 @@ public class OverviewFragment extends Fragment {
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
         String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
-
         graphEnabler(mode);
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
-        /*if(bSwitch && !isTriggered) {
-            isTriggered = true;
-            lines.add(getSecondGraph());
-            Collections.reverse(lines);
-            mGraphs = new LineData(lines);
-            mLineChart.notifyDataSetChanged();
-            mLineChart.setData(mGraphs);
-            mLineChart.invalidate();
-        } else if(!bSwitch && isTriggered) {
-            isTriggered = false;
-            lines = new ArrayList<>();
-            lines.add(getFirstGraph());
-            mGraphs = new LineData(lines);
-            mLineChart.notifyDataSetChanged();
-            mLineChart.setData(mGraphs);
-            mLineChart.invalidate();
-        }*/
     }
 }
