@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/settings_graph">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch_on_legend"
+            android:summary="@string/switch_on_legend_desc"
+            android:title="@string/switch_on_legend"/>
+        <ListPreference
+            android:defaultValue="@string/nutrition"
+            android:entries="@array/entries"
+            android:entryValues="@array/entry_values"
+            android:key="graph_mode_list"
+            android:title="@string/list_combined_graph"
+            android:summary="@string/list_combined_graph_desc">
+
+        </ListPreference>
+    </PreferenceCategory>
+</PreferenceScreen>
