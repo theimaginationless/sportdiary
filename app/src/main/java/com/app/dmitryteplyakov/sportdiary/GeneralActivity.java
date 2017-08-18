@@ -93,7 +93,6 @@ public class GeneralActivity extends AppCompatActivity {
         Fragment fragment = new OverviewFragment();
         mFab.hide();
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
@@ -125,7 +124,6 @@ public class GeneralActivity extends AppCompatActivity {
             }
         });
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
@@ -145,7 +143,6 @@ public class GeneralActivity extends AppCompatActivity {
             }
         });
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
