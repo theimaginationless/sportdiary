@@ -2,6 +2,7 @@ package com.app.dmitryteplyakov.sportdiary.Core.Day;
 
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -38,7 +39,13 @@ public class Day implements Comparable<Day> {
     }
 
     public void setDate(Date date) {
-        mDate = date;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        mDate = calendar.getTime();
     }
 
     public Date getStartDate() {

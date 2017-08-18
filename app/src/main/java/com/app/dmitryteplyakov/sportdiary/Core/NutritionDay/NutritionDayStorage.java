@@ -9,7 +9,9 @@ import com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayBase
 import com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayCursorWrapper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -109,6 +111,32 @@ public class NutritionDayStorage {
         } finally {
             cursor.close();
         }
+    }
+
+    public NutritionDay getNutritionDayByDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date currDate = calendar.getTime();
+        List<NutritionDay> nutritionDay = new ArrayList<>();
+
+        NutritionDayCursorWrapper cursor = queryNutritionDays(null, null);
+        try {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()) {
+                nutritionDay.add(cursor.getNutritionDay());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        for(NutritionDay lNurtritionDay : nutritionDay)
+            if(lNurtritionDay.getDate().equals(currDate))
+                return lNurtritionDay;
+        return null;
     }
 
     public void addNutritionDay(NutritionDay nutritionDay) {

@@ -29,6 +29,8 @@ import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class GeneralActivity extends AppCompatActivity {
@@ -115,11 +117,15 @@ public class GeneralActivity extends AppCompatActivity {
                                 }
                             }).show();
                 else {
-                    Day day = new Day();
-                    day.setTrainingId(UUID.randomUUID()); // Temporary trainingUUID as hack
-                    DayStorage.get(GeneralActivity.this).addDay(day);
-                    Intent intent = NewDayActivity.newIntent(GeneralActivity.this, day.getId());
-                    startActivityForResult(intent, REQUEST_ADD_DAY);
+                    Date currentDate = new Date();
+                    if (DayStorage.get(GeneralActivity.this).getDayByDate(currentDate) == null) {
+                        Day day = new Day();
+                        day.setTrainingId(UUID.randomUUID()); // Temporary trainingUUID as hack
+                        DayStorage.get(GeneralActivity.this).addDay(day);
+                        Intent intent = NewDayActivity.newIntent(GeneralActivity.this, day.getId());
+                        startActivityForResult(intent, REQUEST_ADD_DAY);
+                    } else
+                        Snackbar.make(findViewById(R.id.snackbar_place), "Вы сегодня уже тренировались", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -135,11 +141,16 @@ public class GeneralActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NutritionDay nutritionDay = new NutritionDay(UUID.randomUUID());
-                NutritionDayStorage.get(GeneralActivity.this).addNutritionDay(nutritionDay);
-                Intent intent;
-                intent = NutritionListActivity.newIntent(GeneralActivity.this, nutritionDay.getId());
-                startActivity(intent);
+                Date currentDate = new Date();
+                if(NutritionDayStorage.get(GeneralActivity.this).getNutritionDayByDate(currentDate) == null) {
+                    NutritionDay nutritionDay = new NutritionDay(UUID.randomUUID());
+                    NutritionDayStorage.get(GeneralActivity.this).addNutritionDay(nutritionDay);
+                    Intent intent;
+                    intent = NutritionListActivity.newIntent(GeneralActivity.this, nutritionDay.getId());
+                    startActivity(intent);
+                    //Todo: To strings.xml
+                } else
+                    Snackbar.make(findViewById(R.id.snackbar_place), "Этот день уже присутствует!", Snackbar.LENGTH_LONG).show();
             }
         });
         getSupportFragmentManager().beginTransaction()

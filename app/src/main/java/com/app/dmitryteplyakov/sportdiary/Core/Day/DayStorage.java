@@ -3,13 +3,16 @@ package com.app.dmitryteplyakov.sportdiary.Core.Day;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.app.dmitryteplyakov.sportdiary.database.Day.DayCursorWrapper;
 import com.app.dmitryteplyakov.sportdiary.database.Day.DaysBaseHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -134,5 +137,31 @@ public class DayStorage {
             cursor.close();
         }
         return days;
+    }
+
+    public Day getDayByDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date currDate = calendar.getTime();
+        List<Day> days = new ArrayList<>();
+
+        DayCursorWrapper cursor = queryDays(null, null);
+        try {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()) {
+                days.add(cursor.getDay());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        for(Day lDay : days)
+            if(lDay.getDate().equals(currDate))
+                return lDay;
+        return null;
     }
 }
