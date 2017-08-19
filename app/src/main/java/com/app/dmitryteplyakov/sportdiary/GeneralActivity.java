@@ -18,7 +18,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
@@ -30,12 +29,13 @@ import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionDaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListActivity;
 import com.app.dmitryteplyakov.sportdiary.Overview.OverviewFragment;
+import com.app.dmitryteplyakov.sportdiary.Programs.ProgramActivity;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListActivity;
 import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
+import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -68,17 +68,27 @@ public class GeneralActivity extends AppCompatActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawer(Gravity.START);
+                Intent intent = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.programs:
+                        intent = new Intent(GeneralActivity.this, ProgramsListActivity.class);
+                        break;
+                    case R.id.timer_templates:
+                        intent = new Intent(GeneralActivity.this, TimerTemplatesActivity.class);
+                        break;
+                    case R.id.settings:
+                        intent = new Intent(GeneralActivity.this, SettingsActivity.class);
+                        break;
+                }
+                if(intent != null) {
+                    startActivity(intent);
+                }
                 return true;
             }
         });
-        //mDrawerTitles = getResources().getStringArray(R.array.drawer_general_array);
-        //mDrawerListView = (ListView) findViewById(R.id.drawer_general_list_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //mDrawerListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerTitles));
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
         mDrawerToggle.syncState();
         mFab = (FloatingActionButton) findViewById(R.id.activity_common_fab_add);
@@ -195,29 +205,14 @@ public class GeneralActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
         switch(item.getItemId()) {
-            case R.id.settings:
-                intent = new Intent(GeneralActivity.this, SettingsActivity.class);
-                break;
-            case R.id.programs:
-                intent = new Intent(GeneralActivity.this, ProgramsListActivity.class);
-                break;
             case android.R.id.home:
                 mDrawerLayout.openDrawer(Gravity.START);
                 break;
             default:
                 //
         }
-        if(intent != null)
-            startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 

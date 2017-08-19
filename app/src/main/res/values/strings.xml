@@ -104,9 +104,4 @@
     <string name="sound_on_timer">Включить звук таймера</string>
     <string name="sound_on_timer_desc">Включить воспроизведение звуковых эффектов таймера</string>
     <string name="timer_templates">Шаблоны таймера</string>
-    <string-array name="drawer_general_array">
-        <item>Программа</item>
-        <item>Шаблоны таймера</item>
-        <item>Настройки</item>
-    </string-array>
 </resources>
