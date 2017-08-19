@@ -97,4 +97,10 @@
         <item>@string/training</item>
         <item>@string/combined</item>
     </string-array>
+    <string name="settings_timer">Настройки интервального таймера</string>
+    <string name="switch_timer_enable">Включить интервальный таймер</string>
+    <string name="switch_timer_enable_desc">Включить возможность запуска интервального таймера во время выполнения упражнения</string>
+    <string name="start_timer">Запустить интервальный таймер</string>
+    <string name="sound_on_timer">Включить звук таймера</string>
+    <string name="sound_on_timer_desc">Включить воспроизведение звуковых эффектов таймера</string>
 </resources>

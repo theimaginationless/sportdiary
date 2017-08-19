@@ -114,7 +114,7 @@ public class ProgramFragment extends Fragment {
         mExerciseTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
-                if(mExercise.getTitle().equals(""))
+                if(mExercise.getTitle() == null)
                     mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
             }
             @Override

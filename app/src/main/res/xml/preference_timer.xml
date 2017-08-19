@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_timer">
+        <SwitchPreference android:title="@string/switch_timer_enable"
+                          android:defaultValue="true"
+            android:summary="@string/switch_timer_enable_desc"
+            android:key="switch_on_timer"/>
+        <SwitchPreference android:title="@string/sound_on_timer"
+                          android:summary="@string/sound_on_timer_desc"
+                          android:key="sound_on_timer"
+                          android:defaultValue="true"/>
+    </PreferenceCategory>
+</PreferenceScreen>

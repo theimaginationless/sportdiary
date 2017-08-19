@@ -2,10 +2,13 @@ package com.app.dmitryteplyakov.sportdiary.Training;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
@@ -44,10 +47,22 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ExerciseActivity.this);
+        boolean timerEnable = sharedPreferences.getBoolean("switch_on_timer", true);
+        if(timerEnable)
+            getMenuInflater().inflate(R.menu.current_exercise_actionbar, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+            case R.id.start_timer:
+                //
                 return true;
         }
 
