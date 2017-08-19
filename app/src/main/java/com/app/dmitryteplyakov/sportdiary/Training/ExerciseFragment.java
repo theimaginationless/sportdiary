@@ -177,7 +177,6 @@ public class ExerciseFragment extends Fragment {
                 dialog.show(manager, DIALOG_TIME_PICKER);
             }
         });
-        Log.d("ELF", "ALREADY ENDED: " + Boolean.toString(mExercise.isAlreadyEnded()));
         if(!mExercise.isAlreadyEnded()) {
             mEndDateButton.setText(getString(R.string.fragment_using_exercise_end_training_waiting));
         }
@@ -188,7 +187,6 @@ public class ExerciseFragment extends Fragment {
                 if(!mExercise.isAlreadyEnded()) {
                     mExercise.setEndDate(new Date());
                     mExercise.setAlreadyEnded(true);
-                    Log.d("EF", "ENDED? " + Boolean.toString(mExercise.isAlreadyEnded()));
                     CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
                     mEndDateButton.setText(format.format(mExercise.getEndDate()));
                 } else

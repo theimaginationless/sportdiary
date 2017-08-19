@@ -69,20 +69,16 @@ public class ExerciseListFragment extends Fragment {
         public void bindExercise(Exercise exercise) {
             mExerciseTitle.setText(exercise.getTitle());
             mExercise = exercise;
-            Log.d("ELF PARENTCHECK", "EXTITLE: " + mExercise.getTitle() + " ALREADYENDED " + Boolean.toString(mExercise.isAlreadyEnded()) + " DAY ID: " + mExercise.getParentTrainingDayId() + " UUID: " + mExercise.getId());
         }
 
         @Override
         public void onClick(View v) {
             Intent intent = ExerciseActivity.newIntent(getActivity(), mExercise.getReserveId());
-            Log.d("ELF", "IS ALREADY WORKING: " + Boolean.toString(mExercise.isAlreadyWorking()));
             if(!mExercise.isAlreadyWorking()) {
                 mExercise.setStartDate(new Date());
                 mExercise.setAlreadyWorking(true);
-                Log.d("ELF", "IS ALREADY WORKING: " + Boolean.toString(mExercise.isAlreadyWorking()));
             }
             CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
-            Log.d("ELF TEST", Boolean.toString(CompExerciseStorage.get(getActivity()).getExercise(mExercise.getId()).isAlreadyEnded()));
             startActivityForResult(intent, REQUEST_BACK);
         }
     }
@@ -119,14 +115,7 @@ public class ExerciseListFragment extends Fragment {
     private void updateUI() {
         List<Exercise> exerciseList;
         Day day = DayStorage.get(getActivity()).getDay((UUID) getArguments().getSerializable(ARG_DAY_UUID));
-        Training training = CompTrainingStorage.get(getActivity()).getTrainingByParentDayId(day.getId());
-        Log.d("ELF", "ID DAY: " + day.getId().toString());
         exerciseList = CompExerciseStorage.get(getActivity()).getExercisesByParentTrainingDayId(day.getId());
-        Log.d("ELF", "COUNT TRAININGS: " + Integer.toString(CompTrainingStorage.get(getActivity()).getTrainings().size()));
-        Log.d("ELF", "ID TRAINING: " + training.getId().toString());
-        Log.d("ELF", "TRAINING TITLE: " + training.getTitle());
-        Log.d("ELF", "COUNT EXERCISES IN DAY: " + Integer.toString(exerciseList.size()));
-        Log.d("ELF", "TOTAL COUNT EXERCISES: " + Integer.toString(CompExerciseStorage.get(getActivity()).getExercises().size()));
         if(mAdapter == null) {
             mAdapter = new ExerciseAdapter(exerciseList);
             mRecyclerView.setAdapter(mAdapter);
@@ -139,17 +128,7 @@ public class ExerciseListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("ELF", "CALL UPDATE");
         updateUI();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK)
-            if(requestCode == REQUEST_BACK) {
-                Log.d("RES", "CALLED!");
-                updateUI();
-            }
     }
 
 }
