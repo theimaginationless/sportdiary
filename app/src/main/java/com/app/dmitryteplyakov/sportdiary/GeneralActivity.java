@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,6 +51,7 @@ public class GeneralActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationView mNavigationView;
 
     protected Fragment createFragment() {
         return new OverviewFragment();
@@ -61,14 +63,22 @@ public class GeneralActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragment);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
-        mDrawerTitles = getResources().getStringArray(R.array.drawer_general_array);
-        mDrawerListView = (ListView) findViewById(R.id.drawer_general_list_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_general);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawer(Gravity.START);
+                return true;
+            }
+        });
+        //mDrawerTitles = getResources().getStringArray(R.array.drawer_general_array);
+        //mDrawerListView = (ListView) findViewById(R.id.drawer_general_list_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerTitles));
+        //mDrawerListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerTitles));
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
         mDrawerToggle.syncState();
         mFab = (FloatingActionButton) findViewById(R.id.activity_common_fab_add);
