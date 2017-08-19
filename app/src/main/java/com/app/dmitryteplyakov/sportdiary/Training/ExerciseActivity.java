@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,6 +22,8 @@ import java.util.UUID;
 //Todo: Exercise fragment on day
 public class ExerciseActivity extends AppCompatActivity {
     private static final String EXTRA_TRAINING_UUID = "com.app.exerciseactivity.extra_training_uuid";
+    private Toolbar mToolbar;
+
     public static Intent newIntent(Context contextPackage, UUID trainingId) {
         Intent intent = new Intent(contextPackage, ExerciseActivity.class);
         intent.putExtra(EXTRA_TRAINING_UUID, trainingId);
@@ -35,7 +38,8 @@ public class ExerciseActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.common_fragment_container);
         if(fragment == null) {

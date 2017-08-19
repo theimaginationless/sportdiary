@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        android:id="@+id/drawer_general"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/drawer_general_list_view"
+            android:layout_gravity="start"
+            android:layout_width="320dp"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+</android.support.v4.widget.DrawerLayout>

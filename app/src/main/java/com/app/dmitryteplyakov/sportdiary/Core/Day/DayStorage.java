@@ -147,7 +147,18 @@ public class DayStorage {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date currDate = calendar.getTime();
-        List<Day> days = new ArrayList<>();
+        DayCursorWrapper cursor = queryDays("CAST(" + DayTable.Cols.DATE + " AS TEXT) = ?",
+                new String[] { Long.toString(currDate.getTime()) }
+        );
+
+        try {
+            if(cursor.getCount() == 0) return null;
+            cursor.moveToFirst();
+            return cursor.getDay();
+        } finally {
+            cursor.close();
+        }
+        /*List<Day> days = new ArrayList<>();
 
         DayCursorWrapper cursor = queryDays(null, null);
         try {
@@ -162,6 +173,6 @@ public class DayStorage {
         for(Day lDay : days)
             if(lDay.getDate().equals(currDate))
                 return lDay;
-        return null;
+        return null;*/
     }
 }

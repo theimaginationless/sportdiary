@@ -20,6 +20,7 @@ import java.util.UUID;
 
 public class ProgramExerciseListActivity extends AppCompatActivity {
     public static final String EXTRA_TRAINING_UUID = "com.app.extra_training_uuid";
+    private Toolbar mToolbar;
 
     public static Intent newIntent(Context contextPackage, UUID trainingId) {
         Intent intent = new Intent(contextPackage, ProgramExerciseListActivity.class);
@@ -36,6 +37,9 @@ public class ProgramExerciseListActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programs_common);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.d("PELA", "CALL PELA ONCREATE!");
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.programs_fragment_container);

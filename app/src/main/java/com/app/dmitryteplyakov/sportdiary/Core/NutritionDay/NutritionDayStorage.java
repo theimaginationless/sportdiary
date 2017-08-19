@@ -116,14 +116,14 @@ public class NutritionDayStorage {
     }
 
     public NutritionDay getNutritionDayByDate(Date date) {
-        /*Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date currDate = calendar.getTime();
-        NutritionDayCursorWrapper cursor = queryNutritionDays(NutritionDayTable.Cols.Date + " = ?",
+        NutritionDayCursorWrapper cursor = queryNutritionDays("CAST(" + NutritionDayTable.Cols.Date + " AS TEXT) = ?",
                 new String[] { Long.toString(currDate.getTime()) }
         );
 
@@ -135,8 +135,8 @@ public class NutritionDayStorage {
             return cursor.getNutritionDay();
         } finally {
             cursor.close();
-        }*/
-        Calendar calendar = Calendar.getInstance();
+        }
+        /*Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -158,7 +158,7 @@ public class NutritionDayStorage {
         for(NutritionDay lNurtritionDay : nutritionDay)
             if(lNurtritionDay.getDate().equals(currDate))
                 return lNurtritionDay;
-        return null;
+        return null;*/
     }
 
     public void addNutritionDay(NutritionDay nutritionDay) {

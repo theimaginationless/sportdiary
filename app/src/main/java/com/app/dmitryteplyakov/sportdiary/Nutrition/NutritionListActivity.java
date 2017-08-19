@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 public class NutritionListActivity extends AppCompatActivity {
     private static final String EXTRA_NUTRITION_DAY_UUID = "com.app.extra_nutrition_day_uuid";
+    private Toolbar mToolbar;
 
     public static Intent newIntent(Context context, UUID id) {
         Intent intent = new Intent(context, NutritionListActivity.class);
@@ -33,7 +35,9 @@ public class NutritionListActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.common_fragment_container);
         if (fragment == null) {

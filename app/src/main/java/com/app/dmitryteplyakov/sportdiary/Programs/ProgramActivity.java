@@ -24,6 +24,7 @@ import java.util.UUID;
 public class ProgramActivity extends AppCompatActivity {
 
     private static final String EXTRA_EXERCISE_UUID = "com.app.extra_exercise_uuid";
+    private Toolbar mToolbar;
 
     public static Intent newIntent(Context contextPackage, UUID exerciseId) {
         Intent intent = new Intent(contextPackage, ProgramActivity.class);
@@ -41,7 +42,8 @@ public class ProgramActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programs_common);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fm = getSupportFragmentManager();
