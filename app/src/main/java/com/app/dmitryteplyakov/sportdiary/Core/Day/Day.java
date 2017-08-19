@@ -20,7 +20,7 @@ public class Day implements Comparable<Day> {
 
     public Day(UUID id) {
         mId = id;
-        mDate = new Date();
+        this.setDate(new Date());
     }
     public Day() {
         this(UUID.randomUUID());
