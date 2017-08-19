@@ -1,6 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
@@ -52,6 +55,7 @@ public class GeneralActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
+    private TextView mUsernameTextView;
 
     protected Fragment createFragment() {
         return new OverviewFragment();
@@ -63,8 +67,14 @@ public class GeneralActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragment);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(GeneralActivity.this);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_general);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mUsernameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.username);
+        mUsernameTextView.setText(sharedPreferences.getString("username_nav_draw", getString(R.string.username_default)));
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

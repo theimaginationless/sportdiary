@@ -29,6 +29,8 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
                 addPreferencesFromResource(R.xml.preferences_graph);
             else if(sett.equals("timer"))
                 addPreferencesFromResource(R.xml.preference_timer);
+            else if(sett.equals("personal"))
+                addPreferencesFromResource(R.xml.preference_personal);
         }
         else
             addPreferencesFromResource(R.xml.preferences);

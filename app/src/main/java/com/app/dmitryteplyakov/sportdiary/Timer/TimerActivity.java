@@ -21,7 +21,7 @@ public class TimerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_common);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.common_fragment_container);
         if(fragment == null) {
