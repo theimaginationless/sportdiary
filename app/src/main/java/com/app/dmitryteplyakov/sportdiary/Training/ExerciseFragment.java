@@ -23,6 +23,7 @@ import com.app.dmitryteplyakov.sportdiary.Dialogs.TimePickerFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class ExerciseFragment extends Fragment {
     private EditText mApproachEditText;
     private EditText mWeightEditText;
     private EditText mEnergyEditText;
+    private SimpleDateFormat format;
 
     public static ExerciseFragment newInstance(UUID trainingId) {
         Bundle args = new Bundle();
@@ -147,7 +149,7 @@ public class ExerciseFragment extends Fragment {
         mCountReplays.setText(Integer.toString(mExercise.getReplays()));
         mCountApproach = (EditText) v.findViewById(R.id.fragment_using_exercise_count_approach_edit_text);
         mCountApproach.setText(Integer.toString(mExercise.getApproach()));
-        final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        format = new SimpleDateFormat("HH:mm");
         mEndDateButton = (Button) v.findViewById(R.id.fragment_using_exercise_end_date_training_button);
         mEndDateButton.setText(format.format(mExercise.getEndDate()));
         mEndDateButton.setOnClickListener(new View.OnClickListener() {
@@ -207,11 +209,27 @@ public class ExerciseFragment extends Fragment {
         if(resultCode == Activity.RESULT_OK) {
             Date date = (Date) data.getSerializableExtra(TimePickerFragment.RETURN_TIME);
             if (requestCode == REQUEST_START_TIME) {
-                mExercise.setStartDate(date);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(mExercise.getStartDate());
+                Calendar newTime = Calendar.getInstance();
+                newTime.setTime(date);
+                calendar.set(Calendar.HOUR_OF_DAY, newTime.get(Calendar.HOUR_OF_DAY));
+                calendar.set(Calendar.MINUTE, newTime.get(Calendar.MINUTE));
+                calendar.set(Calendar.SECOND, newTime.get(Calendar.SECOND));
+                calendar.set(Calendar.MILLISECOND, newTime.get(Calendar.MILLISECOND));
+                mExercise.setStartDate(calendar.getTime());
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 mStartDateButton.setText(format.format(mExercise.getStartDate()));
             } else if (requestCode == REQUEST_END_TIME) {
-                mExercise.setEndDate(date);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(mExercise.getStartDate());
+                Calendar newTime = Calendar.getInstance();
+                newTime.setTime(date);
+                calendar.set(Calendar.HOUR_OF_DAY, newTime.get(Calendar.HOUR_OF_DAY));
+                calendar.set(Calendar.MINUTE, newTime.get(Calendar.MINUTE));
+                calendar.set(Calendar.SECOND, newTime.get(Calendar.SECOND));
+                calendar.set(Calendar.MILLISECOND, newTime.get(Calendar.MILLISECOND));
+                mExercise.setEndDate(calendar.getTime());
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 mEndDateButton.setText(format.format(mExercise.getEndDate()));
             }

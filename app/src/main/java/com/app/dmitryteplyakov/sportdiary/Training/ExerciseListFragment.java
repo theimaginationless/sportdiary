@@ -1,5 +1,6 @@
 package com.app.dmitryteplyakov.sportdiary.Training;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ public class ExerciseListFragment extends Fragment {
     private static final String ARG_DAY_UUID = "com.app.exerciselistfragment.arg_day_uuid";
     private RecyclerView mRecyclerView;
     private ExerciseAdapter mAdapter;
+    public static final int REQUEST_BACK = 15;
 
     public static ExerciseListFragment newInstance(UUID dayId) {
         Bundle args = new Bundle();
@@ -81,7 +83,7 @@ public class ExerciseListFragment extends Fragment {
             }
             CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
             Log.d("ELF TEST", Boolean.toString(CompExerciseStorage.get(getActivity()).getExercise(mExercise.getId()).isAlreadyEnded()));
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_BACK);
         }
     }
 
@@ -137,7 +139,17 @@ public class ExerciseListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("ELF", "CALL UPDATE");
         updateUI();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK)
+            if(requestCode == REQUEST_BACK) {
+                Log.d("RES", "CALLED!");
+                updateUI();
+            }
     }
 
 }

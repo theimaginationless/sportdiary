@@ -207,8 +207,8 @@ public class NutritionDaysListFragment extends Fragment {
                 NutritionDayStorage.get(getActivity()).deleteNutritionDay(day);
                 NutritionStorage.get(getActivity()).deleteNutritionsByParentDayId(dayId);
                 updateUI(false, num);
-                Snackbar mSnackBar = Snackbar.make(getActivity().findViewById(R.id.snackbar_place), getString(R.string.snackbar_day_deleted), Snackbar.LENGTH_LONG);
-                mSnackBar.show();
+                //Snackbar mSnackBar = Snackbar.make(getActivity().findViewById(R.id.snackbar_place), getString(R.string.snackbar_day_deleted), Snackbar.LENGTH_LONG);
+                //mSnackBar.show();
             }
         }
     }
