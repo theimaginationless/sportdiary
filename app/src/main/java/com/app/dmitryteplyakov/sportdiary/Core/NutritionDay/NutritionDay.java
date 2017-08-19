@@ -17,7 +17,8 @@ public class NutritionDay implements Comparable<NutritionDay> {
     public NutritionDay(UUID id) {
         mId = id;
         mAssociatedDay = UUID.randomUUID();
-        mDate = new Date();
+        //mDate = new Date();
+        this.setDate(new Date());
     }
     public NutritionDay() {
         this(UUID.randomUUID());

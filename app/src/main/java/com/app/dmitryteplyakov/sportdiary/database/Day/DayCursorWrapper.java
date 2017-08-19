@@ -2,6 +2,7 @@ package com.app.dmitryteplyakov.sportdiary.database.Day;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
+import android.util.Log;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 

@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.app.dmitryteplyakov.sportdiary.database.Nutrition.NutritionDbSchema;
 import com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayBaseHelper;
 import com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayCursorWrapper;
 
@@ -114,6 +116,26 @@ public class NutritionDayStorage {
     }
 
     public NutritionDay getNutritionDayByDate(Date date) {
+        /*Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date currDate = calendar.getTime();
+        NutritionDayCursorWrapper cursor = queryNutritionDays(NutritionDayTable.Cols.Date + " = ?",
+                new String[] { Long.toString(currDate.getTime()) }
+        );
+
+        Log.d("NDS CORE", Long.toString(currDate.getTime()));
+        try {
+            Log.d("NDS CORE + COUNT", Integer.toString(cursor.getCount()));
+            if(cursor.getCount() == 0) return null;
+            cursor.moveToFirst();
+            return cursor.getNutritionDay();
+        } finally {
+            cursor.close();
+        }*/
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
