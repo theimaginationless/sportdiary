@@ -105,6 +105,7 @@
     <string name="sound_on_timer_desc">Включить воспроизведение звуковых эффектов таймера</string>
     <string name="timer_templates">Шаблоны таймера</string>
     <string name="settings_personal">Личные данные</string>
+    <string name="settings_appearance">Личные данные</string>
     <string name="username">Ваше имя</string>
     <string name="username_desc">Имя будет отображаться на выдвижной панели</string>
     <string name="username_default">Пользователь</string>
