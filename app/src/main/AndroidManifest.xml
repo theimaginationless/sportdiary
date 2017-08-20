@@ -44,7 +44,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".GeneralActivity">
+        <activity android:name=".GeneralActivity" android:theme="@style/AppTheme.drawer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
