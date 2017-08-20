@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">SportDiary</string>
+    <string name="action_overview_tab_title">Сводка</string>
+    <string name="action_training_tab_title">Тренировки</string>
+    <string name="action_nutrition_tab_title">Питание</string>
+    <string name="settings_title">Настройки</string>
+    <string name="programs_title">Программа</string>
+    <string name="fragment_list_programs_empty_text">Добавьте программу</string>
+    <string name="fragment_list_programs_empty_text_exercises">Добавьте упражнения</string>
+    <string name="fragment_days_list_empty_text">Начните тренироваться</string>
+    <string name="add_program">Добавление упражнения</string>
+    <string name="details_title">Упражнение</string>
+    <string name="fragment_program_exercise_title_hint">Название упражнения</string>
+    <string name="fragment_program_replays_title">Количество повторов:</string>
+    <string name="fragment_program_approach_title">Количество подходов:</string>
+    <string name="exercise_no_title">Упражнение без названия</string>
+    <string name="training_no_title">Тренировка без названия</string>
+    <string name="training_title">Название тренировки</string>
+    <string name="training_title_picker_hint">Название тренировки</string>
+    <string name="fragment_program_interval_timer_title">Включить интервальный таймер</string>
+    <string name="delete_dialog_title">Удалить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="menu_delete_item">Удалить</string>
+    <string name="edit_training_title_menu">Изменить</string>
+    <string name="fragment_new_day_hint">Название дня</string>
+    <string name="fragment_new_day_start_time">Время начала тренировки:</string>
+    <string name="fragment_new_day_dummy_time">Вы пока не начали тренировку</string>
+    <string name="fragment_new_day_spinner_trainings_title">Группа упражнений:</string>
+    <string name="fragment_new_day_start_training">Начать тренировку</string>
+    <string name="snackbar_day_deleted">День удалён</string>
+    <string name="training_is_empty_snackbar">Сначала добавьте программу</string>
+    <string name="add">Добавить</string>
+    <string name="confirm_delete_training_dialog">Вы действительно хотите удалить?</string>
+    <plurals name="confirm_delete_training_with_day_dialog_plural">
+        <item quantity="one">Вы действительно хотите удалить?
+Эта тренировка выполнялась %1$s день.</item>
+        <item quantity="few">Вы действительно хотите удалить?
+Эта тренировка выполнялась %1$s дня.</item>
+        <item quantity="other">Вы действительно хотите удалить?
+Эта тренировка выполнялась %1$s дней.</item>
+    </plurals>
+    <string name="fragment_program_pull_counter_title">Счётчик подтягиваний</string>
+    <string name="fragment_using_exercise_start_date_training">Начало тренировки: </string>
+    <string name="fragment_using_exercise_end_date_training">Окончание тренировки: </string>
+    <string name="days_list_item_group_exercises_text_view">Программа: </string>
+    <string name="days_list_item_duration_exercises_text_view">Продолжительность: </string>
+    <string name="days_list_item_count_exercises_text_view">Выполнено упражнений: </string>
+    <string name="fragment_using_exercise_end_training_waiting">Ожидание</string>
+    <string name="fragment_using_exercise_end_training_button_title">Завершить упражнение</string>
+    <string name="fragment_using_exercise_already_ended_snackbar">Упражнение уже завершено!</string>
+    <plurals name="minutes_plural">
+        <item quantity="zero">%1$s минут</item>
+        <item quantity="one">%1$s минута</item>
+        <item quantity="few">%1$s минуты</item>
+        <item quantity="other">%1$s минут</item>
+    </plurals>
+    <string name="time_na">0</string>
+    <string name="check_date_with_no_ended_exercise">Сначала завершите упражнение!</string>
+    <string name="fragment_program_weight_title">Вес: </string>
+    <string name="fragment_program_weight_hint">Кг.</string>
+    <string name="fragment_program_energy_hint">ККал.</string>
+    <string name="fragment_program_energy_title">Сжигаемая энергия: </string>
+    <string name="fragment_nutrition_days_empty_text">Начните следить за питанием!</string>
+    <string name="fragment_new_nutrition_in_day">Добавьте приём пищи</string>
+    <string name="nutritions_day_list_item_no_associated_day">Нет связанной тренировки</string>
+    <string name="nutritions_day_list_item_associated_day">Связан с тренировкой </string>
+    <string name="nutritions_day_list_item_summary_energy">Общая энергия: </string>
+    <string name="fragment_nutrition_title_hint">Название блюда</string>
+    <string name="fragment_nutrition_energy">Энергетическая ценность в 100г.: </string>
+    <string name="fragment_nutrition_weight">Масса: </string>
+    <string name="fragment_nutrition_weight_hint">Г.</string>
+    <string name="no_title">Без названия</string>
+    <string name="fragment_nutrition_result_energy">Итоговая энергетическая ценность: </string>
+    <string name="overview_fragment_no_data_for_graph">Нет данных о питании.</string>
+
+    <string name="overview_fragment_nutrition_stats">Статистика питания</string>
+    <string name="overview_fragment_training_stats">Статистика тренировок</string>
+    <string name="overview_fragment_combined_stats">Статистика питания и тренировок</string>
+
+    <string name="settings_general">Общие настройки</string>
+    <string name="switch_on_legend">Включить легенду</string>
+    <string name="switch_on_legend_desc">Описание данных графика</string>
+    <string name="settings_graph">Настройки графиков</string>
+    <string name="list_combined_graph">Режим отображения графика</string>
+    <string name="list_combined_graph_desc">Комбинирование отображаемых данных</string>
+    <string name="nutrition">Питание</string>
+    <string name="training">Тренировки</string>
+    <string name="combined">Вместе</string>
+    <string-array name="entries">
+        <item>Питание</item>
+        <item>Тренировки</item>
+        <item>Вместе</item>
+    </string-array>
+    <string-array name="entry_values">
+        <item>@string/nutrition</item>
+        <item>@string/training</item>
+        <item>@string/combined</item>
+    </string-array>
+    <string name="settings_timer">Настройки интервального таймера</string>
+    <string name="switch_timer_enable">Включить интервальный таймер</string>
+    <string name="switch_timer_enable_desc">Включить возможность запуска интервального таймера во время выполнения упражнения</string>
+    <string name="start_timer">Запустить интервальный таймер</string>
+    <string name="sound_on_timer">Включить звук таймера</string>
+    <string name="sound_on_timer_desc">Включить воспроизведение звуковых эффектов таймера</string>
+    <string name="timer_templates">Шаблоны таймера</string>
+    <string name="settings_personal">Личные данные</string>
+    <string name="settings_appearance">Внешний вид</string>
+    <string name="username">Ваше имя</string>
+    <string name="username_desc">Имя будет отображаться на выдвижной панели</string>
+    <string name="username_default">Пользователь</string>
+    <string name="growth">Рост</string>
+    <string name="growth_desc">Рост в сантиметрах</string>
+    <string name="age">Возраст</string>
+</resources>
