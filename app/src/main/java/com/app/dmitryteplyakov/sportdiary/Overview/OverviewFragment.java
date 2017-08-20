@@ -79,7 +79,8 @@ public class OverviewFragment extends Fragment {
         mLineChart.getLegend().setEnabled(legendSwitch);
         lines = new ArrayList<>();
         String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
-        graphEnabler(mode);
+        String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
+        graphEnabler(mode, overlappingSwap);
         mGraphs = new LineData(lines);
         Log.d("INOF", "CALL");
         mLineChart.setData(mGraphs);
@@ -90,24 +91,31 @@ public class OverviewFragment extends Fragment {
         return v;
     }
 
-    public void graphEnabler(String mode) {
+    public void graphEnabler(String mode, String overlappingSwap) {
         lines = new ArrayList<>();
         mGraphs = new LineData(lines);
+        int fullAlpha = 255;
+        int partAlpha = 200;
         Log.d("OF MODE: ", mode);
         if(mode.equals("")) {
             return;
         }
         if(mode.equals(getString(R.string.nutrition))) {
-            lines.add(getFirstGraph());
+            lines.add(getFirstGraph(fullAlpha));
             mGraphTitle.setText(getString(R.string.overview_fragment_nutrition_stats));
         }
         else if(mode.equals(getString(R.string.training))) {
-            lines.add(getSecondGraph());
+            lines.add(getSecondGraph(fullAlpha));
             mGraphTitle.setText(getString(R.string.overview_fragment_training_stats));
         }
-        else if(mode.equals(getString(R.string.combined))) {
-            lines.add(getSecondGraph());
-            lines.add(getFirstGraph());
+        else {
+            if(overlappingSwap.equals(getString(R.string.switch_overlapping_graphs_second_over_first))) {
+                lines.add(getFirstGraph(fullAlpha));
+                lines.add(getSecondGraph(partAlpha));
+            } else {
+                lines.add(getSecondGraph(fullAlpha));
+                lines.add(getFirstGraph(partAlpha));
+            }
             mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
         }
         mGraphs = new LineData(lines);
@@ -115,13 +123,14 @@ public class OverviewFragment extends Fragment {
     }
 
 
-    public LineDataSet getFirstGraph() {
+    public LineDataSet getFirstGraph(int alpha) {
         ArrayList<Entry> entries = new ArrayList<>();
         labels = new ArrayList<>();
         List<NutritionDay> nutritionDayList = NutritionDayStorage.get(getActivity()).getNutritionDays();
         Collections.reverse(nutritionDayList);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
         boolean skipFlag;
+        int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         for(int j = 0; j < 7; j++) {
             skipFlag = false;
             Calendar calendar = Calendar.getInstance();
@@ -150,9 +159,10 @@ public class OverviewFragment extends Fragment {
         Collections.reverse(labels);
 
         LineDataSet dataset = new LineDataSet(entries, getString(R.string.action_nutrition_tab_title));
-        dataset.setFillColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-        dataset.setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-        dataset.setFillAlpha(200);
+        dataset.setFillColor(color);
+        dataset.setColor(color);
+        dataset.setCircleColorHole(color);
+        dataset.setFillAlpha(alpha);
         dataset.setHighlightEnabled(false);
         dataset.setValueTextSize(10f);
         dataset.setDrawFilled(true);
@@ -172,10 +182,11 @@ public class OverviewFragment extends Fragment {
         return dataset;
     }
 
-    public LineDataSet getSecondGraph() {
+    public LineDataSet getSecondGraph(int alpha) {
         ArrayList<Entry> exEntries = new ArrayList<>();
         List<Day> dayList = DayStorage.get(getActivity()).getDays();
         boolean skipFlag;
+        int color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
             Calendar calendar = Calendar.getInstance();
@@ -200,9 +211,10 @@ public class OverviewFragment extends Fragment {
         }
         Collections.reverse(exEntries);
         LineDataSet exDataset = new LineDataSet(exEntries, getString(R.string.action_training_tab_title));
-        exDataset.setFillColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-        exDataset.setColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-        exDataset.setFillAlpha(255);
+        exDataset.setFillColor(color);
+        exDataset.setColor(color);
+        exDataset.setFillAlpha(alpha);
+        exDataset.setCircleColorHole(color);
         exDataset.setHighlightEnabled(false);
         exDataset.setValueTextSize(10f);
         exDataset.setDrawFilled(true);
@@ -218,7 +230,8 @@ public class OverviewFragment extends Fragment {
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
         String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
-        graphEnabler(mode);
+        String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
+        graphEnabler(mode, overlappingSwap);
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
     }

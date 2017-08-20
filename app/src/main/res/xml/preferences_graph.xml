@@ -9,12 +9,18 @@
             android:title="@string/switch_on_legend"/>
         <ListPreference
             android:defaultValue="@string/nutrition"
-            android:entries="@array/entries"
-            android:entryValues="@array/entry_values"
+            android:entries="@array/entries_mode"
+            android:entryValues="@array/entry_values_mode"
             android:key="graph_mode_list"
             android:title="@string/list_combined_graph"
             android:summary="@string/list_combined_graph_desc">
-
         </ListPreference>
+        <ListPreference
+            android:title="@string/switch_overlapping_graphs_settings"
+            android:summary="@string/switch_overlapping_graphs_settings_desc"
+            android:defaultValue="@string/switch_overlapping_graphs_first_over_second"
+            android:entries="@array/entries_graphs_ovelapping_mode"
+            android:entryValues="@array/entries_graphs_ovelapping_mode"
+            android:key="overlappingSwap"/>
     </PreferenceCategory>
 </PreferenceScreen>

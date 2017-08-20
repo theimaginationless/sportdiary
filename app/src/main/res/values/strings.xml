@@ -86,13 +86,13 @@
     <string name="list_combined_graph_desc">Комбинирование отображаемых данных</string>
     <string name="nutrition">Питание</string>
     <string name="training">Тренировки</string>
-    <string name="combined">Вместе</string>
-    <string-array name="entries">
-        <item>Питание</item>
-        <item>Тренировки</item>
-        <item>Вместе</item>
+    <string name="combined">Комбинированный</string>
+    <string-array name="entries_mode">
+        <item>@string/nutrition</item>
+        <item>@string/training</item>
+        <item>@string/combined</item>
     </string-array>
-    <string-array name="entry_values">
+    <string-array name="entry_values_mode">
         <item>@string/nutrition</item>
         <item>@string/training</item>
         <item>@string/combined</item>
@@ -113,4 +113,13 @@
     <string name="growth_desc">Рост в сантиметрах</string>
     <string name="age">Возраст</string>
     <string name="timer_templates_empty">Добавьте таймер</string>
+    <string name="switch_overlapping_graphs_first_over_second">Питание поверх тренировок</string>
+    <string name="switch_overlapping_graphs_second_over_first">Тренировки поверх питания</string>
+    <string name="switch_overlapping_graphs_settings">Наложение графиков</string>
+    <string name="switch_overlapping_graphs_settings_desc">Порядок наложения графиков</string>
+    <string-array name="entries_graphs_ovelapping_mode">
+        <item>@string/switch_overlapping_graphs_first_over_second</item>
+        <item>@string/switch_overlapping_graphs_second_over_first</item>
+    </string-array>
+
 </resources>
