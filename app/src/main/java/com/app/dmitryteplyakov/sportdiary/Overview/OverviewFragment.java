@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,6 +71,9 @@ public class OverviewFragment extends Fragment {
         mLineChart.getAxisLeft().setGranularityEnabled(true);
         mLineChart.getAxisLeft().setGranularity(1f);
         mLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
+
+        mLineChart.getXAxis().setDrawGridLines(false);
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
@@ -146,9 +150,9 @@ public class OverviewFragment extends Fragment {
         Collections.reverse(labels);
 
         LineDataSet dataset = new LineDataSet(entries, getString(R.string.action_nutrition_tab_title));
-        dataset.setFillColor(Color.GREEN);
-        dataset.setColor(Color.GREEN);
-        dataset.setFillAlpha(100);
+        dataset.setFillColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        dataset.setColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        dataset.setFillAlpha(200);
         dataset.setHighlightEnabled(false);
         dataset.setValueTextSize(10f);
         dataset.setDrawFilled(true);
@@ -196,9 +200,9 @@ public class OverviewFragment extends Fragment {
         }
         Collections.reverse(exEntries);
         LineDataSet exDataset = new LineDataSet(exEntries, getString(R.string.action_training_tab_title));
-        exDataset.setFillColor(Color.RED);
-        exDataset.setColor(Color.RED);
-        exDataset.setFillAlpha(100);
+        exDataset.setFillColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+        exDataset.setColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+        exDataset.setFillAlpha(255);
         exDataset.setHighlightEnabled(false);
         exDataset.setValueTextSize(10f);
         exDataset.setDrawFilled(true);
