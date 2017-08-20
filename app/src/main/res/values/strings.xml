@@ -112,4 +112,5 @@
     <string name="growth">Рост</string>
     <string name="growth_desc">Рост в сантиметрах</string>
     <string name="age">Возраст</string>
+    <string name="timer_templates_empty">Добавьте таймер</string>
 </resources>

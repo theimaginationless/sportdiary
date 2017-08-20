@@ -17,7 +17,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -32,10 +31,9 @@ import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionDaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListActivity;
 import com.app.dmitryteplyakov.sportdiary.Overview.OverviewFragment;
-import com.app.dmitryteplyakov.sportdiary.Programs.ProgramActivity;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListActivity;
 import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
-import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesActivity;
+import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesListActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
 
@@ -84,7 +82,7 @@ public class GeneralActivity extends AppCompatActivity {
                         intent = new Intent(GeneralActivity.this, ProgramsListActivity.class);
                         break;
                     case R.id.timer_templates:
-                        intent = new Intent(GeneralActivity.this, TimerTemplatesActivity.class);
+                        intent = new Intent(GeneralActivity.this, TimerTemplatesListActivity.class);
                         break;
                     case R.id.settings:
                         intent = new Intent(GeneralActivity.this, SettingsActivity.class);

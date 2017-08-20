@@ -34,7 +34,7 @@
         <activity
             android:name=".Nutrition.NutritionListActivity"
             android:parentActivityName=".GeneralActivity"/>
-        <activity android:name=".Timer.TimerTemplatesActivity"/>
+        <activity android:name=".Timer.TimerTemplatesListActivity"/>
         <activity android:name=".Timer.TimerActivity"/>
         <activity android:name=".Settings.SettingsActivity"
                   android:label="@string/settings_title"
