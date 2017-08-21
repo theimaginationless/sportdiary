@@ -14,7 +14,7 @@
             android:summary="@string/switch_on_legend_desc"
             android:title="@string/switch_on_legend"/>
         <ListPreference
-            android:defaultValue="@string/nutrition"
+            android:defaultValue="@string/combined"
             android:dependency="switch_on_graphs"
             android:entries="@array/entries_mode"
             android:entryValues="@array/entries_mode"

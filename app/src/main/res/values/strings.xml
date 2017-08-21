@@ -134,4 +134,6 @@
     <string name="switch_on_graphs_desc">Включить отображение графика в сводке</string>
     <string name="training_summary_last_diff">Ср. разница в рабочем весе за два дня:</string>
     <string name="training_summary_average_training_time">Ср. длительность тренировки:</string>
+    <string name="action_weight_tab_title">Вес</string>
+    <string name="add_day_shortcut">Начать тренировку</string>
 </resources>

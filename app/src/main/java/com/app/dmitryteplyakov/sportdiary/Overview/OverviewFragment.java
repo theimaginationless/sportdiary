@@ -60,13 +60,13 @@ public class OverviewFragment extends Fragment {
     private TextView mDaysCount;
     private TextView mDiffWeight;
     private LinearLayout mlinearlayoutLastDiff;
+    private CardView mSummaryTrainingCardView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
         mGraphCardView = (CardView) v.findViewById(R.id.overview_linechart_nutrition_host_card_view);
-
         mLineChart = (LineChart) v.findViewById(R.id.overview_linechart_nutrition);
         mGraphTitle = (TextView) v.findViewById(R.id.overview_graph_title);
         mDiffWeight = (TextView) v.findViewById(R.id.last_diff_training);
@@ -86,53 +86,63 @@ public class OverviewFragment extends Fragment {
         mDaysCount = (TextView) v.findViewById(R.id.count_days);
         mDaysCount.setText(getResources().getQuantityString(R.plurals.days, DayStorage.get(getActivity()).getDays().size(), DayStorage.get(getActivity()).getDays().size()));
         mlinearlayoutLastDiff = (LinearLayout) v.findViewById(R.id.linearlayout_last_diff);
-        Day day = DayStorage.get(getActivity()).getDays().get(0);
-        Training lastTraining = TrainingStorage.get(getActivity()).getTraining(day.getTrainingId());
-        Training preLastTraining = null;
-        List<Day> days = DayStorage.get(getActivity()).getDays();
-        days.remove(0);
-        for(Day lDay : days) {
-            if(TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId()).equals(lastTraining)) {
-                preLastTraining = TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId());
-                break;
-            }
-
-        }
-        float lastAverageWeight = 0;
-        float preLastAverageWeight = 0;
-        float sum = 0;
-        int count = 0;
-        float preSum = 0;
-        int preCount = 0;
-        if(preLastTraining != null) {
-            for(Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentId(lastTraining.getId())) {
-                if(exercise.getParentDayId().equals(day.getId())) {
-                    sum += exercise.getWeight();
-                    count++;
-                } else if(exercise.getParentDayId().equals(days.get(0).getId())) {
-                    preSum += exercise.getWeight();
-                    preCount++;
+        mSummaryTrainingCardView = (CardView) v.findViewById(R.id.overview_summary_training_cardview);
+        if(DayStorage.get(getActivity()).getDays().size() != 0 ) {
+            Day day = DayStorage.get(getActivity()).getDays().get(0);
+            Training lastTraining = TrainingStorage.get(getActivity()).getTraining(day.getTrainingId());
+            Training preLastTraining = null;
+            List<Day> days = DayStorage.get(getActivity()).getDays();
+            days.remove(0);
+            for (Day lDay : days) {
+                Training training = TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId());
+                if (training != null) {
+                    if (training.equals(lastTraining)) {
+                        preLastTraining = training;
+                        break;
+                    }
                 }
+
             }
-            if(count != 0)
-                lastAverageWeight = ((float) ((int) ((sum / count) * 100)) / 100);
-            if(preCount != 0)
-                preLastAverageWeight = ((float) ((int) ((preSum / preCount) * 100)) / 100);
-        }
-        String diffWeight;
-        if(lastAverageWeight > preLastAverageWeight) {
-            mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
-            diffWeight = "+" + Float.toString(lastAverageWeight - preLastAverageWeight) + " " + getString(R.string.fragment_program_weight_hint);
-        } else if(lastAverageWeight < preLastAverageWeight){
-            mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
-            diffWeight = "-" + Float.toString(preLastAverageWeight - lastAverageWeight) + " " + getString(R.string.fragment_program_weight_hint);
+            float lastAverageWeight = 0;
+            float preLastAverageWeight = 0;
+            float sum = 0;
+            int count = 0;
+            float preSum = 0;
+            int preCount = 0;
+            if (preLastTraining != null) {
+                for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentId(lastTraining.getId())) {
+                    if (exercise.getParentDayId().equals(day.getId())) {
+                        sum += exercise.getWeight();
+                        count++;
+                    } else if (exercise.getParentDayId().equals(days.get(0).getId())) {
+                        preSum += exercise.getWeight();
+                        preCount++;
+                    }
+                }
+                if (count != 0)
+                    lastAverageWeight = ((float) ((int) ((sum / count) * 100)) / 100);
+                if (preCount != 0)
+                    preLastAverageWeight = ((float) ((int) ((preSum / preCount) * 100)) / 100);
+            }
+            String diffWeight;
+            if (lastAverageWeight > preLastAverageWeight) {
+                mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
+                diffWeight = "+" + Float.toString(lastAverageWeight - preLastAverageWeight) + " " + getString(R.string.fragment_program_weight_hint);
+            } else if (lastAverageWeight < preLastAverageWeight) {
+                mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
+                diffWeight = "-" + Float.toString(preLastAverageWeight - lastAverageWeight) + " " + getString(R.string.fragment_program_weight_hint);
+            } else {
+                diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
+                mDiffWeight.setVisibility(View.GONE);
+                mlinearlayoutLastDiff.setVisibility(View.GONE);
+            }
+            mDiffWeight.setText(diffWeight);
+
         } else {
-            diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
             mDiffWeight.setVisibility(View.GONE);
             mlinearlayoutLastDiff.setVisibility(View.GONE);
+            mSummaryTrainingCardView.setVisibility(View.GONE);
         }
-        mDiffWeight.setText(diffWeight);
-
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
@@ -141,7 +151,7 @@ public class OverviewFragment extends Fragment {
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
         lines = new ArrayList<>();
-        String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
+        String mode = sp.getString("graph_mode_list", getString(R.string.combined));
         String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
         graphEnabler(mode, overlappingSwap);
         mGraphs = new LineData(lines);
@@ -293,7 +303,7 @@ public class OverviewFragment extends Fragment {
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
-        String mode = sp.getString("graph_mode_list", getString(R.string.nutrition));
+        String mode = sp.getString("graph_mode_list", getString(R.string.combined));
         String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
         if(!graphIsEnabled)
             mGraphCardView.setVisibility(View.GONE);
