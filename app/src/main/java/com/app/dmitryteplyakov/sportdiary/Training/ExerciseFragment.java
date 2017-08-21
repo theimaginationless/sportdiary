@@ -35,8 +35,8 @@ public class ExerciseFragment extends Fragment {
 
     private Exercise mExercise;
     private static final String ARG_TRAINING_UUID = "com.app.exercisefragment.arg_training_uuid";
-    private static final int REQUEST_START_TIME = 12;
-    private static final int REQUEST_END_TIME = 13;
+    public static final int REQUEST_START_TIME = 12;
+    public static final int REQUEST_END_TIME = 13;
     private static final String DIALOG_TIME_PICKER = "com.app.exercisefragment.dialog_date_picker";
     private EditText mCountReplays;
     private EditText mCountApproach;
@@ -159,7 +159,7 @@ public class ExerciseFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.check_date_with_no_ended_exercise), Toast.LENGTH_SHORT).show();
                 } else {
                     FragmentManager manager = getFragmentManager();
-                    TimePickerFragment dialog = TimePickerFragment.newInstance(mExercise.getId());
+                    TimePickerFragment dialog = TimePickerFragment.newInstance(mExercise.getReserveId());
                     dialog.setTargetFragment(ExerciseFragment.this, REQUEST_END_TIME);
                     dialog.show(manager, DIALOG_TIME_PICKER);
                 }
@@ -172,7 +172,7 @@ public class ExerciseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                TimePickerFragment dialog = TimePickerFragment.newInstance(mExercise.getId());
+                TimePickerFragment dialog = TimePickerFragment.newInstance(mExercise.getReserveId());
                 dialog.setTargetFragment(ExerciseFragment.this, REQUEST_START_TIME);
                 dialog.show(manager, DIALOG_TIME_PICKER);
             }

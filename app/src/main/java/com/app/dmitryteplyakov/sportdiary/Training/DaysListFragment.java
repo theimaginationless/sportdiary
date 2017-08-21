@@ -58,6 +58,7 @@ public class DaysListFragment extends Fragment {
         mFAB = (FloatingActionButton) getActivity().findViewById(R.id.activity_common_fab_add);
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
         mEmptyTextView.setText(getString(R.string.fragment_days_list_empty_text));
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -93,7 +94,7 @@ public class DaysListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = ExerciseListActivity.newIntent(getActivity(), mDay.getId());
-            Log.d("DLF", "STARTLIST");
+            Log.d("DLF", "STARTLIST: DATE: " + mDay.getDate().toString());
             startActivityForResult(intent, REQUEST_DAYS_LIST_FRAGMENT);
         }
 
@@ -158,8 +159,16 @@ public class DaysListFragment extends Fragment {
                 long duration = (day.getEndDate().getTime() - day.getStartDate().getTime()) / 60000;
                 if(duration < 0)
                     holder.durationExercises.setText(getString(R.string.time_na));
-                else
-                    holder.durationExercises.setText(getResources().getQuantityString(R.plurals.minutes_plural, (int) duration, (int) duration));
+                else {
+                    //holder.durationExercises.setText(getResources().getQuantityString(R.plurals.minutes_plural, (int) duration, (int) duration));
+                    if(duration / 60 == 0)
+                        holder.durationExercises.setText(getResources().getQuantityString(R.plurals.minutes_plural, (int) duration, (int) duration));
+                    else {
+                        int hour = (int) duration / 60;
+                        int minute = (int) duration % 60;
+                        holder.durationExercises.setText(getResources().getQuantityString(R.plurals.hour_plural, hour, hour) + " " + getResources().getQuantityString(R.plurals.minutes_plural, minute, minute));
+                    }
+                }
             } else
                 holder.durationExercises.setText(getString(R.string.time_na));
             holder.setDay(day);

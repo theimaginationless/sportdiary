@@ -55,6 +55,18 @@
         <item quantity="few">%1$s минуты</item>
         <item quantity="other">%1$s минут</item>
     </plurals>
+    <plurals name="hour_plural">
+        <item quantity="zero">%1$s часов</item>
+        <item quantity="one">%1$s час</item>
+        <item quantity="few">%1$s часа</item>
+        <item quantity="other">%1$s часов</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="zero">%1$s дней</item>
+        <item quantity="one">%1$s день</item>
+        <item quantity="few">%1$s дня</item>
+        <item quantity="other">%1$s дней</item>
+    </plurals>
     <string name="time_na">0</string>
     <string name="check_date_with_no_ended_exercise">Сначала завершите упражнение!</string>
     <string name="fragment_program_weight_title">Вес: </string>
@@ -92,11 +104,6 @@
         <item>@string/training</item>
         <item>@string/combined</item>
     </string-array>
-    <string-array name="entry_values_mode">
-        <item>@string/nutrition</item>
-        <item>@string/training</item>
-        <item>@string/combined</item>
-    </string-array>
     <string name="settings_timer">Настройки интервального таймера</string>
     <string name="switch_timer_enable">Включить интервальный таймер</string>
     <string name="switch_timer_enable_desc">Включить возможность запуска интервального таймера во время выполнения упражнения</string>
@@ -121,5 +128,10 @@
         <item>@string/switch_overlapping_graphs_first_over_second</item>
         <item>@string/switch_overlapping_graphs_second_over_first</item>
     </string-array>
-
+    <string name="training_summary">Динамика тренировок</string>
+    <string name="training_summary_days_training_count">Вы тренируетесь:</string>
+    <string name="switch_on_graphs">Отображение графика</string>
+    <string name="switch_on_graphs_desc">Включить отображение графика в сводке</string>
+    <string name="training_summary_last_diff">Ср. разница в рабочем весе за два дня:</string>
+    <string name="training_summary_average_training_time">Ср. длительность тренировки:</string>
 </resources>

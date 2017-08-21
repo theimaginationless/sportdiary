@@ -91,6 +91,7 @@ public class NewDayFragment extends Fragment {
             for (Exercise exercise : exerciseList) {
                 exercise.setStartDate(new Date());
                 exercise.setEndDate(new Date());
+                exercise.setParentDayId(day.getId());
                 exercise.setReserveId(UUID.randomUUID());
                 exercise.setParentTrainingDayId(day.getId());
                 compExStorage.addExercise(exercise);

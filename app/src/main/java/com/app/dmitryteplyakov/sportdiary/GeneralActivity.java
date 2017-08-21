@@ -88,6 +88,7 @@ public class GeneralActivity extends AppCompatActivity {
                         intent = new Intent(GeneralActivity.this, SettingsActivity.class);
                         break;
                 }
+                mDrawerLayout.closeDrawer(Gravity.START);
                 if(intent != null) {
                     startActivity(intent);
                 }

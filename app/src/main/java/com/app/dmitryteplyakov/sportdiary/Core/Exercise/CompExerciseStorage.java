@@ -122,6 +122,25 @@ public class CompExerciseStorage {
         }
     }
 
+    public List<Exercise> getExercisesByParentId(UUID id) {
+        List<Exercise> exercises = new ArrayList<>();
+
+        ExerciseCursorWrapper cursor = queryExercises(ExerciseTable.Cols.PARENTUUID + " = ?",
+                new String[] { id.toString() }
+        );
+
+        try {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()) {
+                exercises.add(cursor.getExercise());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return exercises;
+    }
+
     public void addExercise(Exercise exercise) {
         ContentValues values = getContentValues(exercise);
         mDatabase.insert(ExerciseTable.NAME, null, values);
