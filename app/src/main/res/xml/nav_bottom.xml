@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/action_overview_tab"
+        icon="@drawable/ic_favorite_black_24px"
+        title="@string/action_overview_tab_title"/>
+    <tab
+        id="@+id/action_training_tab"
+        icon="@drawable/ic_fitness_center_black_24px"
+        title="@string/action_training_tab_title"/>
+    <tab
+        id="@+id/action_nutrition_tab"
+        icon="@drawable/ic_restaurant_black_24px"
+        title="@string/action_nutrition_tab_title"/>
+</tabs>

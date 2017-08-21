@@ -6,6 +6,7 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -41,6 +42,8 @@ import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
 import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesListActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -62,6 +65,7 @@ public class GeneralActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private TextView mUsernameTextView;
+    private BottomBar mBottomBar;
 
     protected Fragment createFragment() {
         return new OverviewFragment();
@@ -75,7 +79,7 @@ public class GeneralActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(GeneralActivity.this);
-
+        mBottomBar = (BottomBar) findViewById(R.id.bottom_bar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_general);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mUsernameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.username);
@@ -117,8 +121,26 @@ public class GeneralActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-        mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch(tabId) {
+                    case R.id.action_overview_tab:
+                        onOverviewTab();
+                        break;
+                    case R.id.action_training_tab:
+                        onTrainingTab();
+                        break;
+                    case R.id.action_nutrition_tab:
+                        onNutritionTab();
+                        break;
+                }
+            }
+        });
+
+        //mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
+        /*mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
@@ -134,9 +156,9 @@ public class GeneralActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        });*/
         //Todo: Fix drop list position after rotation
-        if(savedInstanceState != null) {
+        /*if(savedInstanceState != null) {
             TAB_STATE = savedInstanceState.getInt(SAVE_STATE);
             if(TAB_STATE == 0)
                 mBottomNavigationView.setSelectedItemId(R.id.action_overview_tab);
@@ -144,7 +166,26 @@ public class GeneralActivity extends AppCompatActivity {
                 mBottomNavigationView.setSelectedItemId(R.id.action_training_tab);
             else if(TAB_STATE == 2)
                 mBottomNavigationView.setSelectedItemId(R.id.action_nutrition_tab);
+        }*/
+        if(savedInstanceState != null) {
+            TAB_STATE = savedInstanceState.getInt(SAVE_STATE);
+            switch(TAB_STATE) {
+                case 0:
+                    mBottomBar.selectTabAtPosition(R.id.ac);
+                    break;
+                case 1:
+                    mBottomBar.selectTabAtPosition(TAB_STATE);
+                    break;
+                case 2:
+                    mBottomBar.selectTabAtPosition(TAB_STATE);
+                    break;
+                case 3:
+                    mBottomBar.selectTabAtPosition(TAB_STATE);
+                    break;
+            }
         }
+
+
     }
 
     private void onOverviewTab() {
