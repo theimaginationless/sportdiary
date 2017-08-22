@@ -226,10 +226,10 @@ public class WeightListFragment extends Fragment {
         mAdapter.setWeights(weights);
         if(isAdd) {
             mAdapter.notifyItemInserted(num);
-            mAdapter.notifyItemRangeChanged(num, weights.size());
+            mAdapter.notifyItemRangeChanged(num, weights.size() - 1);
         } else {
             mAdapter.notifyItemRemoved(num);
-            mAdapter.notifyItemRangeChanged(0, weights.size());
+            mAdapter.notifyItemRangeChanged(0, num);
         }
         if(weights.size() != 0){
             mEmptyTextView.setVisibility(View.GONE);
