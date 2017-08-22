@@ -112,6 +112,7 @@ public class GeneralActivity extends AppCompatActivity {
                 if(mIntentToSet != null) {
                     startActivity(mIntentToSet);
                 }
+                mIntentToSet = null;
             }
 
             @Override
