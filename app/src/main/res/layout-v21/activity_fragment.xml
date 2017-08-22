@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
     </FrameLayout>
     <android.support.design.widget.CoordinatorLayout
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:id="@+id/snackbar_place"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
