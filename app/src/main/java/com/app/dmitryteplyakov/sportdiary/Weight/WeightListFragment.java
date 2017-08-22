@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -83,6 +85,13 @@ public class WeightListFragment extends Fragment {
         return v;
     }
 
+    public void shortcutDialog() {
+        FragmentManager manager = getFragmentManager();
+        WeightPickerFragment weightDialog = new WeightPickerFragment();
+        weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
+        weightDialog.show(manager, DIALOG_WEIGHT);
+    }
+
     private class WeightHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private Weight mWeight;
         private TextView mDateTextView;
@@ -106,40 +115,44 @@ public class WeightListFragment extends Fragment {
             mWeightTextView.setText(Float.toString(mWeight.getValue()) + " " + getString(R.string.fragment_program_weight_hint));
             List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
             int index = weights.indexOf(weight);
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String target;
+            String stringDiff;
             if(index != weights.size() - 1) {
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String target = sp.getString("weight_target", getString(R.string.lose_weight));
-                String stringDiff = "0";
+
+                target = sp.getString("weight_target", getString(R.string.lose_weight));
+                stringDiff = "0";
                 Log.d("WLF", "TARGET: " + sp.getString("weight_target", getString(R.string.lose_weight)));
-                if(mWeight.getValue() > weights.get(index + 1).getValue()) {
-                    if(target.equals(getString(R.string.gain_weight))) {
+                if (mWeight.getValue() > weights.get(index + 1).getValue()) {
+                    if (target.equals(getString(R.string.gain_weight))) {
                         mWeightDiffTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
                         stringDiff = "+" + Float.toString(rounder(mWeight.getValue() - weights.get(index + 1).getValue()));
 
-                    } else if(target.equals(getString(R.string.lose_weight))) {
+                    } else if (target.equals(getString(R.string.lose_weight))) {
                         mWeightDiffTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
                         stringDiff = "+" + Float.toString(rounder(mWeight.getValue() - weights.get(index + 1).getValue()));
                     }
 
-                } else if(mWeight.getValue() < weights.get(index + 1).getValue()) {
-                    if(target.equals(getString(R.string.gain_weight))) {
+                } else if (mWeight.getValue() < weights.get(index + 1).getValue()) {
+                    if (target.equals(getString(R.string.gain_weight))) {
                         mWeightDiffTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
                         stringDiff = "-" + Float.toString(rounder(weights.get(index + 1).getValue() - mWeight.getValue()));
 
-                    } else if(target.equals(getString(R.string.lose_weight))) {
+                    } else if (target.equals(getString(R.string.lose_weight))) {
                         mWeightDiffTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
                         stringDiff = "-" + Float.toString(rounder(weights.get(index + 1).getValue() - mWeight.getValue()));
                     }
-                }
-                else
+                } else
                     mWeightDiffTextView.setVisibility(View.GONE);
                 mWeightDiffTextView.setText(stringDiff + " " + getString(R.string.fragment_program_weight_hint));
-            }
+            } else
+                mWeightDiffTextView.setVisibility(View.GONE);
         }
 
         private float rounder(float number) {
             return ((float) ((int) Math.round(number * 100))) / 100;
         }
+
 
         @Override
         public boolean onLongClick(View v) {
@@ -210,11 +223,14 @@ public class WeightListFragment extends Fragment {
     private void updateUI(boolean isAdd, int num) {
         List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
         Log.d("WLF", Integer.toString(weights.size()));
-            mAdapter.setWeights(weights);
-        if(isAdd)
+        mAdapter.setWeights(weights);
+        if(isAdd) {
             mAdapter.notifyItemInserted(num);
-        else
+            mAdapter.notifyItemRangeChanged(num, weights.size());
+        } else {
             mAdapter.notifyItemRemoved(num);
+            mAdapter.notifyItemRangeChanged(0, weights.size());
+        }
         if(weights.size() != 0){
             mEmptyTextView.setVisibility(View.GONE);
         } else {

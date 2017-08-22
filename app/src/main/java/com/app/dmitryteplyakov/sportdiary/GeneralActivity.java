@@ -95,7 +95,6 @@ public class GeneralActivity extends AppCompatActivity {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mUsernameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.username);
         mUsernameTextView.setText(sharedPreferences.getString("username_nav_draw", getString(R.string.username_default)));
-
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -137,9 +136,7 @@ public class GeneralActivity extends AppCompatActivity {
                         break;
                 }
                 mDrawerLayout.closeDrawer(Gravity.START);
-                /*if(intent != null) {
-                    startActivity(intent);
-                }*/
+
                 return true;
             }
         });

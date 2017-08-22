@@ -25,6 +25,8 @@ import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.Training;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.Weight.Weight;
+import com.app.dmitryteplyakov.sportdiary.Core.Weight.WeightStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -52,7 +54,9 @@ public class OverviewFragment extends Fragment {
     private ArrayList<String> labels;
     private SharedPreferences sp;
     private LineData mGraphs;
+    private LineData mWeightGraph;
     private ArrayList<ILineDataSet> lines;
+    private ArrayList<ILineDataSet> linesWeight;
     private TextView mGraphTitle;
     private static boolean isTriggered;
     private static LineDataSet tempSet;
@@ -61,16 +65,57 @@ public class OverviewFragment extends Fragment {
     private TextView mDiffWeight;
     private LinearLayout mlinearlayoutLastDiff;
     private CardView mSummaryTrainingCardView;
+    private LineChart mWeightLineChart;
+    private CardView mGraphWeightCardView;
+    private TextView mGraphWeightTitle;
 
+
+    private void drawWeightCard(View v) {
+        Log.d("OF", "UPDATE WEIGHT GRAPH");
+        linesWeight = new ArrayList<>();
+        mWeightLineChart = (LineChart) v.findViewById(R.id.overview_linechart_weight);
+        mWeightLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        mWeightLineChart.getAxisRight().setDrawGridLines(false);
+        mWeightLineChart.setScaleEnabled(false);
+        mWeightLineChart.setDrawGridBackground(false);
+        mWeightLineChart.getXAxis().setDrawAxisLine(false);
+        mWeightLineChart.getAxisLeft().setEnabled(false);
+        mWeightLineChart.getAxisRight().setEnabled(false);
+        mWeightLineChart.getXAxis().setGranularity(1f);
+        mWeightLineChart.getXAxis().setGranularityEnabled(true);
+        mWeightLineChart.getAxisLeft().setGranularityEnabled(true);
+        mWeightLineChart.getAxisLeft().setGranularity(1f);
+        mWeightLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
+        mWeightLineChart.getXAxis().setDrawGridLines(false);
+        mWeightLineChart.getLegend().setEnabled(sp.getBoolean("switch_on_legend_weight", true));
+        mWeightLineChart.setTouchEnabled(false);
+        linesWeight.add(getWeightGraph(255));
+        Description desc = new Description();
+        desc.setText(getString(R.string.fragment_program_weight_hint));
+        desc.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        mWeightLineChart.setDescription(desc);
+        mWeightGraph = new LineData(linesWeight);
+        mWeightLineChart.setData(mWeightGraph);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
+        sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
+        mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
+        mGraphWeightTitle = (TextView) v.findViewById(R.id.overview_weight_title);
+        if(sp.getBoolean("switch_on_graph_weight", true))
+            drawWeightCard(v);
+
         mGraphCardView = (CardView) v.findViewById(R.id.overview_linechart_nutrition_host_card_view);
         mLineChart = (LineChart) v.findViewById(R.id.overview_linechart_nutrition);
         mGraphTitle = (TextView) v.findViewById(R.id.overview_graph_title);
         mDiffWeight = (TextView) v.findViewById(R.id.last_diff_training);
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        mLineChart.setTouchEnabled(false);
+
         mLineChart.getAxisRight().setDrawGridLines(false);
         mLineChart.setScaleEnabled(false);
         mLineChart.setDrawGridBackground(false);
@@ -144,7 +189,7 @@ public class OverviewFragment extends Fragment {
             mSummaryTrainingCardView.setVisibility(View.GONE);
         }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
         if(!graphIsEnabled)
             mGraphCardView.setVisibility(View.GONE);
@@ -160,9 +205,11 @@ public class OverviewFragment extends Fragment {
         mLineChart.animateY(600);
         Description description = new Description();
         description.setText(getString(R.string.fragment_program_energy_hint));
+        description.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         mLineChart.setDescription(description);
         return v;
     }
+
 
     public void graphEnabler(String mode, String overlappingSwap) {
         lines = new ArrayList<>();
@@ -193,6 +240,62 @@ public class OverviewFragment extends Fragment {
         }
         mGraphs = new LineData(lines);
         mLineChart.setData(mGraphs);
+    }
+
+    public LineDataSet getWeightGraph(int alpha) {
+        ArrayList<Entry> entries = new ArrayList<>();
+        labels = new ArrayList<>();
+        List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
+        boolean skipFlag;
+        int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        for(int j = 0; j < 7; j++) {
+            skipFlag = false;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            int day = calendar.get(Calendar.DAY_OF_MONTH) - j;
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            Calendar date = Calendar.getInstance();
+            for (Weight weight : weights) {
+                date.setTime(weight.getDate());
+                if(date.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
+                    Log.d("OF", "CUR DATE: " + dateFormatter.format(weight.getDate()) + " VAL: " + Float.toString(weight.getValue()));
+                    labels.add(dateFormatter.format(weight.getDate()));
+                    entries.add(new Entry(6 - j, weight.getValue()));
+                    skipFlag = true;
+                    break;
+                }
+            }
+            if(skipFlag)
+                continue;
+            labels.add(dateFormatter.format(calendar.getTime()));
+            entries.add(new Entry(6 - j, 0));
+        }
+        Collections.reverse(entries);
+        Collections.reverse(labels);
+
+        LineDataSet dataset = new LineDataSet(entries, getString(R.string.action_weight_tab_title));
+        dataset.setFillColor(color);
+        dataset.setColor(color);
+        dataset.setCircleColorHole(color);
+        dataset.setFillAlpha(alpha);
+        dataset.setHighlightEnabled(false);
+        dataset.setValueTextSize(10f);
+        dataset.setDrawFilled(true);
+        mWeightLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axisBase) {
+                if(value < 0)
+                    return "";
+                else if(value == 0) {
+                    return labels.get(0);
+                } else {
+                    return labels.get((int) (value));
+                }
+            }
+        });
+        dataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        return dataset;
     }
 
 
@@ -299,7 +402,7 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
@@ -309,7 +412,12 @@ public class OverviewFragment extends Fragment {
             mGraphCardView.setVisibility(View.GONE);
         else
             mGraphCardView.setVisibility(View.VISIBLE);
+        if(!sp.getBoolean("switch_on_graph_weight", true))
+            mGraphWeightCardView.setVisibility(View.GONE);
+        else
+            mGraphWeightCardView.setVisibility(View.VISIBLE);
         graphEnabler(mode, overlappingSwap);
+        drawWeightCard(getView());
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
 

@@ -36,7 +36,37 @@
                     android:id="@+id/overview_linechart_nutrition"
                     android:layout_marginTop="16dp"
                     android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
 
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:id="@+id/overview_linechart_weight_host_card_view"
+                                            app:cardElevation="2dp"
+                                            app:cardUseCompatPadding="true"
+                                            android:layout_marginLeft="-3dp"
+                                            android:layout_marginRight="-3dp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="vertical"
+                          android:padding="16dp"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/overview_weight_title"
+                    android:text="@string/overview_weight_title"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/overview_linechart_weight"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
                     android:layout_height="200dp"/>
 
             </LinearLayout>

@@ -140,12 +140,17 @@
     <string name="settings_personal_target_desc">Набрать или сбросить вес</string>
     <string name="training_summary">Динамика тренировок</string>
     <string name="training_summary_days_training_count">Вы тренируетесь:</string>
-    <string name="switch_on_graphs">Отображение графика</string>
-    <string name="switch_on_graphs_desc">Включить отображение графика в сводке</string>
+    <string name="switch_on_graphs">Отображение графика калорий</string>
+    <string name="switch_on_graphs_desc">Включить отображение графика калорий в сводке</string>
+    <string name="switch_on_graph_weight">Отображение графика веса</string>
+    <string name="switch_on_graph_weight_desc">Включить отображение графика веса в сводке</string>
     <string name="training_summary_last_diff">Ср. разница в рабочем весе за два дня:</string>
     <string name="training_summary_average_training_time">Ср. длительность тренировки:</string>
     <string name="action_weight_tab_title">Вес</string>
     <string name="snackbar_already_training">Вы сегодня уже тренировались</string>
     <string name="snackbar_already_nutrition">Текущий день уже присутствует</string>
     <string name="weight_hint_dialog">Ваш вес</string>
+    <string name="overview_weight_title">Динамика веса</string>
+
+    <string name="settings_graph_weight">Настройки графика веса</string>
 </resources>

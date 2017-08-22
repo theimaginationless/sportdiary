@@ -31,4 +31,17 @@
             android:entryValues="@array/entries_graphs_ovelapping_mode"
             android:key="overlappingSwap"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_graph_weight">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch_on_graph_weight"
+            android:summary="@string/switch_on_graph_weight_desc"
+            android:title="@string/switch_on_graph_weight"/>
+        <SwitchPreference
+            android:dependency="switch_on_graph_weight"
+            android:defaultValue="true"
+            android:key="switch_on_legend_weight"
+            android:summary="@string/switch_on_legend_desc"
+            android:title="@string/switch_on_legend"/>
+    </PreferenceCategory>
 </PreferenceScreen>
