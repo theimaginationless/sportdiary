@@ -76,6 +76,7 @@ public class GeneralActivity extends AppCompatActivity {
     private NavigationView mNavigationView;
     private TextView mUsernameTextView;
     private BottomBar mBottomBar;
+    private Intent mIntentToSet;
 
     protected Fragment createFragment() {
         return new OverviewFragment();
@@ -94,25 +95,50 @@ public class GeneralActivity extends AppCompatActivity {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mUsernameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.username);
         mUsernameTextView.setText(sharedPreferences.getString("username_nav_draw", getString(R.string.username_default)));
+
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                if(mIntentToSet != null) {
+                    startActivity(mIntentToSet);
+                }
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 Intent intent = null;
                 switch (menuItem.getItemId()) {
                     case R.id.programs:
-                        intent = new Intent(GeneralActivity.this, ProgramsListActivity.class);
+                        mIntentToSet = new Intent(GeneralActivity.this, ProgramsListActivity.class);
                         break;
                     case R.id.timer_templates:
-                        intent = new Intent(GeneralActivity.this, TimerTemplatesListActivity.class);
+                        mIntentToSet = new Intent(GeneralActivity.this, TimerTemplatesListActivity.class);
                         break;
                     case R.id.settings:
-                        intent = new Intent(GeneralActivity.this, SettingsActivity.class);
+                        mIntentToSet = new Intent(GeneralActivity.this, SettingsActivity.class);
                         break;
                 }
                 mDrawerLayout.closeDrawer(Gravity.START);
-                if(intent != null) {
+                /*if(intent != null) {
                     startActivity(intent);
-                }
+                }*/
                 return true;
             }
         });
