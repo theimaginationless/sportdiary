@@ -1,6 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary.Nutrition;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,10 +26,15 @@ import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,10 +49,14 @@ public class NutritionDaysListFragment extends Fragment {
     private FloatingActionButton mFab;
     private static final int REQUEST_DELETE_DAY = 15;
     private static final String DIALOG_DELETE_DAY = "com.app.nutritiondayslistfragment.dialog_delete_day";
+    private BottomBar mBottomBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_days_list, container, false);
+        mBottomBar = (BottomBar) getActivity().findViewById(R.id.bottom_bar);
+
+
         mFab = (FloatingActionButton) getActivity().findViewById(R.id.activity_common_fab_add);
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
         mEmptyTextView.setText(getString(R.string.fragment_nutrition_days_empty_text));
@@ -126,6 +136,17 @@ public class NutritionDaysListFragment extends Fragment {
 
     }
 
+    public static boolean isDoneToday(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return (NutritionDayStorage.get(context).getNutritionDayByDate(calendar.getTime()) == null);
+
+    }
+
     private class NutritionDayAdapter extends RecyclerView.Adapter<NutritionDayHolder> {
         private List<NutritionDay> mNutritionDays;
 
@@ -189,12 +210,30 @@ public class NutritionDaysListFragment extends Fragment {
         if (!mRecyclerView.canScrollVertically(1)) {
             mFab.show();
         }
+        updateBadge();
+    }
+
+    private void updateBadge() {
+        BottomBarTab nutrition = mBottomBar.getTabWithId(R.id.action_nutrition_tab);
+        if(isDoneToday(getActivity())) {
+            nutrition.setBadgeCount(1);
+            try {
+                Field badgeFieldDefinition = nutrition.getClass().getDeclaredField("badge");
+                badgeFieldDefinition.setAccessible(true);
+                TextView badgeTextView = (TextView) badgeFieldDefinition.get(nutrition);
+                badgeTextView.setText("");
+            } catch(NoSuchFieldException | IllegalAccessException e) {
+                Log.d("NDLF", "Exception", e);
+            }
+        } else
+            nutrition.setBadgeCount(0);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         updateUI();
+        updateBadge();
     }
 
     @Override

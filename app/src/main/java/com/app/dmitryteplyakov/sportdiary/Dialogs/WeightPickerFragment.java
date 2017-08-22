@@ -21,38 +21,39 @@ import com.app.dmitryteplyakov.sportdiary.R;
 import java.util.UUID;
 
 /**
- * Created by Dmitry on 27.07.2017.
+ * Created by dmitry21 on 22.08.17.
  */
 
-public class TitlePickerFragment extends DialogFragment {
-    private static final String ARG_TRAINING_UUID = "com.app.arg_training_uuid";
-    public static final String EXTRA_NEW_TRAINING_UUID = "com.app.extra_new_training_uuid";
+public class WeightPickerFragment extends DialogFragment {
+    public static final String EXTRA_NEW_WEIGHT = "com.app.extra_new_weight";
 
-    private EditText mTitleEditText;
-    private Training training;
+    private EditText mWeightEditText;
+    private float mWeight;
 
-    public static TitlePickerFragment newInstance(UUID id) {
+    /*public static TitlePickerFragment newInstance(UUID id) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_TRAINING_UUID, id);
         TitlePickerFragment fragment = new TitlePickerFragment();
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_titlepicker, null);
-        training = TrainingStorage.get(getActivity()).getTraining((UUID) getArguments().getSerializable(ARG_TRAINING_UUID));
-        mTitleEditText = (EditText) v.findViewById(R.id.training_title_picker_edit_text);
-        mTitleEditText.setText(training.getTitle());
-        mTitleEditText.addTextChangedListener(new TextWatcher() {
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_weightpicker, null);
+
+        mWeightEditText = (EditText) v.findViewById(R.id.weight_picker_edit_text);
+        mWeightEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
                 //
             }
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
-                training.setTitle(c.toString());
+                if(count != 0)
+                    mWeight = Float.parseFloat(c.toString());
+                else
+                    mWeight = 0;
             }
             @Override
             public void afterTextChanged(Editable c) {
@@ -65,12 +66,10 @@ public class TitlePickerFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(training.getTitle() == null) {
-                            int num = TrainingStorage.get(getActivity()).getTrainings().indexOf(training) + 1;
-                            training.setTitle(getString(R.string.training_no_title) + " " + Integer.toString(num));
-                        }
-                        TrainingStorage.get(getActivity()).updateTraining(training);
-                        sendResult(Activity.RESULT_OK);
+                        if(mWeight != 0)
+                            sendResult(Activity.RESULT_OK);
+                        else
+                            sendResult(Activity.RESULT_CANCELED);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -83,16 +82,18 @@ public class TitlePickerFragment extends DialogFragment {
     }
 
     private void sendResult(int resultCode) {
+        Log.d("WPF", Boolean.toString(getTargetFragment() == null));
+
         if(getTargetFragment() == null) return;
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_NEW_TRAINING_UUID, training.getId());
+        intent.putExtra(EXTRA_NEW_WEIGHT, mWeight);
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
     @Override
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
-        Log.d("TPF", "CANCEL");
+        Log.d("WPF", "CANCEL");
         sendResult(Activity.RESULT_CANCELED);
     }
 }

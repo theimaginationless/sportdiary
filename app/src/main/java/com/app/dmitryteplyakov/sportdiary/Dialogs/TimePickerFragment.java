@@ -1,5 +1,6 @@
 package com.app.dmitryteplyakov.sportdiary.Dialogs;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.CompExerciseStorage;

@@ -1,5 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary.Core.Exercise;
 
+import android.util.Log;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
@@ -132,7 +134,8 @@ public class Exercise implements Comparable<Exercise> {
     }
 
     public void setWeight(float weight) {
-        this.weight = (float) ((int) Math.round(weight * 100))/100;
+        this.weight = ((float) ((int) Math.round(weight * 100))) / 100;
+        Log.d("Core EX", Float.toString(this.weight));
     }
 
     public String toString() {

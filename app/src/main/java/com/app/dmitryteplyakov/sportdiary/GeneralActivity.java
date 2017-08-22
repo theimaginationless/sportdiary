@@ -1,5 +1,6 @@
 package com.app.dmitryteplyakov.sportdiary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ShortcutInfo;
@@ -17,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.pm.ShortcutManagerCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
@@ -34,6 +36,10 @@ import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.Weight.Weight;
+import com.app.dmitryteplyakov.sportdiary.Core.Weight.WeightStorage;
+import com.app.dmitryteplyakov.sportdiary.Dialogs.TitlePickerFragment;
+import com.app.dmitryteplyakov.sportdiary.Dialogs.WeightPickerFragment;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionDaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListActivity;
 import com.app.dmitryteplyakov.sportdiary.Overview.OverviewFragment;
@@ -42,7 +48,9 @@ import com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity;
 import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesListActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
+import com.app.dmitryteplyakov.sportdiary.Weight.WeightListFragment;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.lang.reflect.Field;
@@ -50,6 +58,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
+
+import static com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionDaysListFragment.isDoneToday;
 
 public class GeneralActivity extends AppCompatActivity {
 
@@ -77,9 +87,9 @@ public class GeneralActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragment);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(GeneralActivity.this);
         mBottomBar = (BottomBar) findViewById(R.id.bottom_bar);
+        checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_general);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mUsernameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.username);
@@ -136,9 +146,10 @@ public class GeneralActivity extends AppCompatActivity {
                         onNutritionTab();
                         break;
                     case R.id.action_weight_tab:
-                        //
+                        onWeightTab();
                         break;
                 }
+                checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
             }
         });
 
@@ -186,15 +197,38 @@ public class GeneralActivity extends AppCompatActivity {
                     mBottomBar.selectTabWithId(R.id.action_weight_tab);
                     break;
             }
+            checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
         }
 
 
+    }
+    private void checkBadges(int ... tabRes) {
+        for(int res : tabRes) {
+            BottomBarTab tab = mBottomBar.getTabWithId(res);
+            boolean check = false;
+            if(res == R.id.action_nutrition_tab)
+                check = NutritionDaysListFragment.isDoneToday(this);
+            else if(res == R.id.action_weight_tab)
+                check = WeightListFragment.isDoneToday(this);
+            if (check) {
+                tab.setBadgeCount(1);
+                try {
+                    Field badgeFieldDefinition = tab.getClass().getDeclaredField("badge");
+                    badgeFieldDefinition.setAccessible(true);
+                    TextView badgeTextView = (TextView) badgeFieldDefinition.get(tab);
+                    badgeTextView.setText("");
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    Log.d("NDLF", "Exception", e);
+                }
+            } else
+                tab.setBadgeCount(0);
+        }
     }
 
     private void onOverviewTab() {
         TAB_STATE = 0;
         Fragment fragment = new OverviewFragment();
-        //mFab.hide();
+        mFab.hide();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
@@ -226,7 +260,7 @@ public class GeneralActivity extends AppCompatActivity {
                         Intent intent = NewDayActivity.newIntent(GeneralActivity.this, day.getId());
                         startActivityForResult(intent, REQUEST_ADD_DAY);
                     } else
-                        Snackbar.make(findViewById(R.id.snackbar_place), "Вы сегодня уже тренировались", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.snackbar_already_training), Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -251,9 +285,29 @@ public class GeneralActivity extends AppCompatActivity {
                     startActivity(intent);
                     //Todo: To strings.xml
                 } else
-                    Snackbar.make(findViewById(R.id.snackbar_place), "Этот день уже присутствует!", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.snackbar_already_nutrition), Snackbar.LENGTH_SHORT).show();
             }
         });
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    private void onWeightTab() {
+        TAB_STATE = 3;
+        Fragment fragment = new WeightListFragment();
+        mFab.show();
+        /*mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Weight weight = new Weight();
+                WeightStorage.get(GeneralActivity.this).addWeight(weight);
+                Intent intent;
+                intent = NutritionListActivity.newIntent(GeneralActivity.this, weight.getId());
+                startActivity(intent);
+
+            }
+        });*/
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
@@ -283,4 +337,6 @@ public class GeneralActivity extends AppCompatActivity {
         else
             super.onBackPressed();
     }
+
+
 }

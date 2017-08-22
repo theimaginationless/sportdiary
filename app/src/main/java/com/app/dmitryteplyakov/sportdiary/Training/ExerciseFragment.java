@@ -146,9 +146,11 @@ public class ExerciseFragment extends Fragment {
         });
 
         mCountReplays = (EditText) v.findViewById(R.id.fragment_using_exercise_count_replays_edit_text);
-        mCountReplays.setText(Integer.toString(mExercise.getReplays()));
+        if(mExercise.getReplays() != 0)
+            mCountReplays.setText(Integer.toString(mExercise.getReplays()));
         mCountApproach = (EditText) v.findViewById(R.id.fragment_using_exercise_count_approach_edit_text);
-        mCountApproach.setText(Integer.toString(mExercise.getApproach()));
+        if(mExercise.getApproach() != 0)
+            mCountApproach.setText(Integer.toString(mExercise.getApproach()));
         format = new SimpleDateFormat("HH:mm");
         mEndDateButton = (Button) v.findViewById(R.id.fragment_using_exercise_end_date_training_button);
         mEndDateButton.setText(format.format(mExercise.getEndDate()));
@@ -181,18 +183,22 @@ public class ExerciseFragment extends Fragment {
             mEndDateButton.setText(getString(R.string.fragment_using_exercise_end_training_waiting));
         }
         mEndExerciseButton = (Button) v.findViewById(R.id.fragment_using_exercise_end_training_button);
-        mEndExerciseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!mExercise.isAlreadyEnded()) {
+        if(!mExercise.isAlreadyEnded()) {
+            mEndExerciseButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //if (!mExercise.isAlreadyEnded()) {
                     mExercise.setEndDate(new Date());
                     mExercise.setAlreadyEnded(true);
                     CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
+                    mEndExerciseButton.setEnabled(!mExercise.isAlreadyEnded());
                     mEndDateButton.setText(format.format(mExercise.getEndDate()));
-                } else
-                    Snackbar.make(((AppCompatActivity) getActivity()).findViewById(R.id.common_fragment_container), getString(R.string.fragment_using_exercise_already_ended_snackbar), Snackbar.LENGTH_LONG).show();
-            }
-        });
+                    //} else
+                    //    Snackbar.make(((AppCompatActivity) getActivity()).findViewById(R.id.common_fragment_container), getString(R.string.fragment_using_exercise_already_ended_snackbar), Snackbar.LENGTH_LONG).show();
+                }
+            });
+        } else
+            mEndExerciseButton.setEnabled(!mExercise.isAlreadyEnded());
         return v;
     }
 

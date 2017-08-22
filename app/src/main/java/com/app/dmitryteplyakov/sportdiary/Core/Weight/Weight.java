@@ -35,7 +35,7 @@ public class Weight implements Comparable<Weight> {
     }
 
     public void setValue(float value) {
-        mValue = (((float) ((int) (value * 100))) / 100);;
+        mValue = (((float) ((int) Math.round(value * 100))) / 100);
     }
 
     public UUID getId() {

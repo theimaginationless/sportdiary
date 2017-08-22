@@ -20,6 +20,7 @@ import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramExerciseListFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.app.dmitryteplyakov.sportdiary.Weight.WeightListFragment;
 
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class DeleteFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v  = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_delete, null);
         UUID id = (UUID) getArguments().getSerializable(ARG_TRAINING_UUID_DELETE);
+        Log.d("DF", "CATCH: " + id.toString());
         mTitleTraining = (TextView) v.findViewById(R.id.delete_dialog_training_title);
         String alertString;
         countOfDays = DayStorage.get(getActivity()).getDaysByTrainingId((UUID) getArguments().getSerializable(ARG_TRAINING_UUID_DELETE)).size();
@@ -67,6 +69,8 @@ public class DeleteFragment extends DialogFragment {
             dialogTitle = ExerciseStorage.get(getActivity()).getExercise(id).getTitle();
         } else if(getTargetRequestCode() == NutritionListFragment.REQUEST_DELETE_NUTRITION)
             dialogTitle = NutritionStorage.get(getActivity()).getNutrition(id).getProductTitle();
+        else if(getTargetRequestCode() == WeightListFragment.REQUEST_WEIGHT_DELETE)
+            dialogTitle = getString(R.string.confirm_delete_training_dialog);
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(dialogTitle)
@@ -86,6 +90,7 @@ public class DeleteFragment extends DialogFragment {
         Intent data = null;
         if(resultCode == Activity.RESULT_OK) {
             UUID id = (UUID) getArguments().getSerializable(ARG_TRAINING_UUID_DELETE);
+            Log.d("DF", "SEND: " + id.toString());
             data = new Intent();
             data.putExtra(EXTRA_RETURN_DELETE_UUID, id);
         }

@@ -120,17 +120,17 @@ public class OverviewFragment extends Fragment {
                     }
                 }
                 if (count != 0)
-                    lastAverageWeight = ((float) ((int) ((sum / count) * 100)) / 100);
+                    lastAverageWeight = ((float) ((int) Math.round((sum / count) * 100))) / 100;
                 if (preCount != 0)
-                    preLastAverageWeight = ((float) ((int) ((preSum / preCount) * 100)) / 100);
+                    preLastAverageWeight = ((float) ((int) Math.round((preSum / preCount) * 100))) / 100;
             }
             String diffWeight;
             if (lastAverageWeight > preLastAverageWeight) {
                 mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
-                diffWeight = "+" + Float.toString(lastAverageWeight - preLastAverageWeight) + " " + getString(R.string.fragment_program_weight_hint);
+                diffWeight = "+" + Float.toString(((float) Math.round((lastAverageWeight - preLastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
             } else if (lastAverageWeight < preLastAverageWeight) {
                 mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
-                diffWeight = "-" + Float.toString(preLastAverageWeight - lastAverageWeight) + " " + getString(R.string.fragment_program_weight_hint);
+                diffWeight = "-" + Float.toString(((float) Math.round((preLastAverageWeight - lastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
             } else {
                 diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
                 mDiffWeight.setVisibility(View.GONE);

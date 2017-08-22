@@ -11,6 +11,7 @@ import com.app.dmitryteplyakov.sportdiary.database.Weight.WeightCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +74,7 @@ public class WeightStorage {
         } finally {
             cursor.close();
         }
+        Collections.reverse(weights);
         return weights;
     }
 
@@ -97,6 +99,7 @@ public class WeightStorage {
         );
 
         try {
+            cursor.moveToFirst();
             while(!cursor.isAfterLast()) {
                 weights.add(cursor.getWeight());
                 cursor.moveToNext();
@@ -104,7 +107,8 @@ public class WeightStorage {
         } finally {
             cursor.close();
         }
-
+        if(cursor.getCount() == 0) return null;
+        Collections.reverse(weights);
         return weights;
     }
 
@@ -129,6 +133,12 @@ public class WeightStorage {
     public void updateWeight(Weight weight) {
         ContentValues values = getContentValues(weight);
         mDatabase.update(WeightTable.NAME, values, WeightTable.Cols.UUID + " = ?",
+                new String[] { weight.getId().toString() }
+        );
+    }
+
+    public void deleteWeight(Weight weight) {
+        mDatabase.delete(WeightTable.NAME, WeightTable.Cols.UUID + " = ?",
                 new String[] { weight.getId().toString() }
         );
     }

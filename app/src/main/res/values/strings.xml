@@ -128,6 +128,16 @@
         <item>@string/switch_overlapping_graphs_first_over_second</item>
         <item>@string/switch_overlapping_graphs_second_over_first</item>
     </string-array>
+    <string-array name="entries_personal_target">
+        <item>@string/lose_weight</item>
+        <item>@string/gain_weight</item>
+    </string-array>
+    <string name="weight">Целевой вес</string>
+    <string name="weight_desc">Вес, к которому Вы стремитесь</string>
+    <string name="lose_weight">Сбросить вес</string>
+    <string name="gain_weight">Набрать вес</string>
+    <string name="settings_personal_target">Цель</string>
+    <string name="settings_personal_target_desc">Набрать или сбросить вес</string>
     <string name="training_summary">Динамика тренировок</string>
     <string name="training_summary_days_training_count">Вы тренируетесь:</string>
     <string name="switch_on_graphs">Отображение графика</string>
@@ -135,4 +145,7 @@
     <string name="training_summary_last_diff">Ср. разница в рабочем весе за два дня:</string>
     <string name="training_summary_average_training_time">Ср. длительность тренировки:</string>
     <string name="action_weight_tab_title">Вес</string>
+    <string name="snackbar_already_training">Вы сегодня уже тренировались</string>
+    <string name="snackbar_already_nutrition">Текущий день уже присутствует</string>
+    <string name="weight_hint_dialog">Ваш вес</string>
 </resources>

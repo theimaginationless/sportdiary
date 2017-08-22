@@ -11,10 +11,18 @@
                             android:digits="0123456789"
                             android:inputType="numberDecimal"
                             android:key="age"/>
-        <EditTextPreference android:title="@string/growth"
-                            android:summary="@string/growth_desc"
-                            android:digits="0123456789"
+        <ListPreference
+            android:defaultValue="@string/lose_weight"
+            android:entries="@array/entries_personal_target"
+            android:entryValues="@array/entries_personal_target"
+            android:key="weight_target"
+            android:title="@string/settings_personal_target"
+            android:summary="@string/settings_personal_target_desc">
+        </ListPreference>
+        <EditTextPreference android:title="@string/weight"
+                            android:summary="@string/weight_desc"
                             android:inputType="numberDecimal"
-                            android:key="growth"/>
+                            android:defaultValue="0"
+                            android:key="weight_target_value"/>
     </PreferenceCategory>
 </PreferenceScreen>

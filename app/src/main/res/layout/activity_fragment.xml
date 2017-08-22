@@ -13,12 +13,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
         <FrameLayout
             android:id="@+id/fragment_container"
-            android:layout_marginBottom="56dp"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </FrameLayout>
         <android.support.design.widget.CoordinatorLayout
-            android:layout_marginBottom="56dp"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:id="@+id/snackbar_place"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
+            app:bb_badgesHideWhenActive="false"
             app:bb_tabXmlResource="@xml/nav_bottom"/>
 
         <include layout="@layout/toolbar"/>
