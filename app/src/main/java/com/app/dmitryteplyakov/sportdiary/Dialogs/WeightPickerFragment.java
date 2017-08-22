@@ -12,13 +12,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.app.dmitryteplyakov.sportdiary.Core.Training.Training;
-import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
 
-import java.util.UUID;
 
 /**
  * Created by dmitry21 on 22.08.17.
@@ -30,13 +28,6 @@ public class WeightPickerFragment extends DialogFragment {
     private EditText mWeightEditText;
     private float mWeight;
 
-    /*public static TitlePickerFragment newInstance(UUID id) {
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_TRAINING_UUID, id);
-        TitlePickerFragment fragment = new TitlePickerFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }*/
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -62,7 +53,7 @@ public class WeightPickerFragment extends DialogFragment {
         });
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle(R.string.training_title)
+                .setTitle(R.string.action_weight_tab_title)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

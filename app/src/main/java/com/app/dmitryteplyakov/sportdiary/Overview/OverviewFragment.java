@@ -58,8 +58,6 @@ public class OverviewFragment extends Fragment {
     private ArrayList<ILineDataSet> lines;
     private ArrayList<ILineDataSet> linesWeight;
     private TextView mGraphTitle;
-    private static boolean isTriggered;
-    private static LineDataSet tempSet;
     private CardView mGraphCardView;
     private TextView mDaysCount;
     private TextView mDiffWeight;
@@ -67,11 +65,8 @@ public class OverviewFragment extends Fragment {
     private CardView mSummaryTrainingCardView;
     private LineChart mWeightLineChart;
     private CardView mGraphWeightCardView;
-    private TextView mGraphWeightTitle;
-
 
     private void drawWeightCard(View v) {
-        Log.d("OF", "UPDATE WEIGHT GRAPH");
         linesWeight = new ArrayList<>();
         mWeightLineChart = (LineChart) v.findViewById(R.id.overview_linechart_weight);
         mWeightLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -104,7 +99,6 @@ public class OverviewFragment extends Fragment {
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
-        mGraphWeightTitle = (TextView) v.findViewById(R.id.overview_weight_title);
         if(sp.getBoolean("switch_on_graph_weight", true))
             drawWeightCard(v);
 
@@ -200,7 +194,6 @@ public class OverviewFragment extends Fragment {
         String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
         graphEnabler(mode, overlappingSwap);
         mGraphs = new LineData(lines);
-        Log.d("INOF", "CALL");
         mLineChart.setData(mGraphs);
         mLineChart.animateY(600);
         Description description = new Description();
@@ -259,7 +252,6 @@ public class OverviewFragment extends Fragment {
             for (Weight weight : weights) {
                 date.setTime(weight.getDate());
                 if(date.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
-                    Log.d("OF", "CUR DATE: " + dateFormatter.format(weight.getDate()) + " VAL: " + Float.toString(weight.getValue()));
                     labels.add(dateFormatter.format(weight.getDate()));
                     entries.add(new Entry(6 - j, weight.getValue()));
                     skipFlag = true;
@@ -402,7 +394,6 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
         mLineChart.getLegend().setEnabled(legendSwitch);
