@@ -135,6 +135,9 @@ public class GeneralActivity extends AppCompatActivity {
                     case R.id.action_nutrition_tab:
                         onNutritionTab();
                         break;
+                    case R.id.action_weight_tab:
+                        //
+                        break;
                 }
             }
         });
@@ -171,16 +174,16 @@ public class GeneralActivity extends AppCompatActivity {
             TAB_STATE = savedInstanceState.getInt(SAVE_STATE);
             switch(TAB_STATE) {
                 case 0:
-                    mBottomBar.selectTabAtPosition(R.id.ac);
+                    mBottomBar.selectTabWithId(R.id.action_overview_tab);
                     break;
                 case 1:
-                    mBottomBar.selectTabAtPosition(TAB_STATE);
+                    mBottomBar.selectTabWithId(R.id.action_training_tab);
                     break;
                 case 2:
-                    mBottomBar.selectTabAtPosition(TAB_STATE);
+                    mBottomBar.selectTabWithId(R.id.action_nutrition_tab);
                     break;
                 case 3:
-                    mBottomBar.selectTabAtPosition(TAB_STATE);
+                    mBottomBar.selectTabWithId(R.id.action_weight_tab);
                     break;
             }
         }

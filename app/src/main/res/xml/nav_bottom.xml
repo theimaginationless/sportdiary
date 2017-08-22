@@ -12,4 +12,8 @@
         id="@+id/action_nutrition_tab"
         icon="@drawable/ic_restaurant_black_24px"
         title="@string/action_nutrition_tab_title"/>
+    <tab
+        id="@+id/action_weight_tab"
+        icon="@drawable/ic_weig_black_24px"
+        title="@string/action_weight_tab_title"/>
 </tabs>

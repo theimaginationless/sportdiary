@@ -33,15 +33,12 @@
             android:visibility="invisible"
             android:layout_gravity="bottom|end"/>
     </android.support.design.widget.CoordinatorLayout>
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation_view"
-        android:elevation="8dp"
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        android:clickable="true"
-        android:background="@android:color/background_light"
-        app:menu="@menu/navigation"/>
+        app:bb_tabXmlResource="@xml/nav_bottom"/>
 
     <include layout="@layout/toolbar"/>
 
