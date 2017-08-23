@@ -115,10 +115,6 @@ public class NutritionDayStorage {
         }
     }
 
-    public NutritionDay getDataByDate(Date date) {
-        return this.getNutritionDayByDate(date);
-    }
-
     public NutritionDay getNutritionDayByDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

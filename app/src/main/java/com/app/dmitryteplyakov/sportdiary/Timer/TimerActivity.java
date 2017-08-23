@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
 
@@ -30,5 +31,16 @@ public class TimerActivity extends AppCompatActivity {
                     .add(R.id.common_fragment_container, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

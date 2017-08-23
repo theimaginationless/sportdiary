@@ -173,4 +173,5 @@
     <string name="color_indigo">Индиго тёмный</string>
     <string name="color_pink">Розовый</string>
     <string name="target_weight">Цель</string>
+    <string name="select_time_title">Время</string>
 </resources>

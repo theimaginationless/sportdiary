@@ -33,7 +33,6 @@ import java.util.UUID;
 public class ProgramFragment extends Fragment {
 
     private static final String ARGS_EXERCISE_UUID = "com.app.args_exercise_uuid";
-    public static final String EXTRA_EXERCISE_BACK_UUID = "com.app.extra_exercise_back_uuid";
     private EditText mExerciseTitleEditText;
     private EditText mExerciseReplaysEditText;
     private EditText mExerciseApproachEditText;
