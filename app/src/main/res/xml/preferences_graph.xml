@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/settings_graph">
+        android:title="@string/settings_graph_cat">
         <SwitchPreference
             android:defaultValue="true"
             android:key="switch_on_graphs"
@@ -30,6 +30,15 @@
             android:entries="@array/entries_graphs_ovelapping_mode"
             android:entryValues="@array/entries_graphs_ovelapping_mode"
             android:key="overlappingSwap"/>
+        <ListPreference
+            android:dependency="switch_on_graphs"
+            android:defaultValue="@string/color_indigo_light"
+            android:entries="@array/entries_color"
+            android:entryValues="@array/entries_color"
+            android:key="graph_color_list_multi"
+            android:title="@string/list_color"
+            android:summary="@string/list_color_desc">
+        </ListPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_graph_weight">
         <SwitchPreference
@@ -43,5 +52,14 @@
             android:key="switch_on_legend_weight"
             android:summary="@string/switch_on_legend_desc"
             android:title="@string/switch_on_legend"/>
+        <ListPreference
+            android:dependency="switch_on_graph_weight"
+            android:defaultValue="@string/color_indigo_light"
+            android:entries="@array/entries_color"
+            android:entryValues="@array/entries_color"
+            android:key="graph_color_list"
+            android:title="@string/list_color"
+            android:summary="@string/list_color_weight_desc">
+        </ListPreference>
     </PreferenceCategory>
 </PreferenceScreen>

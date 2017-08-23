@@ -267,7 +267,8 @@ public class WeightListFragment extends Fragment {
     private void updateBadge() {
         BottomBarTab weight = mBottomBar.getTabWithId(R.id.action_weight_tab);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_nutrition_tab_title))));
+        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_weight_tab_title))));
+
         Boolean isEnabled = sp.getBoolean("switch_on_badges", true);
         if(isEnabled && enabledValues.contains(getString(R.string.action_weight_tab_title))) {
             if (isDoneToday(getActivity())) {

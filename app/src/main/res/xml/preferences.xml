@@ -20,12 +20,6 @@
             <extra android:name="preferences" android:value="personal"/>
         </intent>
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/settings_appearance"
-                      android:key="preferenceAppearance">
-        <intent android:action="com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity">
-            <extra android:name="preferences" android:value="appearance"/>
-        </intent>
-    </PreferenceScreen>
     <PreferenceScreen android:title="@string/settings_timer"
         android:key="preferenceTimer">
         <intent android:action="com.app.dmitryteplyakov.sportdiary.Settings.SettingsActivity">

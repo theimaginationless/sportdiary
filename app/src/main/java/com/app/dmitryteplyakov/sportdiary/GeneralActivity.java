@@ -183,7 +183,8 @@ public class GeneralActivity extends AppCompatActivity {
     }
     private void checkBadges(int ... tabRes) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(GeneralActivity.this);
-        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_nutrition_tab_title))));
+        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_weight_tab_title))));
+
         Boolean isEnabled = sp.getBoolean("switch_on_badges", true);
         try {
                 for (int res : tabRes) {
@@ -207,7 +208,7 @@ public class GeneralActivity extends AppCompatActivity {
                         } else
                             tab.setBadgeCount(0);
                     } else {
-                        Log.d("GA", "Badges are disabled!");
+                        Log.d("GA", "Badges or module are disabled!");
                         tab.setBadgeCount(0);
                     }
                 }

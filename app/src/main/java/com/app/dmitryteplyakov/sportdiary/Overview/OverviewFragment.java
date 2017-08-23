@@ -67,7 +67,9 @@ public class OverviewFragment extends Fragment {
     private LineChart mWeightLineChart;
     private CardView mGraphWeightCardView;
 
-    private void drawWeightCard(View v) {
+    private void drawWeightCard(View v, int color) {
+        if(color == 0)
+            color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         linesWeight = new ArrayList<>();
         mWeightLineChart = (LineChart) v.findViewById(R.id.overview_linechart_weight);
         mWeightLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -85,7 +87,7 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.getXAxis().setDrawGridLines(false);
         mWeightLineChart.getLegend().setEnabled(sp.getBoolean("switch_on_legend_weight", true));
         mWeightLineChart.setTouchEnabled(false);
-        linesWeight.add(getWeightGraph(255));
+        linesWeight.add(getWeightGraph(255, color));
         Description desc = new Description();
         desc.setText(getString(R.string.fragment_program_weight_hint));
         desc.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
@@ -210,7 +212,7 @@ public class OverviewFragment extends Fragment {
     }
 
 
-    public void graphEnabler(String mode, String overlappingSwap) {
+    public void graphEnabler(String mode, String overlappingSwap, int color) {
         lines = new ArrayList<>();
         mGraphs = new LineData(lines);
         int fullAlpha = 255;
@@ -220,18 +222,18 @@ public class OverviewFragment extends Fragment {
             return;
         }
         if (mode.equals(getString(R.string.nutrition))) {
-            lines.add(getFirstGraph(fullAlpha));
+            lines.add(getFirstGraph(fullAlpha, color));
             mGraphTitle.setText(getString(R.string.overview_fragment_nutrition_stats));
         } else if (mode.equals(getString(R.string.training))) {
-            lines.add(getSecondGraph(fullAlpha));
+            lines.add(getSecondGraph(fullAlpha, color));
             mGraphTitle.setText(getString(R.string.overview_fragment_training_stats));
         } else {
             if (overlappingSwap.equals(getString(R.string.switch_overlapping_graphs_second_over_first))) {
-                lines.add(getFirstGraph(fullAlpha));
-                lines.add(getSecondGraph(partAlpha));
+                lines.add(getFirstGraph(fullAlpha, color));
+                lines.add(getSecondGraph(partAlpha, color));
             } else {
-                lines.add(getSecondGraph(fullAlpha));
-                lines.add(getFirstGraph(partAlpha));
+                lines.add(getSecondGraph(fullAlpha, color));
+                lines.add(getFirstGraph(partAlpha, color));
             }
             mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
         }
@@ -239,13 +241,13 @@ public class OverviewFragment extends Fragment {
         mLineChart.setData(mGraphs);
     }
 
-    public LineDataSet getWeightGraph(int alpha) {
+    public LineDataSet getWeightGraph(int alpha, int color) {
         ArrayList<Entry> entries = new ArrayList<>();
         labels = new ArrayList<>();
         List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
         boolean skipFlag;
-        int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        //int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
             Calendar calendar = Calendar.getInstance();
@@ -294,14 +296,15 @@ public class OverviewFragment extends Fragment {
     }
 
 
-    public LineDataSet getFirstGraph(int alpha) {
+    public LineDataSet getFirstGraph(int alpha, int color) {
         ArrayList<Entry> entries = new ArrayList<>();
         labels = new ArrayList<>();
         List<NutritionDay> nutritionDayList = NutritionDayStorage.get(getActivity()).getNutritionDays();
         Collections.reverse(nutritionDayList);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
         boolean skipFlag;
-        int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        if(color == 0)
+            color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
             Calendar calendar = Calendar.getInstance();
@@ -353,11 +356,12 @@ public class OverviewFragment extends Fragment {
         return dataset;
     }
 
-    public LineDataSet getSecondGraph(int alpha) {
+    public LineDataSet getSecondGraph(int alpha, int color) {
         ArrayList<Entry> exEntries = new ArrayList<>();
         List<Day> dayList = DayStorage.get(getActivity()).getDays();
         boolean skipFlag;
-        int color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+        if(color == 0)
+            color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
             Calendar calendar = Calendar.getInstance();
@@ -399,9 +403,12 @@ public class OverviewFragment extends Fragment {
         super.onResume();
         boolean legendSwitch = sp.getBoolean("switch_on_legend", true);
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
-        final String mode = sp.getString("graph_mode_list", getString(R.string.combined));
-        final String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
-
+        String mode = sp.getString("graph_mode_list", getString(R.string.combined));
+        String overlappingSwap = sp.getString("overlappingSwap", getString(R.string.switch_overlapping_graphs_first_over_second));
+        String colorMode = sp.getString("graph_color_list", getString(R.string.color_indigo));
+        String colorModeMulti = sp.getString("graph_color_list_multi", getString(R.string.color_indigo));
+        int color = 0;
+        int multiGraphColor = 0;
         mLineChart.getLegend().setEnabled(legendSwitch);
 
         if (!graphIsEnabled)
@@ -412,9 +419,23 @@ public class OverviewFragment extends Fragment {
             mGraphWeightCardView.setVisibility(View.GONE);
         else
             mGraphWeightCardView.setVisibility(View.VISIBLE);
+        if(colorMode.equals(getString(R.string.color_indigo))) // WeightGraph Color Settings
+            color = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+        else if(colorMode.equals(getString(R.string.color_indigo_light)))
+            color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        else if(colorMode.equals(getString(R.string.color_pink)))
+            color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+        drawWeightCard(getView(), color);
 
-        drawWeightCard(getView());
-        graphEnabler(mode, overlappingSwap);
+
+        if(colorModeMulti.equals(getString(R.string.color_indigo))) // MultiGraphs Color Settings
+            multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+        else if(colorModeMulti.equals(getString(R.string.color_indigo_light)))
+            multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        else if(colorModeMulti.equals(getString(R.string.color_pink)))
+            multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+
+        graphEnabler(mode, overlappingSwap, multiGraphColor);
         mLineChart.notifyDataSetChanged();
         mLineChart.invalidate();
 

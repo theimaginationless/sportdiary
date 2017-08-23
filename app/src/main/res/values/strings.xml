@@ -93,7 +93,8 @@
     <string name="settings_general">Общие настройки</string>
     <string name="switch_on_legend">Включить легенду</string>
     <string name="switch_on_legend_desc">Описание данных графика</string>
-    <string name="settings_graph">Настройки графика калорий и тренировок</string>
+    <string name="settings_graph_cat">Настройки графика калорий и тренировок</string>
+    <string name="settings_graph">Настройки графиков</string>
     <string name="list_combined_graph">Режим отображения графиков</string>
     <string name="list_combined_graph_desc">Комбинирование отображаемых данных</string>
     <string name="nutrition">Питание</string>
@@ -160,4 +161,15 @@
         <item>@string/action_nutrition_tab_title</item>
         <item>@string/action_weight_tab_title</item>
     </string-array>
+    <string name="list_color">Цвет</string>
+    <string name="list_color_desc">Выбрать цвет графика питания или тренировок</string>
+    <string name="list_color_weight_desc">Выбрать цвет графика веса</string>
+    <string-array name="entries_color">
+        <item>@string/color_indigo_light</item>
+        <item>@string/color_indigo</item>
+        <item>@string/color_pink</item>
+    </string-array>
+    <string name="color_indigo_light">Индиго светлый</string>
+    <string name="color_indigo">Индиго тёмный</string>
+    <string name="color_pink">Розовый</string>
 </resources>
