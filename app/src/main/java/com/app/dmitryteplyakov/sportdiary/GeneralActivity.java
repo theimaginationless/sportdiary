@@ -39,7 +39,10 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class GeneralActivity extends AppCompatActivity {
@@ -137,48 +140,22 @@ public class GeneralActivity extends AppCompatActivity {
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                Runnable runnable = null;
                 switch(tabId) {
                     case R.id.action_overview_tab:
-                        runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                onOverviewTab();
-                            }
-                        };
+                        onOverviewTab();
                         break;
                     case R.id.action_training_tab:
-                        runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                onTrainingTab();
-                            }
-                        };
-
+                        onTrainingTab();
                         break;
                     case R.id.action_nutrition_tab:
-                        runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                onNutritionTab();
-                            }
-                        };
-
+                        onNutritionTab();
                         break;
                     case R.id.action_weight_tab:
-                        runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                onWeightTab();
-                            }
-                        };
+                        onWeightTab();
                         break;
                 }
-                if(runnable != null) {
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                }
                 checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+
             }
         });
 
@@ -205,24 +182,38 @@ public class GeneralActivity extends AppCompatActivity {
 
     }
     private void checkBadges(int ... tabRes) {
-        for(int res : tabRes) {
-            BottomBarTab tab = mBottomBar.getTabWithId(res);
-            boolean check = false;
-            if(res == R.id.action_nutrition_tab)
-                check = NutritionDaysListFragment.isDoneToday(this);
-            else if(res == R.id.action_weight_tab)
-                check = WeightListFragment.isDoneToday(this);
-            if (check) {
-                tab.setBadgeCount(1);
-                try {
-                    Field badgeFieldDefinition = tab.getClass().getDeclaredField("badge");
-                    badgeFieldDefinition.setAccessible(true);
-                    TextView badgeTextView = (TextView) badgeFieldDefinition.get(tab);
-                    badgeTextView.setText("");
-                } catch (NoSuchFieldException | IllegalAccessException e) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(GeneralActivity.this);
+        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_nutrition_tab_title))));
+        Boolean isEnabled = sp.getBoolean("switch_on_badges", true);
+        try {
+                for (int res : tabRes) {
+                    BottomBarTab tab = mBottomBar.getTabWithId(res);
+                    if (isEnabled) {
+
+                        boolean check = false;
+                        if (res == R.id.action_nutrition_tab && enabledValues.contains(getString(R.string.action_nutrition_tab_title)))
+                            check = NutritionDaysListFragment.isDoneToday(this);
+                        else if (res == R.id.action_weight_tab && enabledValues.contains(getString(R.string.action_weight_tab_title)))
+                            check = WeightListFragment.isDoneToday(this);
+                        if (check) {
+                            tab.setBadgeCount(1);
+                            try {
+                                Field badgeFieldDefinition = tab.getClass().getDeclaredField("badge");
+                                badgeFieldDefinition.setAccessible(true);
+                                TextView badgeTextView = (TextView) badgeFieldDefinition.get(tab);
+                                badgeTextView.setText("");
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                            }
+                        } else
+                            tab.setBadgeCount(0);
+                    } else {
+                        Log.d("GA", "Badges are disabled!");
+                        tab.setBadgeCount(0);
+                    }
                 }
-            } else
-                tab.setBadgeCount(0);
+
+        } catch(NullPointerException e) {
+            Log.e("GA", "enabledValues exception!", e);
         }
     }
 
@@ -341,6 +332,13 @@ public class GeneralActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+        Log.d("GA", "Resume");
     }
 
     @Override

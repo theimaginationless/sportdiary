@@ -2,6 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/settings_general">
-
+        <SwitchPreference android:title="@string/switch_on_badges"
+                          android:summary="@string/switch_on_badges"
+                          android:defaultValue="true"
+                          android:key="switch_on_badges"/>
+        <MultiSelectListPreference
+            android:title="@string/multicheck_badges"
+            android:summary="@string/multicheck_badges_desc"
+            android:entries="@array/entries_badges"
+            android:entryValues="@array/entries_badges"
+            android:key="badges_value"
+            android:defaultValue="@array/entries_badges"
+            android:dependency="switch_on_badges"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -93,8 +93,8 @@
     <string name="settings_general">Общие настройки</string>
     <string name="switch_on_legend">Включить легенду</string>
     <string name="switch_on_legend_desc">Описание данных графика</string>
-    <string name="settings_graph">Настройки графиков</string>
-    <string name="list_combined_graph">Режим отображения графика</string>
+    <string name="settings_graph">Настройки графика калорий и тренировок</string>
+    <string name="list_combined_graph">Режим отображения графиков</string>
     <string name="list_combined_graph_desc">Комбинирование отображаемых данных</string>
     <string name="nutrition">Питание</string>
     <string name="training">Тренировки</string>
@@ -151,6 +151,13 @@
     <string name="snackbar_already_nutrition">Текущий день уже присутствует</string>
     <string name="weight_hint_dialog">Ваш вес</string>
     <string name="overview_weight_title">Динамика веса</string>
-
     <string name="settings_graph_weight">Настройки графика веса</string>
+    <string name="multicheck_badges">Отображаемые оповещения на панели</string>
+    <string name="multicheck_badges_desc">Выбрать отображаемые оповещения на панели</string>
+    <string name="switch_on_badges">Включить оповещения на панели</string>
+    <string name="switch_on_badges_desc">Включить отображение оповещений на панели</string>
+    <string-array name="entries_badges">
+        <item>@string/action_nutrition_tab_title</item>
+        <item>@string/action_weight_tab_title</item>
+    </string-array>
 </resources>

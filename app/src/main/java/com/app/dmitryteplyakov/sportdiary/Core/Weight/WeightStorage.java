@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaDataSource;
 
 import com.app.dmitryteplyakov.sportdiary.database.Weight.WeightBaseHelper;
 import com.app.dmitryteplyakov.sportdiary.database.Weight.WeightCursorWrapper;
@@ -23,14 +22,14 @@ import static com.app.dmitryteplyakov.sportdiary.database.Weight.WeightDbSchema.
  */
 
 public class WeightStorage {
-    private static WeightStorage sWeightStorage;
+    private static WeightStorage sStorage;
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
     public static WeightStorage get(Context context) {
-        if(sWeightStorage == null)
-            sWeightStorage = new WeightStorage(context);
-        return sWeightStorage;
+        if(sStorage == null)
+            sStorage = new WeightStorage(context);
+        return sStorage;
     }
 
     private WeightStorage(Context context) {

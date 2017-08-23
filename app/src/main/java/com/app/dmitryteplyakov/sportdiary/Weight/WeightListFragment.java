@@ -30,9 +30,12 @@ import com.roughike.bottombar.BottomBarTab;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -262,19 +265,31 @@ public class WeightListFragment extends Fragment {
     }
 
     private void updateBadge() {
-        BottomBarTab nutrition = mBottomBar.getTabWithId(R.id.action_weight_tab);
-        if(isDoneToday(getActivity())) {
-            nutrition.setBadgeCount(1);
-            try {
-                Field badgeFieldDefinition = nutrition.getClass().getDeclaredField("badge");
-                badgeFieldDefinition.setAccessible(true);
-                TextView badgeTextView = (TextView) badgeFieldDefinition.get(nutrition);
-                badgeTextView.setText("");
-            } catch(NoSuchFieldException | IllegalAccessException e) {
-                Log.d("NDLF", "Exception", e);
-            }
+        BottomBarTab weight = mBottomBar.getTabWithId(R.id.action_weight_tab);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_nutrition_tab_title))));
+        Boolean isEnabled = sp.getBoolean("switch_on_badges", true);
+        if(isEnabled && enabledValues.contains(getString(R.string.action_weight_tab_title))) {
+            if (isDoneToday(getActivity())) {
+                weight.setBadgeCount(1);
+                try {
+                    Field badgeFieldDefinition = weight.getClass().getDeclaredField("badge");
+                    badgeFieldDefinition.setAccessible(true);
+                    TextView badgeTextView = (TextView) badgeFieldDefinition.get(weight);
+                    badgeTextView.setText("");
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    Log.d("NDLF", "Exception", e);
+                }
+            } else
+                weight.setBadgeCount(0);
         } else
-            nutrition.setBadgeCount(0);
+            Log.d("NDLF", "Badges are disabled!");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateBadge();
     }
 
     @Override

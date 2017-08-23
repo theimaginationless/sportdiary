@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.NutritionStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDay;
 import com.app.dmitryteplyakov.sportdiary.Core.NutritionDay.NutritionDayStorage;
 import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
+import com.app.dmitryteplyakov.sportdiary.GeneralActivity;
 import com.app.dmitryteplyakov.sportdiary.R;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
@@ -33,9 +36,12 @@ import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -144,7 +150,6 @@ public class NutritionDaysListFragment extends Fragment {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return (NutritionDayStorage.get(context).getNutritionDayByDate(calendar.getTime()) == null);
-
     }
 
     private class NutritionDayAdapter extends RecyclerView.Adapter<NutritionDayHolder> {
@@ -215,18 +220,24 @@ public class NutritionDaysListFragment extends Fragment {
 
     private void updateBadge() {
         BottomBarTab nutrition = mBottomBar.getTabWithId(R.id.action_nutrition_tab);
-        if(isDoneToday(getActivity())) {
-            nutrition.setBadgeCount(1);
-            try {
-                Field badgeFieldDefinition = nutrition.getClass().getDeclaredField("badge");
-                badgeFieldDefinition.setAccessible(true);
-                TextView badgeTextView = (TextView) badgeFieldDefinition.get(nutrition);
-                badgeTextView.setText("");
-            } catch(NoSuchFieldException | IllegalAccessException e) {
-                Log.d("NDLF", "Exception", e);
-            }
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Set<String> enabledValues = sp.getStringSet("badges_value", new HashSet<String>(Arrays.asList(getString(R.string.action_nutrition_tab_title), getString(R.string.action_nutrition_tab_title))));
+        Boolean isEnabled = sp.getBoolean("switch_on_badges", true);
+        if(isEnabled && enabledValues.contains(getString(R.string.action_nutrition_tab_title))) {
+            if (isDoneToday(getActivity())) {
+                nutrition.setBadgeCount(1);
+                try {
+                    Field badgeFieldDefinition = nutrition.getClass().getDeclaredField("badge");
+                    badgeFieldDefinition.setAccessible(true);
+                    TextView badgeTextView = (TextView) badgeFieldDefinition.get(nutrition);
+                    badgeTextView.setText("");
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    Log.d("NDLF", "Exception", e);
+                }
+            } else
+                nutrition.setBadgeCount(0);
         } else
-            nutrition.setBadgeCount(0);
+            Log.d("NDLF", "Badges are disabled!");
     }
 
     @Override
