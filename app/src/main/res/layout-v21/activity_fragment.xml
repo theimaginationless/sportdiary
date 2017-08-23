@@ -39,6 +39,7 @@
         android:layout_height="?attr/actionBarSize"
         android:elevation="8dp"
         android:layout_gravity="bottom"
+        app:bb_showShadow="true"
         app:bb_badgesHideWhenActive="false"
         app:bb_tabXmlResource="@xml/nav_bottom"/>
 

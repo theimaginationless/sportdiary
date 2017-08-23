@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.CompExerciseStorage;
@@ -41,6 +42,7 @@ public class ProgramFragment extends Fragment {
     private EditText mExerciseWeightEditText;
     private EditText mExerciseEnergyEditText;
     private Exercise mExercise;
+    private LinearLayout mWorkaroundFocusLinearLayout;
 
     public static ProgramFragment newInstance(UUID parentId) {
         Bundle args = new Bundle();
@@ -53,14 +55,19 @@ public class ProgramFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mExercise = ExerciseStorage.get(getActivity()).getExercise((UUID) getArguments().getSerializable(ARGS_EXERCISE_UUID));
-        if(mExercise.getTitle() == null)   ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
+        if(mExercise.getTitle() == null)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
         else ((AppCompatActivity) getActivity()).setTitle(mExercise.getTitle());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_program, container, false);
+        mWorkaroundFocusLinearLayout = (LinearLayout) v.findViewById(R.id.workaround_focus);
+        if(mExercise.getTitle() == null)
+            mWorkaroundFocusLinearLayout.setFocusableInTouchMode(false);
         mExerciseWeightEditText = (EditText) v.findViewById(R.id.fragment_program_exercise_weight);
         mExerciseTitleEditText = (EditText) v.findViewById(R.id.fragment_program_exercise_title);
         mExerciseReplaysEditText = (EditText) v.findViewById(R.id.fragment_program_exercise_replays_count);

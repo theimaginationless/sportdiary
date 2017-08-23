@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -74,22 +72,22 @@ public class WeightListFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getFragmentManager();
-                WeightPickerFragment weightDialog = new WeightPickerFragment();
-                weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
-                weightDialog.show(manager, DIALOG_WEIGHT);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FragmentManager manager = getFragmentManager();
+                        WeightPickerFragment weightDialog = new WeightPickerFragment();
+                        weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
+                        weightDialog.show(manager, DIALOG_WEIGHT);
+                    }
+                });
+                thread.start();
+
             }
         });
 
         updateUI();
         return v;
-    }
-
-    public void shortcutDialog() {
-        FragmentManager manager = getFragmentManager();
-        WeightPickerFragment weightDialog = new WeightPickerFragment();
-        weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
-        weightDialog.show(manager, DIALOG_WEIGHT);
     }
 
     private class WeightHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
@@ -161,11 +159,18 @@ public class WeightListFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if(i == 0) {
-                        Log.d("WLF", "CLICK" + mWeight.getId().toString());
-                        FragmentManager manager = getFragmentManager();
-                        DeleteFragment deleteDialog = DeleteFragment.newInstance(mWeight.getId());
-                        deleteDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT_DELETE);
-                        deleteDialog.show(manager, DIALOG_WEIGHT_DELETE);
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("WLF", "CLICK" + mWeight.getId().toString());
+                                FragmentManager manager = getFragmentManager();
+                                DeleteFragment deleteDialog = DeleteFragment.newInstance(mWeight.getId());
+                                deleteDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT_DELETE);
+                                deleteDialog.show(manager, DIALOG_WEIGHT_DELETE);
+                            }
+                        });
+                        thread.start();
+
                     }
                 }
             });

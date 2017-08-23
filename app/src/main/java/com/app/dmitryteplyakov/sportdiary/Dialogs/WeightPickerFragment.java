@@ -2,6 +2,7 @@ package com.app.dmitryteplyakov.sportdiary.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.app.dmitryteplyakov.sportdiary.R;
@@ -32,8 +34,9 @@ public class WeightPickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_weightpicker, null);
-
         mWeightEditText = (EditText) v.findViewById(R.id.weight_picker_edit_text);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         mWeightEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -69,12 +72,19 @@ public class WeightPickerFragment extends DialogFragment {
                         sendResult(Activity.RESULT_CANCELED);
                     }
                 })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        sendResult(Activity.RESULT_CANCELED);
+                    }
+                })
                 .create();
     }
 
     private void sendResult(int resultCode) {
-        Log.d("WPF", Boolean.toString(getTargetFragment() == null));
-
+        Log.d("WPF", Boolean.toString(getTargetFragment() == null) + " " + Boolean.toString(resultCode == Activity.RESULT_CANCELED));
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         if(getTargetFragment() == null) return;
         Intent intent = new Intent();
         intent.putExtra(EXTRA_NEW_WEIGHT, mWeight);

@@ -187,15 +187,11 @@ public class ExerciseFragment extends Fragment {
             mEndExerciseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //if (!mExercise.isAlreadyEnded()) {
                     mExercise.setEndDate(new Date());
                     mExercise.setAlreadyEnded(true);
                     CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
                     mEndExerciseButton.setEnabled(!mExercise.isAlreadyEnded());
-                    mEndDateButton.setText(format.format(mExercise.getEndDate()));
-                    //} else
-                    //    Snackbar.make(((AppCompatActivity) getActivity()).findViewById(R.id.common_fragment_container), getString(R.string.fragment_using_exercise_already_ended_snackbar), Snackbar.LENGTH_LONG).show();
-                }
+                    mEndDateButton.setText(format.format(mExercise.getEndDate()));}
             });
         } else
             mEndExerciseButton.setEnabled(!mExercise.isAlreadyEnded());

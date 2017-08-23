@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,19 +137,46 @@ public class GeneralActivity extends AppCompatActivity {
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
+                Runnable runnable = null;
                 switch(tabId) {
                     case R.id.action_overview_tab:
-                        onOverviewTab();
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                onOverviewTab();
+                            }
+                        };
                         break;
                     case R.id.action_training_tab:
-                        onTrainingTab();
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                onTrainingTab();
+                            }
+                        };
+
                         break;
                     case R.id.action_nutrition_tab:
-                        onNutritionTab();
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                onNutritionTab();
+                            }
+                        };
+
                         break;
                     case R.id.action_weight_tab:
-                        onWeightTab();
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                onWeightTab();
+                            }
+                        };
                         break;
+                }
+                if(runnable != null) {
+                    Thread thread = new Thread(runnable);
+                    thread.start();
                 }
                 checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
             }
@@ -214,26 +242,33 @@ public class GeneralActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((TrainingStorage.get(GeneralActivity.this).getTrainings().size() == 0) && (ExerciseStorage.get(GeneralActivity.this).getExercises().size() == 0))
-                    Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.training_is_empty_snackbar), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.add, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(GeneralActivity.this, ProgramsListActivity.class);
-                                    startActivity(intent);
-                                }
-                            }).show();
-                else {
-                    Date currentDate = new Date();
-                    if (DayStorage.get(GeneralActivity.this).getDayByDate(currentDate) == null) {
-                        Day day = new Day();
-                        day.setTrainingId(UUID.randomUUID()); // Temporary trainingUUID as hack
-                        DayStorage.get(GeneralActivity.this).addDay(day);
-                        Intent intent = NewDayActivity.newIntent(GeneralActivity.this, day.getId());
-                        startActivityForResult(intent, REQUEST_ADD_DAY);
-                    } else
-                        Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.snackbar_already_training), Snackbar.LENGTH_SHORT).show();
-                }
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if ((TrainingStorage.get(GeneralActivity.this).getTrainings().size() == 0) && (ExerciseStorage.get(GeneralActivity.this).getExercises().size() == 0))
+                            Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.training_is_empty_snackbar), Snackbar.LENGTH_LONG)
+                                    .setAction(R.string.add, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(GeneralActivity.this, ProgramsListActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }).show();
+                        else {
+                            Date currentDate = new Date();
+                            if (DayStorage.get(GeneralActivity.this).getDayByDate(currentDate) == null) {
+                                Day day = new Day();
+                                day.setTrainingId(UUID.randomUUID()); // Temporary trainingUUID as hack
+                                DayStorage.get(GeneralActivity.this).addDay(day);
+                                Intent intent = NewDayActivity.newIntent(GeneralActivity.this, day.getId());
+                                startActivityForResult(intent, REQUEST_ADD_DAY);
+                            } else
+                                Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.snackbar_already_training), Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                thread.start();
+
             }
         });
         getSupportFragmentManager().beginTransaction()
@@ -248,16 +283,24 @@ public class GeneralActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date currentDate = new Date();
-                if(NutritionDayStorage.get(GeneralActivity.this).getNutritionDayByDate(currentDate) == null) {
-                    NutritionDay nutritionDay = new NutritionDay(UUID.randomUUID());
-                    NutritionDayStorage.get(GeneralActivity.this).addNutritionDay(nutritionDay);
-                    Intent intent;
-                    intent = NutritionListActivity.newIntent(GeneralActivity.this, nutritionDay.getId());
-                    startActivity(intent);
-                    //Todo: To strings.xml
-                } else
-                    Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.snackbar_already_nutrition), Snackbar.LENGTH_SHORT).show();
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Date currentDate = new Date();
+                        if(NutritionDayStorage.get(GeneralActivity.this).getNutritionDayByDate(currentDate) == null) {
+                            NutritionDay nutritionDay = new NutritionDay(UUID.randomUUID());
+                            NutritionDayStorage.get(GeneralActivity.this).addNutritionDay(nutritionDay);
+                            Intent intent;
+                            intent = NutritionListActivity.newIntent(GeneralActivity.this, nutritionDay.getId());
+                            startActivity(intent);
+                            //Todo: To strings.xml
+                        } else
+                            Snackbar.make(findViewById(R.id.snackbar_place), getString(R.string.snackbar_already_nutrition), Snackbar.LENGTH_SHORT).show();
+                        Log.d("GA", "Nutrition in thread!");
+                    }
+                });
+                thread.start();
+
             }
         });
         getSupportFragmentManager().beginTransaction()

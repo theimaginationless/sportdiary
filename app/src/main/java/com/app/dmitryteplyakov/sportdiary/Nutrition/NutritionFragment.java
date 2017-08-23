@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.Nutrition;
 import com.app.dmitryteplyakov.sportdiary.Core.Nutrition.NutritionStorage;
@@ -28,6 +29,7 @@ public class NutritionFragment extends Fragment {
     private EditText mWeight;
     private EditText mResultEnergy;
     private Nutrition mNutrition;
+    private LinearLayout mWorkaroundFocusLinearLayout;
 
     public static NutritionFragment newInstance(UUID id) {
         Bundle args = new Bundle();
@@ -40,6 +42,9 @@ public class NutritionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_nutrition, null);
+        mWorkaroundFocusLinearLayout = (LinearLayout) v.findViewById(R.id.workaround_focus);
+        if(mNutrition.getProductTitle() == null)
+            mWorkaroundFocusLinearLayout.setFocusableInTouchMode(false);
         mNutrition = NutritionStorage.get(getActivity()).getNutrition((UUID) getArguments().getSerializable(ARG_NUTRITION_UUID));
         mDishTitle = (EditText) v.findViewById(R.id.fragment_nutrition_title);
         mEnergy = (EditText) v.findViewById(R.id.fragment_nutrition_energy_edit_text);
