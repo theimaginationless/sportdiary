@@ -2,10 +2,12 @@ package com.app.dmitryteplyakov.sportdiary.Settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
+import android.widget.EditText;
 
 import com.app.dmitryteplyakov.sportdiary.R;
 
@@ -27,9 +29,9 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String s) {
         if(getArguments().getSerializable(ARG_PREF) != null) {
             String sett = (String) getArguments().getSerializable(ARG_PREF);
-            if(sett.equals("general"))
+            if (sett.equals("general"))
                 addPreferencesFromResource(R.xml.preferences_general);
-            else if(sett.equals("graph")) {
+            else if (sett.equals("graph")) {
                 addPreferencesFromResource(R.xml.preferences_graph);
 
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -39,14 +41,14 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
                 final boolean state = sp.getBoolean("switch_on_graphs", true);
                 final ListPreference overlappingGraphs = (ListPreference) findPreference("overlappingSwap");
 
-                if(mode.equals(getString(R.string.combined)))
+                if (mode.equals(getString(R.string.combined)))
                     prefColor.setEnabled(false);
 
                 overlappingGraphs.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
                         final String mode = newValue.toString();
-                        if(!mode.equals(getString(R.string.combined)) && state) {
+                        if (!mode.equals(getString(R.string.combined)) && state) {
                             overlappingGraphs.setEnabled(true);
                         } else
                             overlappingGraphs.setEnabled(false);
@@ -57,17 +59,16 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
                         final String mode = newValue.toString();
-                        if(!mode.equals(getString(R.string.combined)) && state) {
+                        if (!mode.equals(getString(R.string.combined)) && state) {
                             prefColor.setEnabled(true);
                         } else
                             prefColor.setEnabled(false);
                         return true;
                     }
                 });
-            }
-            else if(sett.equals("timer"))
+            } else if (sett.equals("timer"))
                 addPreferencesFromResource(R.xml.preference_timer);
-            else if(sett.equals("personal"))
+            else if (sett.equals("personal"))
                 addPreferencesFromResource(R.xml.preference_personal);
         }
         else

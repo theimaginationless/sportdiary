@@ -51,6 +51,7 @@ public class WeightListFragment extends Fragment {
     public static final int REQUEST_WEIGHT = 16;
     private static final String DIALOG_WEIGHT = "com.app.weightlistfragment.dialog_weight";
     public static final int REQUEST_WEIGHT_DELETE = 17;
+    public static final int REQUEST_WEIGHT_EDIT = 18;
     private static final String DIALOG_WEIGHT_DELETE = "com.app.weightlistfragment.dialog_weight_delete";
 
     @Override
@@ -106,7 +107,7 @@ public class WeightListFragment extends Fragment {
             mDateTextView = (TextView) itemView.findViewById(R.id.weight_list_item_date);
             mWeightTextView = (TextView) itemView.findViewById(R.id.weight_list_item_value);
             mWeightDiffTextView = (TextView) itemView.findViewById(R.id.weight_list_item_value_diff);
-            options = new CharSequence[]{ getString(R.string.menu_delete_item) };
+            options = new CharSequence[]{ getString(R.string.edit_training_title_menu), getString(R.string.menu_delete_item) };
         }
 
         public void setWeight(Weight weight) {
@@ -165,6 +166,17 @@ public class WeightListFragment extends Fragment {
                         Thread thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                FragmentManager manager = getFragmentManager();
+                                WeightPickerFragment dialog = WeightPickerFragment.getInstance(mWeight.getId());
+                                dialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT_EDIT);
+                                dialog.show(manager, DIALOG_WEIGHT);
+                            }
+                        });
+                        thread.start();
+                    } else if(i == 1) {
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
                                 Log.d("WLF", "CLICK" + mWeight.getId().toString());
                                 FragmentManager manager = getFragmentManager();
                                 DeleteFragment deleteDialog = DeleteFragment.newInstance(mWeight.getId());
@@ -173,7 +185,6 @@ public class WeightListFragment extends Fragment {
                             }
                         });
                         thread.start();
-
                     }
                 }
             });
@@ -307,6 +318,12 @@ public class WeightListFragment extends Fragment {
                 int num = WeightStorage.get(getActivity()).getWeights().indexOf(weight);
                 WeightStorage.get(getActivity()).deleteWeight(weight);
                 updateUI(false, num);
+            } else if(requestCode == REQUEST_WEIGHT_EDIT) {
+                Float newValue = ((float) data.getSerializableExtra(WeightPickerFragment.EXTRA_NEW_WEIGHT));
+                Weight weight = WeightStorage.get(getActivity()).getWeight((UUID) data.getSerializableExtra(WeightPickerFragment.EXTRA_OLD_WEIGHT));
+                weight.setValue(newValue);
+                WeightStorage.get(getActivity()).updateWeight(weight);
+                updateUI();
             }
     }
 }

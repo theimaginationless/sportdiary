@@ -122,18 +122,18 @@ public class ProgramFragment extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
                 if(mExercise.getTitle() == null)
-                    mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
+                    mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).size()));
             }
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 if(count == 0)
-                    mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
+                    mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).size()));
                 else
                     mExercise.setTitle(c.toString());
             }
             @Override
             public void afterTextChanged(Editable c) {
-                CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
+                ExerciseStorage.get(getActivity()).updateExercise(mExercise);
             }
         });
 
@@ -153,7 +153,7 @@ public class ProgramFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable c) {
-                CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
+                ExerciseStorage.get(getActivity()).updateExercise(mExercise);
             }
         });
 
@@ -171,7 +171,7 @@ public class ProgramFragment extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable c) {
-                CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
+                ExerciseStorage.get(getActivity()).updateExercise(mExercise);
             }
         });
 
@@ -189,7 +189,7 @@ public class ProgramFragment extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable c) {
-                CompExerciseStorage.get(getActivity()).updateExercise(mExercise);
+                ExerciseStorage.get(getActivity()).updateExercise(mExercise);
             }
         });
 
@@ -200,7 +200,7 @@ public class ProgramFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if(mExercise.getTitle() == null)
-            mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).indexOf(mExercise) + 1));
+            mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).size()));
         ExerciseStorage.get(getActivity()).updateExercise(mExercise);
     }
 }

@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v14.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -78,11 +80,10 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.setScaleEnabled(false);
         mWeightLineChart.setDrawGridBackground(false);
         mWeightLineChart.getXAxis().setDrawAxisLine(false);
-        //mWeightLineChart.getAxisLeft().setEnabled(false);
+        mWeightLineChart.getAxisLeft().setEnabled(false);
         mWeightLineChart.getAxisLeft().setDrawAxisLine(false);
         mWeightLineChart.getAxisLeft().setDrawGridLines(false);
         mWeightLineChart.getAxisLeft().setDrawLabels(false);
-
         mWeightLineChart.getAxisRight().setEnabled(false);
         mWeightLineChart.getXAxis().setGranularity(1f);
         mWeightLineChart.getXAxis().setGranularityEnabled(true);
@@ -92,18 +93,6 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.getXAxis().setDrawGridLines(false);
         mWeightLineChart.getLegend().setEnabled(false);
         mWeightLineChart.setTouchEnabled(false);
-        if(!sp.getString("weight_target_value", null).equals("")) {
-            try {
-                LimitLine lLine = new LimitLine(Float.parseFloat(sp.getString("weight_target_value", null)), getString(R.string.target_weight));
-                lLine.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
-                lLine.setLineColor(ContextCompat.getColor(getActivity(), android.R.color.black));
-                lLine.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.darker_gray));
-                mWeightLineChart.getAxisLeft().addLimitLine(lLine);
-            } catch(NullPointerException e) {
-                Log.e("OF", "Exception", e);
-            }
-        }
-
         linesWeight.add(getWeightGraph(255, color));
         Description desc = new Description();
         desc.setText(getString(R.string.fragment_program_weight_hint));
@@ -121,12 +110,6 @@ public class OverviewFragment extends Fragment {
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
-        /*if(sp.getBoolean("switch_on_graph_weight", true))
-            new Runnable() {
-                public void run() {
-                    drawWeightCard(getView());
-                }
-            }; */
         mGraphCardView = (CardView) v.findViewById(R.id.overview_linechart_nutrition_host_card_view);
         mLineChart = (LineChart) v.findViewById(R.id.overview_linechart_nutrition);
         mGraphTitle = (TextView) v.findViewById(R.id.overview_graph_title);

@@ -83,6 +83,7 @@ public class ProgramExerciseListFragment extends Fragment {
                 Exercise exercise = new Exercise();
                 exercise.setParentUUID(parentUUID);
                 ExerciseStorage.get(getActivity()).addExercise(exercise);
+                Log.d("PELF", Integer.toString(ExerciseStorage.get(getActivity()).getExercises().size()));
                 Intent intent = ProgramActivity.newIntent(getActivity(), exercise.getId());
                 startActivity(intent);
             }

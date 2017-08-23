@@ -9,6 +9,7 @@ import com.app.dmitryteplyakov.sportdiary.database.Exercise.ExerciseBaseHelper;
 import com.app.dmitryteplyakov.sportdiary.database.Exercise.ExerciseCursorWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,6 +85,7 @@ public class ExerciseStorage {
         } finally {
             cursor.close();
         }
+        Collections.reverse(exercises);
         return exercises;
     }
 
@@ -103,6 +105,7 @@ public class ExerciseStorage {
         } finally {
             cursor.close();
         }
+        Collections.reverse(exercises);
         return exercises;
     }
 

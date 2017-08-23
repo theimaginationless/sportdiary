@@ -7,10 +7,6 @@
                             android:inputType="textCapSentences"
                             android:defaultValue="@string/username_default"
                             android:key="username_nav_draw"/>
-        <EditTextPreference android:title="@string/age"
-                            android:digits="0123456789"
-                            android:inputType="numberDecimal"
-                            android:key="age"/>
         <ListPreference
             android:defaultValue="@string/lose_weight"
             android:entries="@array/entries_personal_target"
@@ -19,10 +15,5 @@
             android:title="@string/settings_personal_target"
             android:summary="@string/settings_personal_target_desc">
         </ListPreference>
-        <EditTextPreference android:title="@string/weight"
-                            android:summary="@string/weight_desc"
-                            android:inputType="numberDecimal"
-                            android:defaultValue=""
-                            android:key="weight_target_value"/>
     </PreferenceCategory>
 </PreferenceScreen>

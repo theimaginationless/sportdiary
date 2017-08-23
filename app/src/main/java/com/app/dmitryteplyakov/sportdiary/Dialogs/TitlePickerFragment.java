@@ -2,6 +2,7 @@ package com.app.dmitryteplyakov.sportdiary.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Training.Training;
@@ -43,6 +45,8 @@ public class TitlePickerFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_titlepicker, null);
         training = TrainingStorage.get(getActivity()).getTraining((UUID) getArguments().getSerializable(ARG_TRAINING_UUID));
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         mTitleEditText = (EditText) v.findViewById(R.id.training_title_picker_edit_text);
         mTitleEditText.setText(training.getTitle());
         mTitleEditText.addTextChangedListener(new TextWatcher() {
@@ -84,6 +88,8 @@ public class TitlePickerFragment extends DialogFragment {
 
     private void sendResult(int resultCode) {
         if(getTargetFragment() == null) return;
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         Intent intent = new Intent();
         intent.putExtra(EXTRA_NEW_TRAINING_UUID, training.getId());
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);

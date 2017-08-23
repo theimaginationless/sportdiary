@@ -17,7 +17,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.app.dmitryteplyakov.sportdiary.Core.Weight.Weight;
+import com.app.dmitryteplyakov.sportdiary.Core.Weight.WeightStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.app.dmitryteplyakov.sportdiary.Weight.WeightListFragment;
+
+import java.util.UUID;
 
 
 /**
@@ -26,9 +31,19 @@ import com.app.dmitryteplyakov.sportdiary.R;
 
 public class WeightPickerFragment extends DialogFragment {
     public static final String EXTRA_NEW_WEIGHT = "com.app.extra_new_weight";
+    public static final String ARG_WEIGHT_UUID = "com.app.arg_weight_uuid";
+    public static final String EXTRA_OLD_WEIGHT = "com.app.extra_old_weight";
 
     private EditText mWeightEditText;
     private float mWeight;
+
+    public static WeightPickerFragment getInstance(UUID id) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_WEIGHT_UUID, id);
+        WeightPickerFragment fragment = new WeightPickerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Override
@@ -37,6 +52,10 @@ public class WeightPickerFragment extends DialogFragment {
         mWeightEditText = (EditText) v.findViewById(R.id.weight_picker_edit_text);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        if(getTargetRequestCode() == WeightListFragment.REQUEST_WEIGHT_EDIT) {
+            Weight weight = WeightStorage.get(getActivity()).getWeight((UUID) getArguments().getSerializable(ARG_WEIGHT_UUID));
+            mWeightEditText.setText(Float.toString(weight.getValue()));
+        }
         mWeightEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -88,6 +107,8 @@ public class WeightPickerFragment extends DialogFragment {
         if(getTargetFragment() == null) return;
         Intent intent = new Intent();
         intent.putExtra(EXTRA_NEW_WEIGHT, mWeight);
+        if(getTargetRequestCode() == WeightListFragment.REQUEST_WEIGHT_EDIT)
+            intent.putExtra(EXTRA_OLD_WEIGHT, getArguments().getSerializable(ARG_WEIGHT_UUID));
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
