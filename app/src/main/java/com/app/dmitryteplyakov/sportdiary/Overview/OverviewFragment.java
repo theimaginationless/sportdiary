@@ -413,31 +413,33 @@ public class OverviewFragment extends Fragment {
 
         if (!graphIsEnabled)
             mGraphCardView.setVisibility(View.GONE);
-        else
+        else {
             mGraphCardView.setVisibility(View.VISIBLE);
+            if(!mode.equals(getString(R.string.combined))) {
+                if (colorModeMulti.equals(getString(R.string.color_indigo))) // MultiGraphs Color Settings
+                    multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+                else if (colorModeMulti.equals(getString(R.string.color_indigo_light)))
+                    multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+                else if (colorModeMulti.equals(getString(R.string.color_pink)))
+                    multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+            }
+
+            graphEnabler(mode, overlappingSwap, multiGraphColor);
+            Log.d("OF", "COLOR: " + Integer.toString(multiGraphColor));
+            mLineChart.notifyDataSetChanged();
+            mLineChart.invalidate();
+        }
         if (!sp.getBoolean("switch_on_graph_weight", true))
             mGraphWeightCardView.setVisibility(View.GONE);
-        else
+        else {
             mGraphWeightCardView.setVisibility(View.VISIBLE);
-        if(colorMode.equals(getString(R.string.color_indigo))) // WeightGraph Color Settings
-            color = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
-        else if(colorMode.equals(getString(R.string.color_indigo_light)))
-            color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
-        else if(colorMode.equals(getString(R.string.color_pink)))
-            color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+                if (colorMode.equals(getString(R.string.color_indigo))) // WeightGraph Color Settings
+                    color = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+                else if (colorMode.equals(getString(R.string.color_indigo_light)))
+                    color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+                else if (colorMode.equals(getString(R.string.color_pink)))
+                    color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+            }
         drawWeightCard(getView(), color);
-
-
-        if(colorModeMulti.equals(getString(R.string.color_indigo))) // MultiGraphs Color Settings
-            multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
-        else if(colorModeMulti.equals(getString(R.string.color_indigo_light)))
-            multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
-        else if(colorModeMulti.equals(getString(R.string.color_pink)))
-            multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorAccent);
-
-        graphEnabler(mode, overlappingSwap, multiGraphColor);
-        mLineChart.notifyDataSetChanged();
-        mLineChart.invalidate();
-
     }
 }

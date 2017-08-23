@@ -208,7 +208,7 @@ public class GeneralActivity extends AppCompatActivity {
                         } else
                             tab.setBadgeCount(0);
                     } else {
-                        Log.d("GA", "Badges or module are disabled!");
+                        Log.d("GA", "Badges are disabled!");
                         tab.setBadgeCount(0);
                     }
                 }

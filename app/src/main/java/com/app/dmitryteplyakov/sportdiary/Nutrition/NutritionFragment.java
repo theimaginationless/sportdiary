@@ -43,9 +43,9 @@ public class NutritionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_nutrition, null);
         mWorkaroundFocusLinearLayout = (LinearLayout) v.findViewById(R.id.workaround_focus);
+        mNutrition = NutritionStorage.get(getActivity()).getNutrition((UUID) getArguments().getSerializable(ARG_NUTRITION_UUID));
         if(mNutrition.getProductTitle() == null)
             mWorkaroundFocusLinearLayout.setFocusableInTouchMode(false);
-        mNutrition = NutritionStorage.get(getActivity()).getNutrition((UUID) getArguments().getSerializable(ARG_NUTRITION_UUID));
         mDishTitle = (EditText) v.findViewById(R.id.fragment_nutrition_title);
         mEnergy = (EditText) v.findViewById(R.id.fragment_nutrition_energy_edit_text);
         mWeight = (EditText) v.findViewById(R.id.fragment_nutrition_weight_edit_text);
