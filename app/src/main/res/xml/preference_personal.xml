@@ -22,7 +22,7 @@
         <EditTextPreference android:title="@string/weight"
                             android:summary="@string/weight_desc"
                             android:inputType="numberDecimal"
-                            android:defaultValue="0"
+                            android:defaultValue=""
                             android:key="weight_target_value"/>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -37,9 +37,22 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
                 ListPreference pref = (ListPreference) findPreference("graph_mode_list");
                 final ListPreference prefColor = (ListPreference) findPreference("graph_color_list_multi");
                 final boolean state = sp.getBoolean("switch_on_graphs", true);
+                final ListPreference overlappingGraphs = (ListPreference) findPreference("overlappingSwap");
+
                 if(mode.equals(getString(R.string.combined)))
                     prefColor.setEnabled(false);
 
+                overlappingGraphs.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        final String mode = newValue.toString();
+                        if(!mode.equals(getString(R.string.combined)) && state) {
+                            overlappingGraphs.setEnabled(true);
+                        } else
+                            overlappingGraphs.setEnabled(false);
+                        return true;
+                    }
+                });
                 pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newValue) {

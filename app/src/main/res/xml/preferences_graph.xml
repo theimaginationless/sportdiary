@@ -46,12 +46,6 @@
             android:key="switch_on_graph_weight"
             android:summary="@string/switch_on_graph_weight_desc"
             android:title="@string/switch_on_graph_weight"/>
-        <SwitchPreference
-            android:dependency="switch_on_graph_weight"
-            android:defaultValue="true"
-            android:key="switch_on_legend_weight"
-            android:summary="@string/switch_on_legend_desc"
-            android:title="@string/switch_on_legend"/>
         <ListPreference
             android:dependency="switch_on_graph_weight"
             android:defaultValue="@string/color_indigo_light"

@@ -172,4 +172,5 @@
     <string name="color_indigo_light">Индиго светлый</string>
     <string name="color_indigo">Индиго тёмный</string>
     <string name="color_pink">Розовый</string>
+    <string name="target_weight">Цель</string>
 </resources>

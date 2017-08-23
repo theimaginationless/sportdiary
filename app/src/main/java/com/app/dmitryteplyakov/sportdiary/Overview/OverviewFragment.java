@@ -32,6 +32,7 @@ import com.app.dmitryteplyakov.sportdiary.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -77,7 +78,11 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.setScaleEnabled(false);
         mWeightLineChart.setDrawGridBackground(false);
         mWeightLineChart.getXAxis().setDrawAxisLine(false);
-        mWeightLineChart.getAxisLeft().setEnabled(false);
+        //mWeightLineChart.getAxisLeft().setEnabled(false);
+        mWeightLineChart.getAxisLeft().setDrawAxisLine(false);
+        mWeightLineChart.getAxisLeft().setDrawGridLines(false);
+        mWeightLineChart.getAxisLeft().setDrawLabels(false);
+
         mWeightLineChart.getAxisRight().setEnabled(false);
         mWeightLineChart.getXAxis().setGranularity(1f);
         mWeightLineChart.getXAxis().setGranularityEnabled(true);
@@ -85,8 +90,20 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.getAxisLeft().setGranularity(1f);
         mWeightLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
         mWeightLineChart.getXAxis().setDrawGridLines(false);
-        mWeightLineChart.getLegend().setEnabled(sp.getBoolean("switch_on_legend_weight", true));
+        mWeightLineChart.getLegend().setEnabled(false);
         mWeightLineChart.setTouchEnabled(false);
+        if(!sp.getString("weight_target_value", null).equals("")) {
+            try {
+                LimitLine lLine = new LimitLine(Float.parseFloat(sp.getString("weight_target_value", null)), getString(R.string.target_weight));
+                lLine.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
+                lLine.setLineColor(ContextCompat.getColor(getActivity(), android.R.color.black));
+                lLine.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.darker_gray));
+                mWeightLineChart.getAxisLeft().addLimitLine(lLine);
+            } catch(NullPointerException e) {
+                Log.e("OF", "Exception", e);
+            }
+        }
+
         linesWeight.add(getWeightGraph(255, color));
         Description desc = new Description();
         desc.setText(getString(R.string.fragment_program_weight_hint));
