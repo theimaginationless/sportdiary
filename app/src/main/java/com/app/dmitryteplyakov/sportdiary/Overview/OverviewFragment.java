@@ -260,12 +260,12 @@ public class OverviewFragment extends Fragment {
 
         mlinearlayoutLastDiff = (LinearLayout) v.findViewById(R.id.linearlayout_last_diff);
         mSummaryInfoCardView = (CardView) v.findViewById(R.id.overview_summary_info_cardview);
-        getActivity().runOnUiThread(new Runnable() {
+        /*getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 drawInfoCard();
             }
-        });
+        });*/
 
 
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
