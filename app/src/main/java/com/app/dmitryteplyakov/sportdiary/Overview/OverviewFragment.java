@@ -111,7 +111,7 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.setDescription(desc);
         mWeightGraph = new LineData(linesWeight);
         mWeightLineChart.setData(mWeightGraph);
-        mWeightLineChart.animateY(600);
+        //mWeightLineChart.animateY(600);
     }
 
     private void drawInfoCard() {
@@ -279,7 +279,7 @@ public class OverviewFragment extends Fragment {
         //graphEnabler(mode, overlappingSwap);
         mGraphs = new LineData(lines);
         mLineChart.setData(mGraphs);
-        mLineChart.animateY(600);
+        //mLineChart.animateY(600);
         Description description = new Description();
         description.setText(getString(R.string.fragment_program_energy_hint));
         description.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
@@ -545,7 +545,14 @@ public class OverviewFragment extends Fragment {
             else if (colorMode.equals(getString(R.string.color_pink)))
                 color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
         }
-        drawWeightCard(getView(), color);
+        final int fColor = color;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                drawWeightCard(getView(), fColor);
+            }
+        });
+
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
