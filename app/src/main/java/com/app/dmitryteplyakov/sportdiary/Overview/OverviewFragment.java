@@ -83,7 +83,6 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.getAxisLeft().setEnabled(false);
         mWeightLineChart.getAxisLeft().setDrawAxisLine(false);
         mWeightLineChart.getAxisLeft().setDrawGridLines(false);
-        mWeightLineChart.getAxisLeft().setDrawLabels(false);
         mWeightLineChart.getAxisRight().setEnabled(false);
         mWeightLineChart.getXAxis().setGranularity(1f);
         mWeightLineChart.getXAxis().setGranularityEnabled(true);
@@ -279,6 +278,9 @@ public class OverviewFragment extends Fragment {
         dataset.setHighlightEnabled(false);
         dataset.setValueTextSize(10f);
         dataset.setDrawFilled(true);
+
+        dataset.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+
         mWeightLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axisBase) {
@@ -291,7 +293,6 @@ public class OverviewFragment extends Fragment {
                 }
             }
         });
-        dataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         return dataset;
     }
 
@@ -352,7 +353,7 @@ public class OverviewFragment extends Fragment {
                 }
             }
         });
-        dataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataset.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         return dataset;
     }
 
@@ -393,7 +394,7 @@ public class OverviewFragment extends Fragment {
         exDataset.setHighlightEnabled(false);
         exDataset.setValueTextSize(10f);
         exDataset.setDrawFilled(true);
-        exDataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        exDataset.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
 
         return exDataset;
     }
