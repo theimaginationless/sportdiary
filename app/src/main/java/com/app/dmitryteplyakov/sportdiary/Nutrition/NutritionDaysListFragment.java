@@ -77,8 +77,13 @@ public class NutritionDaysListFragment extends Fragment {
                     mFab.show();
             }
         });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI();
+            }
+        });
 
-        updateUI();
         return v;
     }
 
@@ -243,8 +248,14 @@ public class NutritionDaysListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
-        updateBadge();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI();
+                updateBadge();
+            }
+        });
+
     }
 
     @Override
@@ -253,10 +264,16 @@ public class NutritionDaysListFragment extends Fragment {
             if(requestCode == REQUEST_DELETE_DAY) {
                 UUID dayId = (UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID);
                 NutritionDay day = NutritionDayStorage.get(getActivity()).getNutritionDay(dayId);
-                int num = NutritionDayStorage.get(getActivity()).getNutritionDays().indexOf(day);
+                final int num = NutritionDayStorage.get(getActivity()).getNutritionDays().indexOf(day);
                 NutritionDayStorage.get(getActivity()).deleteNutritionDay(day);
                 NutritionStorage.get(getActivity()).deleteNutritionsByParentDayId(dayId);
-                updateUI(false, num);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(false, num);
+                    }
+                });
+
                 //Snackbar mSnackBar = Snackbar.make(getActivity().findViewById(R.id.snackbar_place), getString(R.string.snackbar_day_deleted), Snackbar.LENGTH_LONG);
                 //mSnackBar.show();
             }

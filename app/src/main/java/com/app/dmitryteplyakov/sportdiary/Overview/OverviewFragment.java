@@ -61,6 +61,8 @@ public class OverviewFragment extends Fragment {
     private TextView mDiffWeight;
     private LinearLayout mlinearlayoutLastDiff;
     private CardView mSummaryTrainingCardView;
+    private LinearLayout mWeightDiffLinearLayout;
+    private TextView mWeightDiffTextView;
     private LineChart mWeightLineChart;
     private CardView mGraphWeightCardView;
     private float mWeightMaxY;
@@ -92,8 +94,6 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.getXAxis().setDrawGridLines(false);
         mWeightLineChart.getLegend().setEnabled(false);
         mWeightLineChart.setTouchEnabled(false);
-
-        //mWeightLineChart.getAxisLeft().setAxisMaximum(100);
         mWeightLineChart.setAutoScaleMinMaxEnabled(true);
 
         linesWeight.add(getWeightGraph(255, color));
@@ -108,12 +108,47 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.animateY(600);
     }
 
+    private float rounded(float value) {
+        return ((float) ((int) Math.round(value * 100))) / 100;
+    }
+
+    private void calcWeightDiff() {
+        int loseColor = 0;
+        int gainColor = 0;
+        if(WeightStorage.get(getActivity()).getWeights().size() != 0) {
+            List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
+            mWeightDiffLinearLayout.setVisibility(View.VISIBLE);
+            float first = weights.get(weights.size() - 1).getValue();
+            float last = weights.get(0).getValue();
+            if(sp.getString("weight_target", getString(R.string.lose_weight)).equals(getString(R.string.lose_weight))) {
+                loseColor = ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark);
+                gainColor = ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark);
+
+            } else {
+                loseColor = ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark);
+                gainColor = ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark);
+            }
+            if(first > last) {
+                mWeightDiffTextView.setTextColor(loseColor);
+                mWeightDiffTextView.setText("-" + Float.toString(rounded(first - last)) + getString(R.string.fragment_program_weight_hint));
+            } else if(first < last) {
+                mWeightDiffTextView.setTextColor(gainColor);
+                mWeightDiffTextView.setText("+" + Float.toString(rounded(last - first)) + getString(R.string.fragment_program_weight_hint));
+            } else
+                mWeightDiffLinearLayout.setVisibility(View.GONE);
+        } else
+            mWeightDiffLinearLayout.setVisibility(View.GONE);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
-        mOffsetYAxis = 20;
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mOffsetYAxis = 20;
+
+        mWeightDiffLinearLayout = (LinearLayout) v.findViewById(R.id.linearlayout_weight_diff);
+        mWeightDiffTextView = (TextView) v.findViewById(R.id.weight_diff);
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
         mGraphCardView = (CardView) v.findViewById(R.id.overview_linechart_nutrition_host_card_view);
@@ -139,63 +174,69 @@ public class OverviewFragment extends Fragment {
         mDaysCount = (TextView) v.findViewById(R.id.count_days);
         mDaysCount.setText(getResources().getQuantityString(R.plurals.days, DayStorage.get(getActivity()).getDays().size(), DayStorage.get(getActivity()).getDays().size()));
         mlinearlayoutLastDiff = (LinearLayout) v.findViewById(R.id.linearlayout_last_diff);
-        mSummaryTrainingCardView = (CardView) v.findViewById(R.id.overview_summary_training_cardview);
-        if (DayStorage.get(getActivity()).getDays().size() != 0) {
-            Day day = DayStorage.get(getActivity()).getDays().get(0);
-            Training lastTraining = TrainingStorage.get(getActivity()).getTraining(day.getTrainingId());
-            Training preLastTraining = null;
-            List<Day> days = DayStorage.get(getActivity()).getDays();
-            days.remove(0);
-            for (Day lDay : days) {
-                Training training = TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId());
-                if (training != null) {
-                    if (training.equals(lastTraining)) {
-                        preLastTraining = training;
-                        break;
-                    }
-                }
+        mSummaryTrainingCardView = (CardView) v.findViewById(R.id.overview_summary_info_cardview);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (DayStorage.get(getActivity()).getDays().size() != 0) {
+                    Day day = DayStorage.get(getActivity()).getDays().get(0);
+                    Training lastTraining = TrainingStorage.get(getActivity()).getTraining(day.getTrainingId());
+                    Training preLastTraining = null;
+                    List<Day> days = DayStorage.get(getActivity()).getDays();
+                    days.remove(0);
+                    for (Day lDay : days) {
+                        Training training = TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId());
+                        if (training != null) {
+                            if (training.equals(lastTraining)) {
+                                preLastTraining = training;
+                                break;
+                            }
+                        }
 
-            }
-            float lastAverageWeight = 0;
-            float preLastAverageWeight = 0;
-            float sum = 0;
-            int count = 0;
-            float preSum = 0;
-            int preCount = 0;
-            if (preLastTraining != null) {
-                for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentId(lastTraining.getId())) {
-                    if (exercise.getParentDayId().equals(day.getId())) {
-                        sum += exercise.getWeight();
-                        count++;
-                    } else if (exercise.getParentDayId().equals(days.get(0).getId())) {
-                        preSum += exercise.getWeight();
-                        preCount++;
                     }
-                }
-                if (count != 0)
-                    lastAverageWeight = ((float) ((int) Math.round((sum / count) * 100))) / 100;
-                if (preCount != 0)
-                    preLastAverageWeight = ((float) ((int) Math.round((preSum / preCount) * 100))) / 100;
-            }
-            String diffWeight;
-            if (lastAverageWeight > preLastAverageWeight) {
-                mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
-                diffWeight = "+" + Float.toString(((float) Math.round((lastAverageWeight - preLastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
-            } else if (lastAverageWeight < preLastAverageWeight) {
-                mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
-                diffWeight = "-" + Float.toString(((float) Math.round((preLastAverageWeight - lastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
-            } else {
-                diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
-                mDiffWeight.setVisibility(View.GONE);
-                mlinearlayoutLastDiff.setVisibility(View.GONE);
-            }
-            mDiffWeight.setText(diffWeight);
+                    float lastAverageWeight = 0;
+                    float preLastAverageWeight = 0;
+                    float sum = 0;
+                    int count = 0;
+                    float preSum = 0;
+                    int preCount = 0;
+                    if (preLastTraining != null) {
+                        for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentId(lastTraining.getId())) {
+                            if (exercise.getParentDayId().equals(day.getId())) {
+                                sum += exercise.getWeight();
+                                count++;
+                            } else if (exercise.getParentDayId().equals(days.get(0).getId())) {
+                                preSum += exercise.getWeight();
+                                preCount++;
+                            }
+                        }
+                        if (count != 0)
+                            lastAverageWeight = ((float) ((int) Math.round((sum / count) * 100))) / 100;
+                        if (preCount != 0)
+                            preLastAverageWeight = ((float) ((int) Math.round((preSum / preCount) * 100))) / 100;
+                    }
+                    String diffWeight;
+                    if (lastAverageWeight > preLastAverageWeight) {
+                        mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
+                        diffWeight = "+" + Float.toString(((float) Math.round((lastAverageWeight - preLastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
+                    } else if (lastAverageWeight < preLastAverageWeight) {
+                        mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
+                        diffWeight = "-" + Float.toString(((float) Math.round((preLastAverageWeight - lastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
+                    } else {
+                        diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
+                        mDiffWeight.setVisibility(View.GONE);
+                        mlinearlayoutLastDiff.setVisibility(View.GONE);
+                    }
+                    mDiffWeight.setText(diffWeight);
 
-        } else {
-            mDiffWeight.setVisibility(View.GONE);
-            mlinearlayoutLastDiff.setVisibility(View.GONE);
-            mSummaryTrainingCardView.setVisibility(View.GONE);
-        }
+                } else {
+                    mDiffWeight.setVisibility(View.GONE);
+                    mlinearlayoutLastDiff.setVisibility(View.GONE);
+                    mSummaryTrainingCardView.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
 
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
@@ -218,42 +259,48 @@ public class OverviewFragment extends Fragment {
     }
 
 
-    public void graphEnabler(String mode, String overlappingSwap, int color) {
-        lines = new ArrayList<>();
-        mGraphs = new LineData(lines);
-        int fullAlpha = 255;
-        int partAlpha = 200;
-        mCommonTrainingPlotMaxY = 0;
+    public void graphEnabler(final String mode, final String overlappingSwap, final int color) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                lines = new ArrayList<>();
+                mGraphs = new LineData(lines);
+                int fullAlpha = 255;
+                int partAlpha = 200;
+                mCommonTrainingPlotMaxY = 0;
 
-        if(mFirstTrainingMaxY > mSecondTrainingMaxY)
-            mCommonTrainingPlotMaxY = mFirstTrainingMaxY;
-        else if(mFirstTrainingMaxY < mSecondTrainingMaxY)
-            mCommonTrainingPlotMaxY = mSecondTrainingMaxY;
+                if(mFirstTrainingMaxY > mSecondTrainingMaxY)
+                    mCommonTrainingPlotMaxY = mFirstTrainingMaxY;
+                else if(mFirstTrainingMaxY < mSecondTrainingMaxY)
+                    mCommonTrainingPlotMaxY = mSecondTrainingMaxY;
 
-        Log.d("OF MODE: ", mode);
-        if (mode.equals("")) {
-            return;
-        }
-        if (mode.equals(getString(R.string.nutrition))) {
-            lines.add(getFirstGraph(fullAlpha, color));
-            mGraphTitle.setText(getString(R.string.overview_fragment_nutrition_stats));
-        } else if (mode.equals(getString(R.string.training))) {
-            lines.add(getSecondGraph(fullAlpha, color));
-            mGraphTitle.setText(getString(R.string.overview_fragment_training_stats));
-        } else {
-            if (overlappingSwap.equals(getString(R.string.switch_overlapping_graphs_second_over_first))) {
-                lines.add(getFirstGraph(fullAlpha, color));
-                lines.add(getSecondGraph(partAlpha, color));
-            } else {
-                lines.add(getSecondGraph(fullAlpha, color));
-                lines.add(getFirstGraph(partAlpha, color));
+                Log.d("OF MODE: ", mode);
+                if (mode.equals("")) {
+                    return;
+                }
+                if (mode.equals(getString(R.string.nutrition))) {
+                    lines.add(getFirstGraph(fullAlpha, color));
+                    mGraphTitle.setText(getString(R.string.overview_fragment_nutrition_stats));
+                } else if (mode.equals(getString(R.string.training))) {
+                    lines.add(getSecondGraph(fullAlpha, color));
+                    mGraphTitle.setText(getString(R.string.overview_fragment_training_stats));
+                } else {
+                    if (overlappingSwap.equals(getString(R.string.switch_overlapping_graphs_second_over_first))) {
+                        lines.add(getFirstGraph(fullAlpha, color));
+                        lines.add(getSecondGraph(partAlpha, color));
+                    } else {
+                        lines.add(getSecondGraph(fullAlpha, color));
+                        lines.add(getFirstGraph(partAlpha, color));
+                    }
+                    mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
+                }
+                mGraphs = new LineData(lines);
+                if(mCommonTrainingPlotMaxY != 0)
+                    mLineChart.getAxisLeft().setAxisMaximum(mCommonTrainingPlotMaxY + mOffsetYAxis);
+                mLineChart.setData(mGraphs);
             }
-            mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
-        }
-        mGraphs = new LineData(lines);
-        if(mCommonTrainingPlotMaxY != 0)
-            mLineChart.getAxisLeft().setAxisMaximum(mCommonTrainingPlotMaxY + mOffsetYAxis);
-        mLineChart.setData(mGraphs);
+        });
+
     }
 
     public LineDataSet getWeightGraph(int alpha, int color) {
@@ -438,6 +485,7 @@ public class OverviewFragment extends Fragment {
         String colorModeMulti = sp.getString("graph_color_list_multi", getString(R.string.color_indigo));
         int color = 0;
         int multiGraphColor = 0;
+
         mLineChart.getLegend().setEnabled(legendSwitch);
 
         if (!graphIsEnabled)
@@ -452,7 +500,6 @@ public class OverviewFragment extends Fragment {
                 else if (colorModeMulti.equals(getString(R.string.color_pink)))
                     multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorAccent);
             }
-
             graphEnabler(mode, overlappingSwap, multiGraphColor);
             Log.d("OF", "COLOR: " + Integer.toString(multiGraphColor));
             mLineChart.notifyDataSetChanged();
@@ -470,5 +517,12 @@ public class OverviewFragment extends Fragment {
                     color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
             }
         drawWeightCard(getView(), color);
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                calcWeightDiff();
+            }
+        });
     }
 }

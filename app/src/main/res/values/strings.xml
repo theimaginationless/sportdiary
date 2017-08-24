@@ -139,7 +139,7 @@
     <string name="gain_weight">Набрать вес</string>
     <string name="settings_personal_target">Цель</string>
     <string name="settings_personal_target_desc">Набрать или сбросить вес</string>
-    <string name="training_summary">Динамика тренировок</string>
+    <string name="info_summary">Общие данные</string>
     <string name="training_summary_days_training_count">Вы тренируетесь:</string>
     <string name="switch_on_graphs">Отображение графика калорий</string>
     <string name="switch_on_graphs_desc">Включить отображение графика калорий в сводке</string>
@@ -174,4 +174,5 @@
     <string name="color_pink">Розовый</string>
     <string name="target_weight">Цель</string>
     <string name="select_time_title">Время</string>
+    <string name="info_summary_weight_diff">Изменение веса: </string>
 </resources>
