@@ -76,21 +76,19 @@ public class WeightListFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        FragmentManager manager = getFragmentManager();
-                        WeightPickerFragment weightDialog = new WeightPickerFragment();
-                        weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
-                        weightDialog.show(manager, DIALOG_WEIGHT);
-                    }
-                });
-                thread.start();
-
+                FragmentManager manager = getFragmentManager();
+                WeightPickerFragment weightDialog = new WeightPickerFragment();
+                weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
+                weightDialog.show(manager, DIALOG_WEIGHT);
+                Log.d("WLF", "=============ADD==========");
             }
         });
-
-        updateUI();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI();
+            }
+        });
         return v;
     }
 
@@ -121,11 +119,12 @@ public class WeightListFragment extends Fragment {
             String target;
             String stringDiff;
             if(index != weights.size() - 1) {
-
+                mWeightDiffTextView.setVisibility(View.VISIBLE);
                 target = sp.getString("weight_target", getString(R.string.lose_weight));
                 stringDiff = "0";
                 Log.d("WLF", "TARGET: " + sp.getString("weight_target", getString(R.string.lose_weight)));
                 if (mWeight.getValue() > weights.get(index + 1).getValue()) {
+                    Log.d("WLF", "First: " + Float.toString(mWeight.getValue()) + " PreFirst: " + Float.toString(weights.get(index + 1).getValue()));
                     if (target.equals(getString(R.string.gain_weight))) {
                         mWeightDiffTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
                         stringDiff = "+" + Float.toString(rounder(mWeight.getValue() - weights.get(index + 1).getValue()));
@@ -136,6 +135,7 @@ public class WeightListFragment extends Fragment {
                     }
 
                 } else if (mWeight.getValue() < weights.get(index + 1).getValue()) {
+                    Log.d("WLF", "First: " + Float.toString(mWeight.getValue()) + " PreFirst: " + Float.toString(weights.get(index + 1).getValue()));
                     if (target.equals(getString(R.string.gain_weight))) {
                         mWeightDiffTextView.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
                         stringDiff = "-" + Float.toString(rounder(weights.get(index + 1).getValue() - mWeight.getValue()));
@@ -146,6 +146,7 @@ public class WeightListFragment extends Fragment {
                     }
                 } else
                     mWeightDiffTextView.setVisibility(View.GONE);
+                Log.d("WLF", stringDiff);
                 mWeightDiffTextView.setText(stringDiff + " " + getString(R.string.fragment_program_weight_hint));
             } else
                 mWeightDiffTextView.setVisibility(View.GONE);
@@ -236,7 +237,12 @@ public class WeightListFragment extends Fragment {
             mEmptyTextView.setVisibility(View.VISIBLE);
             mFab.show();
         }
-        updateBadge();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateBadge();
+            }
+        });
     }
 
     private void updateUI(boolean isAdd, int num) {
@@ -245,10 +251,12 @@ public class WeightListFragment extends Fragment {
         mAdapter.setWeights(weights);
         if(isAdd) {
             mAdapter.notifyItemInserted(num);
-            mAdapter.notifyItemRangeChanged(num, weights.size() - 1);
+            //mAdapter.notifyItemRangeChanged(num, weights.size() - 1);
+            mAdapter.notifyItemRangeChanged(0, 1);
+            mRecyclerView.smoothScrollToPosition(0);
         } else {
             mAdapter.notifyItemRemoved(num);
-            mAdapter.notifyItemRangeChanged(0, num);
+            mAdapter.notifyItemRangeChanged(0, num + 1);
         }
         if(weights.size() != 0){
             mEmptyTextView.setVisibility(View.GONE);
@@ -259,7 +267,12 @@ public class WeightListFragment extends Fragment {
         if(!mRecyclerView.canScrollVertically(1)) { // 1 - down direction
             mFab.show();
         }
-        updateBadge();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateBadge();
+            }
+        });
     }
 
     public static boolean isDoneToday(Context context) {
@@ -301,7 +314,13 @@ public class WeightListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateBadge();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI();
+                updateBadge();
+            }
+        });
     }
 
     @Override
@@ -309,21 +328,38 @@ public class WeightListFragment extends Fragment {
         Log.d("WLF", "RESULT!");
         if(resultCode == Activity.RESULT_OK)
             if (requestCode == REQUEST_WEIGHT) {
-                Weight weight = new Weight((float) data.getSerializableExtra(WeightPickerFragment.EXTRA_NEW_WEIGHT));
+                final Weight weight = new Weight((float) data.getSerializableExtra(WeightPickerFragment.EXTRA_NEW_WEIGHT));
                 WeightStorage.get(getActivity()).addWeight(weight);
-                updateUI(true, WeightStorage.get(getActivity()).getWeights().indexOf(weight));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(true, WeightStorage.get(getActivity()).getWeights().indexOf(weight));
+                    }
+                });
             } else if(requestCode == REQUEST_WEIGHT_DELETE) {
                 Log.d("WLF", ((UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID)).toString());
                 Weight weight = WeightStorage.get(getActivity()).getWeight((UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID));
-                int num = WeightStorage.get(getActivity()).getWeights().indexOf(weight);
+                final int num = WeightStorage.get(getActivity()).getWeights().indexOf(weight);
                 WeightStorage.get(getActivity()).deleteWeight(weight);
-                updateUI(false, num);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(false, num);
+                    }
+                });
+
             } else if(requestCode == REQUEST_WEIGHT_EDIT) {
                 Float newValue = ((float) data.getSerializableExtra(WeightPickerFragment.EXTRA_NEW_WEIGHT));
                 Weight weight = WeightStorage.get(getActivity()).getWeight((UUID) data.getSerializableExtra(WeightPickerFragment.EXTRA_OLD_WEIGHT));
                 weight.setValue(newValue);
                 WeightStorage.get(getActivity()).updateWeight(weight);
-                updateUI();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI();
+                    }
+                });
+
             }
     }
 }
