@@ -1,14 +1,9 @@
 package com.app.dmitryteplyakov.sportdiary.Overview;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v14.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -34,7 +29,6 @@ import com.app.dmitryteplyakov.sportdiary.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -69,6 +63,12 @@ public class OverviewFragment extends Fragment {
     private CardView mSummaryTrainingCardView;
     private LineChart mWeightLineChart;
     private CardView mGraphWeightCardView;
+    private float mWeightMaxY;
+    private float mFirstTrainingMaxY;
+    private float mSecondTrainingMaxY;
+    private float mCommonTrainingPlotMaxY;
+    private float mOffsetYAxis;
+
 
     private void drawWeightCard(View v, int color) {
         if(color == 0)
@@ -92,7 +92,13 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.getXAxis().setDrawGridLines(false);
         mWeightLineChart.getLegend().setEnabled(false);
         mWeightLineChart.setTouchEnabled(false);
+
+        //mWeightLineChart.getAxisLeft().setAxisMaximum(100);
+        mWeightLineChart.setAutoScaleMinMaxEnabled(true);
+
         linesWeight.add(getWeightGraph(255, color));
+        if(mWeightMaxY != 0)
+            mWeightLineChart.getAxisLeft().setAxisMaximum(mWeightMaxY + mOffsetYAxis);
         Description desc = new Description();
         desc.setText(getString(R.string.fragment_program_weight_hint));
         desc.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
@@ -106,6 +112,7 @@ public class OverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
+        mOffsetYAxis = 20;
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
@@ -216,6 +223,13 @@ public class OverviewFragment extends Fragment {
         mGraphs = new LineData(lines);
         int fullAlpha = 255;
         int partAlpha = 200;
+        mCommonTrainingPlotMaxY = 0;
+
+        if(mFirstTrainingMaxY > mSecondTrainingMaxY)
+            mCommonTrainingPlotMaxY = mFirstTrainingMaxY;
+        else if(mFirstTrainingMaxY < mSecondTrainingMaxY)
+            mCommonTrainingPlotMaxY = mSecondTrainingMaxY;
+
         Log.d("OF MODE: ", mode);
         if (mode.equals("")) {
             return;
@@ -237,6 +251,8 @@ public class OverviewFragment extends Fragment {
             mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
         }
         mGraphs = new LineData(lines);
+        if(mCommonTrainingPlotMaxY != 0)
+            mLineChart.getAxisLeft().setAxisMaximum(mCommonTrainingPlotMaxY + mOffsetYAxis);
         mLineChart.setData(mGraphs);
     }
 
@@ -247,6 +263,7 @@ public class OverviewFragment extends Fragment {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
         boolean skipFlag;
         //int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        mWeightMaxY = 0;
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
             Calendar calendar = Calendar.getInstance();
@@ -256,6 +273,9 @@ public class OverviewFragment extends Fragment {
             Calendar date = Calendar.getInstance();
             for (Weight weight : weights) {
                 date.setTime(weight.getDate());
+                if(mWeightMaxY < weight.getValue())
+                    mWeightMaxY = weight.getValue();
+
                 if (date.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
                     labels.add(dateFormatter.format(weight.getDate()));
                     entries.add(new Entry(6 - j, weight.getValue()));
@@ -279,7 +299,7 @@ public class OverviewFragment extends Fragment {
         dataset.setValueTextSize(10f);
         dataset.setDrawFilled(true);
 
-        dataset.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
         mWeightLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
@@ -303,6 +323,7 @@ public class OverviewFragment extends Fragment {
         List<NutritionDay> nutritionDayList = NutritionDayStorage.get(getActivity()).getNutritionDays();
         Collections.reverse(nutritionDayList);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
+        mFirstTrainingMaxY = 0;
         boolean skipFlag;
         if(color == 0)
             color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
@@ -321,6 +342,9 @@ public class OverviewFragment extends Fragment {
                     for (Nutrition nutrition : NutritionStorage.get(getActivity()).getNutritionsByParentDayId(nDay.getId())) {
                         resultEnergy += nutrition.getResultEnergy();
                     }
+                    if(mFirstTrainingMaxY < resultEnergy)
+                        mFirstTrainingMaxY = resultEnergy;
+
                     entries.add(new Entry(6 - j, resultEnergy));
                     skipFlag = true;
                 }
@@ -353,13 +377,14 @@ public class OverviewFragment extends Fragment {
                 }
             }
         });
-        dataset.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         return dataset;
     }
 
     public LineDataSet getSecondGraph(int alpha, int color) {
         ArrayList<Entry> exEntries = new ArrayList<>();
         List<Day> dayList = DayStorage.get(getActivity()).getDays();
+        mSecondTrainingMaxY = 0;
         boolean skipFlag;
         if(color == 0)
             color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
@@ -377,6 +402,9 @@ public class OverviewFragment extends Fragment {
                     for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentTrainingDayId(day.getId())) {
                         resultEnergy += exercise.getEnergy();
                     }
+                    if(mSecondTrainingMaxY < resultEnergy)
+                        mSecondTrainingMaxY = resultEnergy;
+
                     exEntries.add(new Entry(6 - j, resultEnergy));
                     skipFlag = true;
                 }
@@ -394,7 +422,7 @@ public class OverviewFragment extends Fragment {
         exDataset.setHighlightEnabled(false);
         exDataset.setValueTextSize(10f);
         exDataset.setDrawFilled(true);
-        exDataset.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        exDataset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
         return exDataset;
     }
