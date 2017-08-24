@@ -154,7 +154,12 @@ public class GeneralActivity extends AppCompatActivity {
                         onWeightTab();
                         break;
                 }
-                checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+                    }
+                });
 
             }
         });
@@ -176,7 +181,13 @@ public class GeneralActivity extends AppCompatActivity {
                     mBottomBar.selectTabWithId(R.id.action_weight_tab);
                     break;
             }
-            checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+                }
+            });
+
         }
 
 
@@ -338,7 +349,12 @@ public class GeneralActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
+            }
+        });
         Log.d("GA", "Resume");
     }
 

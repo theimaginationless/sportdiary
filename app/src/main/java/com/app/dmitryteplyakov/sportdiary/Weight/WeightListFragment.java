@@ -76,11 +76,17 @@ public class WeightListFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getFragmentManager();
-                WeightPickerFragment weightDialog = new WeightPickerFragment();
-                weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
-                weightDialog.show(manager, DIALOG_WEIGHT);
-                Log.d("WLF", "=============ADD==========");
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FragmentManager manager = getFragmentManager();
+                        WeightPickerFragment weightDialog = new WeightPickerFragment();
+                        weightDialog.setTargetFragment(WeightListFragment.this, REQUEST_WEIGHT);
+                        weightDialog.show(manager, DIALOG_WEIGHT);
+                        Log.d("WLF", "=============ADD==========");
+                    }
+                });
+                thread.start();
             }
         });
         getActivity().runOnUiThread(new Runnable() {
