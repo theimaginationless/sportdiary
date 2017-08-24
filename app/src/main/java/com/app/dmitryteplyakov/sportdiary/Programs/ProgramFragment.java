@@ -125,9 +125,12 @@ public class ProgramFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
-                if(count == 0)
-                    mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).size()));
-                else
+                if(count == 0) {
+                    if(mExercise.getTitle() == null)
+                        mExercise.setTitle(getString(R.string.exercise_no_title) + " " + Integer.toString(ExerciseStorage.get(getActivity()).getExercisesByParentId(mExercise.getParentUUID()).size()));
+                    else
+                        mExercise.setTitle(c.toString());
+                } else
                     mExercise.setTitle(c.toString());
             }
             @Override
