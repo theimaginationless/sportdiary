@@ -60,8 +60,9 @@ public class OverviewFragment extends Fragment {
     private TextView mDaysCount;
     private TextView mDiffWeight;
     private LinearLayout mlinearlayoutLastDiff;
-    private CardView mSummaryTrainingCardView;
+    private CardView mSummaryInfoCardView;
     private LinearLayout mWeightDiffLinearLayout;
+    private LinearLayout mDaysCountLinearLayout;
     private TextView mWeightDiffTextView;
     private LineChart mWeightLineChart;
     private CardView mGraphWeightCardView;
@@ -72,8 +73,13 @@ public class OverviewFragment extends Fragment {
     private float mOffsetYAxis;
 
 
+    private boolean isAllVisible() {
+        Log.d("OF", "DIFF: " + Boolean.toString(mlinearlayoutLastDiff.getVisibility() == View.VISIBLE) + " DAYS: " + Boolean.toString(mDaysCountLinearLayout.getVisibility() == View.VISIBLE));
+        return mlinearlayoutLastDiff.getVisibility() == View.VISIBLE || mDaysCountLinearLayout.getVisibility() == View.VISIBLE || mWeightDiffLinearLayout.getVisibility() == View.VISIBLE;
+    }
+
     private void drawWeightCard(View v, int color) {
-        if(color == 0)
+        if (color == 0)
             color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         linesWeight = new ArrayList<>();
         mWeightLineChart = (LineChart) v.findViewById(R.id.overview_linechart_weight);
@@ -97,7 +103,7 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.setAutoScaleMinMaxEnabled(true);
 
         linesWeight.add(getWeightGraph(255, color));
-        if(mWeightMaxY != 0)
+        if (mWeightMaxY != 0)
             mWeightLineChart.getAxisLeft().setAxisMaximum(mWeightMaxY + mOffsetYAxis);
         Description desc = new Description();
         desc.setText(getString(R.string.fragment_program_weight_hint));
@@ -108,6 +114,84 @@ public class OverviewFragment extends Fragment {
         mWeightLineChart.animateY(600);
     }
 
+    private void drawInfoCard() {
+        calcWeightDiff();
+
+        if (DayStorage.get(getActivity()).getDays().size() != 0) {
+            Day day = DayStorage.get(getActivity()).getDays().get(0);
+            Training lastTraining = TrainingStorage.get(getActivity()).getTraining(day.getTrainingId());
+            Training preLastTraining = null;
+            List<Day> days = DayStorage.get(getActivity()).getDays();
+            days.remove(0);
+            for (Day lDay : days) {
+                Training training = TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId());
+                if (training != null) {
+                    if (training.equals(lastTraining)) {
+                        preLastTraining = training;
+                        break;
+                    }
+                }
+
+            }
+            float lastAverageWeight = 0;
+            float preLastAverageWeight = 0;
+            float sum = 0;
+            int count = 0;
+            float preSum = 0;
+            int preCount = 0;
+            if (preLastTraining != null) {
+                for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentId(lastTraining.getId())) {
+                    if (exercise.getParentDayId().equals(day.getId())) {
+                        sum += exercise.getWeight();
+                        count++;
+                    } else if (exercise.getParentDayId().equals(days.get(0).getId())) {
+                        preSum += exercise.getWeight();
+                        preCount++;
+                    }
+                }
+                if (count != 0)
+                    lastAverageWeight = ((float) ((int) Math.round((sum / count) * 100))) / 100;
+                if (preCount != 0)
+                    preLastAverageWeight = ((float) ((int) Math.round((preSum / preCount) * 100))) / 100;
+            }
+            String diffWeight;
+            if (lastAverageWeight > preLastAverageWeight) {
+                mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
+                diffWeight = "+" + Float.toString(((float) Math.round((lastAverageWeight - preLastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
+            } else if (lastAverageWeight < preLastAverageWeight) {
+                mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
+                diffWeight = "-" + Float.toString(((float) Math.round((preLastAverageWeight - lastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
+            } else {
+                diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
+                mDiffWeight.setVisibility(View.GONE);
+                mlinearlayoutLastDiff.setVisibility(View.GONE);
+            }
+            mDiffWeight.setText(diffWeight);
+
+        } else {
+            //mDiffWeight.setVisibility(View.GONE);
+            mlinearlayoutLastDiff.setVisibility(View.GONE);
+        }
+
+
+
+
+
+        if(DayStorage.get(getActivity()).getDays().size() != 0)
+            mDaysCount.setText(getResources().getQuantityString(R.plurals.days, DayStorage.get(getActivity()).getDays().size(), DayStorage.get(getActivity()).getDays().size()));
+        else {
+            mDaysCountLinearLayout.setVisibility(View.GONE);
+            /*if(!isAllVisible())
+                mSummaryInfoCardView.setVisibility(View.GONE);*/
+        }
+        if (!isAllVisible())
+            mSummaryInfoCardView.setVisibility(View.GONE);
+        else
+            mSummaryInfoCardView.setVisibility(View.VISIBLE);
+        Log.d("OF", Boolean.toString(!isAllVisible()));
+    }
+
+
     private float rounded(float value) {
         return ((float) ((int) Math.round(value * 100))) / 100;
     }
@@ -115,12 +199,12 @@ public class OverviewFragment extends Fragment {
     private void calcWeightDiff() {
         int loseColor = 0;
         int gainColor = 0;
-        if(WeightStorage.get(getActivity()).getWeights().size() != 0) {
+        if (WeightStorage.get(getActivity()).getWeights().size() != 0) {
             List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
             mWeightDiffLinearLayout.setVisibility(View.VISIBLE);
             float first = weights.get(weights.size() - 1).getValue();
             float last = weights.get(0).getValue();
-            if(sp.getString("weight_target", getString(R.string.lose_weight)).equals(getString(R.string.lose_weight))) {
+            if (sp.getString("weight_target", getString(R.string.lose_weight)).equals(getString(R.string.lose_weight))) {
                 loseColor = ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark);
                 gainColor = ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark);
 
@@ -128,16 +212,17 @@ public class OverviewFragment extends Fragment {
                 loseColor = ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark);
                 gainColor = ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark);
             }
-            if(first > last) {
+            if (first > last) {
                 mWeightDiffTextView.setTextColor(loseColor);
                 mWeightDiffTextView.setText("-" + Float.toString(rounded(first - last)) + getString(R.string.fragment_program_weight_hint));
-            } else if(first < last) {
+            } else if (first < last) {
                 mWeightDiffTextView.setTextColor(gainColor);
                 mWeightDiffTextView.setText("+" + Float.toString(rounded(last - first)) + getString(R.string.fragment_program_weight_hint));
             } else
                 mWeightDiffLinearLayout.setVisibility(View.GONE);
         } else
             mWeightDiffLinearLayout.setVisibility(View.GONE);
+
     }
 
 
@@ -146,7 +231,8 @@ public class OverviewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_overview, container, false);
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mOffsetYAxis = 20;
-
+        mDaysCount = (TextView) v.findViewById(R.id.count_days);
+        mDaysCountLinearLayout = (LinearLayout) v.findViewById(R.id.linearlayout_count_days);
         mWeightDiffLinearLayout = (LinearLayout) v.findViewById(R.id.linearlayout_weight_diff);
         mWeightDiffTextView = (TextView) v.findViewById(R.id.weight_diff);
         mGraphWeightCardView = (CardView) v.findViewById(R.id.overview_linechart_weight_host_card_view);
@@ -171,72 +257,15 @@ public class OverviewFragment extends Fragment {
         mLineChart.getAxisLeft().setGranularity(1f);
         mLineChart.setNoDataText(getString(R.string.overview_fragment_no_data_for_graph));
         mLineChart.getXAxis().setDrawGridLines(false);
-        mDaysCount = (TextView) v.findViewById(R.id.count_days);
-        mDaysCount.setText(getResources().getQuantityString(R.plurals.days, DayStorage.get(getActivity()).getDays().size(), DayStorage.get(getActivity()).getDays().size()));
+
         mlinearlayoutLastDiff = (LinearLayout) v.findViewById(R.id.linearlayout_last_diff);
-        mSummaryTrainingCardView = (CardView) v.findViewById(R.id.overview_summary_info_cardview);
+        mSummaryInfoCardView = (CardView) v.findViewById(R.id.overview_summary_info_cardview);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (DayStorage.get(getActivity()).getDays().size() != 0) {
-                    Day day = DayStorage.get(getActivity()).getDays().get(0);
-                    Training lastTraining = TrainingStorage.get(getActivity()).getTraining(day.getTrainingId());
-                    Training preLastTraining = null;
-                    List<Day> days = DayStorage.get(getActivity()).getDays();
-                    days.remove(0);
-                    for (Day lDay : days) {
-                        Training training = TrainingStorage.get(getActivity()).getTraining(lDay.getTrainingId());
-                        if (training != null) {
-                            if (training.equals(lastTraining)) {
-                                preLastTraining = training;
-                                break;
-                            }
-                        }
-
-                    }
-                    float lastAverageWeight = 0;
-                    float preLastAverageWeight = 0;
-                    float sum = 0;
-                    int count = 0;
-                    float preSum = 0;
-                    int preCount = 0;
-                    if (preLastTraining != null) {
-                        for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentId(lastTraining.getId())) {
-                            if (exercise.getParentDayId().equals(day.getId())) {
-                                sum += exercise.getWeight();
-                                count++;
-                            } else if (exercise.getParentDayId().equals(days.get(0).getId())) {
-                                preSum += exercise.getWeight();
-                                preCount++;
-                            }
-                        }
-                        if (count != 0)
-                            lastAverageWeight = ((float) ((int) Math.round((sum / count) * 100))) / 100;
-                        if (preCount != 0)
-                            preLastAverageWeight = ((float) ((int) Math.round((preSum / preCount) * 100))) / 100;
-                    }
-                    String diffWeight;
-                    if (lastAverageWeight > preLastAverageWeight) {
-                        mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark));
-                        diffWeight = "+" + Float.toString(((float) Math.round((lastAverageWeight - preLastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
-                    } else if (lastAverageWeight < preLastAverageWeight) {
-                        mDiffWeight.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
-                        diffWeight = "-" + Float.toString(((float) Math.round((preLastAverageWeight - lastAverageWeight) * 100)) / 100) + " " + getString(R.string.fragment_program_weight_hint);
-                    } else {
-                        diffWeight = "0" + " " + getString(R.string.fragment_program_weight_hint);
-                        mDiffWeight.setVisibility(View.GONE);
-                        mlinearlayoutLastDiff.setVisibility(View.GONE);
-                    }
-                    mDiffWeight.setText(diffWeight);
-
-                } else {
-                    mDiffWeight.setVisibility(View.GONE);
-                    mlinearlayoutLastDiff.setVisibility(View.GONE);
-                    mSummaryTrainingCardView.setVisibility(View.GONE);
-                }
+                drawInfoCard();
             }
         });
-
 
 
         boolean graphIsEnabled = sp.getBoolean("switch_on_graphs", true);
@@ -269,9 +298,9 @@ public class OverviewFragment extends Fragment {
                 int partAlpha = 200;
                 mCommonTrainingPlotMaxY = 0;
 
-                if(mFirstTrainingMaxY > mSecondTrainingMaxY)
+                if (mFirstTrainingMaxY > mSecondTrainingMaxY)
                     mCommonTrainingPlotMaxY = mFirstTrainingMaxY;
-                else if(mFirstTrainingMaxY < mSecondTrainingMaxY)
+                else if (mFirstTrainingMaxY < mSecondTrainingMaxY)
                     mCommonTrainingPlotMaxY = mSecondTrainingMaxY;
 
                 Log.d("OF MODE: ", mode);
@@ -295,7 +324,7 @@ public class OverviewFragment extends Fragment {
                     mGraphTitle.setText(getString(R.string.overview_fragment_combined_stats));
                 }
                 mGraphs = new LineData(lines);
-                if(mCommonTrainingPlotMaxY != 0)
+                if (mCommonTrainingPlotMaxY != 0)
                     mLineChart.getAxisLeft().setAxisMaximum(mCommonTrainingPlotMaxY + mOffsetYAxis);
                 mLineChart.setData(mGraphs);
             }
@@ -320,7 +349,7 @@ public class OverviewFragment extends Fragment {
             Calendar date = Calendar.getInstance();
             for (Weight weight : weights) {
                 date.setTime(weight.getDate());
-                if(mWeightMaxY < weight.getValue())
+                if (mWeightMaxY < weight.getValue())
                     mWeightMaxY = weight.getValue();
 
                 if (date.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
@@ -372,7 +401,7 @@ public class OverviewFragment extends Fragment {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
         mFirstTrainingMaxY = 0;
         boolean skipFlag;
-        if(color == 0)
+        if (color == 0)
             color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
@@ -389,7 +418,7 @@ public class OverviewFragment extends Fragment {
                     for (Nutrition nutrition : NutritionStorage.get(getActivity()).getNutritionsByParentDayId(nDay.getId())) {
                         resultEnergy += nutrition.getResultEnergy();
                     }
-                    if(mFirstTrainingMaxY < resultEnergy)
+                    if (mFirstTrainingMaxY < resultEnergy)
                         mFirstTrainingMaxY = resultEnergy;
 
                     entries.add(new Entry(6 - j, resultEnergy));
@@ -433,7 +462,7 @@ public class OverviewFragment extends Fragment {
         List<Day> dayList = DayStorage.get(getActivity()).getDays();
         mSecondTrainingMaxY = 0;
         boolean skipFlag;
-        if(color == 0)
+        if (color == 0)
             color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
         for (int j = 0; j < 7; j++) {
             skipFlag = false;
@@ -449,7 +478,7 @@ public class OverviewFragment extends Fragment {
                     for (Exercise exercise : CompExerciseStorage.get(getActivity()).getExercisesByParentTrainingDayId(day.getId())) {
                         resultEnergy += exercise.getEnergy();
                     }
-                    if(mSecondTrainingMaxY < resultEnergy)
+                    if (mSecondTrainingMaxY < resultEnergy)
                         mSecondTrainingMaxY = resultEnergy;
 
                     exEntries.add(new Entry(6 - j, resultEnergy));
@@ -492,7 +521,7 @@ public class OverviewFragment extends Fragment {
             mGraphCardView.setVisibility(View.GONE);
         else {
             mGraphCardView.setVisibility(View.VISIBLE);
-            if(!mode.equals(getString(R.string.combined))) {
+            if (!mode.equals(getString(R.string.combined))) {
                 if (colorModeMulti.equals(getString(R.string.color_indigo))) // MultiGraphs Color Settings
                     multiGraphColor = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
                 else if (colorModeMulti.equals(getString(R.string.color_indigo_light)))
@@ -509,19 +538,20 @@ public class OverviewFragment extends Fragment {
             mGraphWeightCardView.setVisibility(View.GONE);
         else {
             mGraphWeightCardView.setVisibility(View.VISIBLE);
-                if (colorMode.equals(getString(R.string.color_indigo))) // WeightGraph Color Settings
-                    color = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
-                else if (colorMode.equals(getString(R.string.color_indigo_light)))
-                    color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
-                else if (colorMode.equals(getString(R.string.color_pink)))
-                    color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
-            }
+            if (colorMode.equals(getString(R.string.color_indigo))) // WeightGraph Color Settings
+                color = ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark);
+            else if (colorMode.equals(getString(R.string.color_indigo_light)))
+                color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+            else if (colorMode.equals(getString(R.string.color_pink)))
+                color = ContextCompat.getColor(getActivity(), R.color.colorAccent);
+        }
         drawWeightCard(getView(), color);
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                calcWeightDiff();
+                //calcWeightDiff();
+                drawInfoCard();
             }
         });
     }

@@ -95,10 +95,11 @@
                     android:layout_height="match_parent"/>
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_marginTop="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <LinearLayout
+                        android:id="@+id/linearlayout_count_days"
+                        android:layout_marginTop="16dp"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
