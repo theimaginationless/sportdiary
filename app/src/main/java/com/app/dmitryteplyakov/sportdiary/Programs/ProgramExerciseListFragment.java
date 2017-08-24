@@ -67,11 +67,11 @@ public class ProgramExerciseListFragment extends Fragment {
             trainingUuid = parentUUID;
             Log.d("PELF", "NOT NULL");
         }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TrainingStorage.get(getActivity()).getTraining(parentUUID).getTitle());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_programs, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TrainingStorage.get(getActivity()).getTraining(parentUUID).getTitle());
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_list_programs_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_programs_empty_text);
