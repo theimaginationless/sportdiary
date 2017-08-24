@@ -9,6 +9,7 @@ import com.app.dmitryteplyakov.sportdiary.database.Training.TrainingBaseHelper;
 import com.app.dmitryteplyakov.sportdiary.database.Training.TrainingCursorWrapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,11 +71,8 @@ public class TrainingStorage {
         } finally {
             cursor.close();
         }
+        Collections.reverse(trainings);
         return trainings;
-    }
-
-    public static void setTrainingStorage(TrainingStorage trainingStorage) {
-        sTrainingStorage = trainingStorage;
     }
 
     public void updateTraining(Training training) {
