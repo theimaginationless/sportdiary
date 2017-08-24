@@ -11,7 +11,7 @@ public class Timer {
     private UUID mId;
     private UUID connectedWith;
     private boolean isConnected;
-    private int iteration;
+    private int iterations;
     private int preparing;
     private int workout;
     private int rest;
@@ -51,12 +51,12 @@ public class Timer {
         isConnected = connected;
     }
 
-    public int getIteration() {
-        return iteration;
+    public int getIterations() {
+        return iterations;
     }
 
-    public void setIteration(int iteration) {
-        this.iteration = iteration;
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
     }
 
     public int getPreparing() {
