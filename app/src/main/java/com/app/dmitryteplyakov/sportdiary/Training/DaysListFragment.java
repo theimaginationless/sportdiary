@@ -68,8 +68,13 @@ public class DaysListFragment extends Fragment {
                     mFAB.show();
             }
         });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI();
+            }
+        });
 
-        updateUI();
         return v;
     }
     private class ExerciseHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -138,7 +143,7 @@ public class DaysListFragment extends Fragment {
         @Override
         public void onBindViewHolder(ExerciseHolder holder, int position) {
             Day day = mDays.get(position);
-            SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy, HH:mm");
+            SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
             UUID trainingId = day.getTrainingId();
             List<Exercise> exerciseList = CompExerciseStorage.get(getActivity()).getExercisesByParentTrainingDayId(day.getId());
             int count = 0;
@@ -223,7 +228,12 @@ public class DaysListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI();
+            }
+        });
     }
 
 
@@ -239,9 +249,15 @@ public class DaysListFragment extends Fragment {
                 CompExerciseStorage compExerciseStorage = CompExerciseStorage.get(getActivity());
                 compExerciseStorage.deleteExercisesByParentTrainingDayId(day.getId());
                 Log.d("DLF", Integer.toString(compExerciseStorage.getExercises().size()));
-                int num = DayStorage.get(getActivity()).getDays().indexOf(day);
+                final int num = DayStorage.get(getActivity()).getDays().indexOf(day);
                 dayStorage.deleteDay(day);
-                updateUI(false, num);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(false, num);
+                    }
+                });
+
                 //Snackbar mSnackBar = Snackbar.make(getActivity().findViewById(R.id.snackbar_place), getString(R.string.snackbar_day_deleted) , Snackbar.LENGTH_LONG);
                 //mSnackBar.show();
             }
