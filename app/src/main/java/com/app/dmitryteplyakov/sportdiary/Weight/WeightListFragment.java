@@ -116,7 +116,7 @@ public class WeightListFragment extends Fragment {
 
         public void setWeight(Weight weight) {
             mWeight = weight;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM YYYY, HH:mm");
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMMM yyyy, HH:mm");
             mDateTextView.setText(dateFormatter.format(mWeight.getDate()));
             mWeightTextView.setText(Float.toString(mWeight.getValue()) + " " + getString(R.string.fragment_program_weight_hint));
             List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
