@@ -73,7 +73,7 @@ public class WeightStorage {
         } finally {
             cursor.close();
         }
-        Collections.reverse(weights);
+        Collections.sort(weights);
         return weights;
     }
 
@@ -107,7 +107,7 @@ public class WeightStorage {
             cursor.close();
         }
         if(cursor.getCount() == 0) return null;
-        Collections.reverse(weights);
+        Collections.sort(weights);
         return weights;
     }
 
