@@ -85,7 +85,6 @@ public class ExerciseStorage {
         } finally {
             cursor.close();
         }
-        Collections.reverse(exercises);
         return exercises;
     }
 
@@ -105,7 +104,6 @@ public class ExerciseStorage {
         } finally {
             cursor.close();
         }
-        Collections.reverse(exercises);
         return exercises;
     }
 
