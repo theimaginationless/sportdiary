@@ -16,6 +16,8 @@ import com.app.dmitryteplyakov.sportdiary.R;
 public class TimerActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

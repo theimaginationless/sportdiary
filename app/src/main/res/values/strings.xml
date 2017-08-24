@@ -120,7 +120,7 @@
     <string name="growth">Рост</string>
     <string name="growth_desc">Рост в сантиметрах</string>
     <string name="age">Возраст</string>
-    <string name="timer_templates_empty">Добавьте таймер</string>
+    <string name="timer_templates_empty">Добавьте шаблон таймера</string>
     <string name="switch_overlapping_graphs_first_over_second">Питание поверх тренировок</string>
     <string name="switch_overlapping_graphs_second_over_first">Тренировки поверх питания</string>
     <string name="switch_overlapping_graphs_settings">Наложение графиков</string>
@@ -175,4 +175,6 @@
     <string name="target_weight">Цель</string>
     <string name="select_time_title">Время</string>
     <string name="info_summary_weight_diff">Изменение веса: </string>
+    <string name="timer_template_title">Название шаблона таймера</string>
+    <string name="timer_template_no_title">Шаблон таймера без названия</string>
 </resources>

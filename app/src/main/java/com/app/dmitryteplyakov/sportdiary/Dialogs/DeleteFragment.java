@@ -20,6 +20,7 @@ import com.app.dmitryteplyakov.sportdiary.Nutrition.NutritionListFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramExerciseListFragment;
 import com.app.dmitryteplyakov.sportdiary.Programs.ProgramsListFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesListFragment;
 import com.app.dmitryteplyakov.sportdiary.Weight.WeightListFragment;
 
 import java.util.UUID;
@@ -70,6 +71,8 @@ public class DeleteFragment extends DialogFragment {
         } else if(getTargetRequestCode() == NutritionListFragment.REQUEST_DELETE_NUTRITION)
             dialogTitle = NutritionStorage.get(getActivity()).getNutrition(id).getProductTitle();
         else if(getTargetRequestCode() == WeightListFragment.REQUEST_WEIGHT_DELETE)
+            dialogTitle = getString(R.string.confirm_delete_training_dialog);
+        else if(getTargetRequestCode() == TimerTemplatesListFragment.REQUEST_DELETE_TEMPLATE)
             dialogTitle = getString(R.string.confirm_delete_training_dialog);
         return new AlertDialog.Builder(getActivity())
                 .setView(v)

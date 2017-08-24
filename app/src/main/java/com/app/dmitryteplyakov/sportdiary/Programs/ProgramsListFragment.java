@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.app.dmitryteplyakov.sportdiary.Core.Exercise.Exercise;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.Training;
 import com.app.dmitryteplyakov.sportdiary.Core.Training.TrainingStorage;
@@ -24,7 +23,6 @@ import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
 import com.app.dmitryteplyakov.sportdiary.Dialogs.TitlePickerFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -198,7 +196,7 @@ public class ProgramsListFragment extends Fragment {
             updateUI(false, num);
         }
         if(requestCode == REQUEST_TRAINING_TITLE) {
-            id = (UUID) data.getSerializableExtra(TitlePickerFragment.EXTRA_NEW_TRAINING_UUID);
+            id = (UUID) data.getSerializableExtra(TitlePickerFragment.EXTRA_NEW_UUID);
             Training training = TrainingStorage.get(getActivity()).getTraining(id);
             int num = TrainingStorage.get(getActivity()).getTrainings().indexOf(training);
             updateUI(true, num);

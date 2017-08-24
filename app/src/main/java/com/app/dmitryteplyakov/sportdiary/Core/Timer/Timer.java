@@ -106,4 +106,11 @@ public class Timer {
     public void setCalmDown(int calmDown) {
         this.calmDown = calmDown;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this.getId().equals(((Timer) o).getId()))
+            return true;
+        return false;
+    }
 }
