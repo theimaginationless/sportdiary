@@ -24,15 +24,14 @@ public class TimerBaseHelper extends SQLiteOpenHelper {
                 " _id integer primary key autoincrement, " +
                 TimerTable.Cols.TITLE + ", " +
                 TimerTable.Cols.UUID + ", " +
-                TimerTable.Cols.CONNECTEDWITH + ", " +
+                TimerTable.Cols.PARENTUUID + ", " +
                 TimerTable.Cols.ITERATIONS + ", " +
                 TimerTable.Cols.PREPARING + ", " +
                 TimerTable.Cols.WORKOUT + ", " +
                 TimerTable.Cols.REST + ", " +
                 TimerTable.Cols.SETS + ", " +
                 TimerTable.Cols.RESTBETWEENSETS + ", " +
-                TimerTable.Cols.CALMDOWN + ", " +
-                TimerTable.Cols.ISCONNECTED +
+                TimerTable.Cols.CALMDOWN +
                 ")"
         );
     }

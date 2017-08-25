@@ -49,6 +49,15 @@ public class TimerTemplatesListFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_programs_empty_text);
         mEmptyTextView.setText(getString(R.string.timer_templates_empty));
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0)
+                    mFab.hide();
+                else if(dy < 0)
+                    mFab.show();
+            }
+        });
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +99,8 @@ public class TimerTemplatesListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-
+            Intent intent = TimerListActivity.newInstance(getActivity(), mTimerTemplate.getId());
+            startActivity(intent);
         }
 
         @Override

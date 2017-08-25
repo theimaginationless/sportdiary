@@ -39,7 +39,7 @@ public class TimerStorage {
         ContentValues values = new ContentValues();
         values.put(TimerTable.Cols.TITLE, timer.getTitle());
         values.put(TimerTable.Cols.UUID, timer.getId().toString());
-        values.put(TimerTable.Cols.CONNECTEDWITH, timer.getConnectedWith().toString());
+        values.put(TimerTable.Cols.PARENTUUID, timer.getParent().toString());
         values.put(TimerTable.Cols.ITERATIONS, timer.getIterations());
         values.put(TimerTable.Cols.PREPARING, timer.getPreparing());
         values.put(TimerTable.Cols.WORKOUT, timer.getWorkout());
@@ -47,7 +47,6 @@ public class TimerStorage {
         values.put(TimerTable.Cols.SETS, timer.getSets());
         values.put(TimerTable.Cols.RESTBETWEENSETS, timer.getRestBetweenSets());
         values.put(TimerTable.Cols.CALMDOWN, timer.getCalmDown());
-        values.put(TimerTable.Cols.ISCONNECTED, (timer.isConnected() ? 1 : 0));
 
         return values;
     }
@@ -81,10 +80,10 @@ public class TimerStorage {
         return timers;
     }
 
-    public List<Timer> getTimersConnectedWith(UUID id) {
+    public List<Timer> getTimersByParentId(UUID id) {
         List<Timer> timers = new ArrayList<>();
 
-        TimerCursorWrapper cursor = queryTimer(TimerTable.Cols.CONNECTEDWITH + " = ?",
+        TimerCursorWrapper cursor = queryTimer(TimerTable.Cols.PARENTUUID + " = ?",
                 new String[] {id.toString()}
         );
         try {

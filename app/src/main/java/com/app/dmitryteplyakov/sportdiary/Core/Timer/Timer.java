@@ -9,8 +9,7 @@ import java.util.UUID;
 public class Timer {
     private String mTitle;
     private UUID mId;
-    private UUID connectedWith;
-    private boolean isConnected;
+    private UUID mParent;
     private int iterations;
     private int preparing;
     private int workout;
@@ -35,20 +34,12 @@ public class Timer {
         mId = id;
     }
 
-    public UUID getConnectedWith() {
-        return connectedWith;
+    public UUID getParent() {
+        return mParent;
     }
 
-    public void setConnectedWith(UUID connectedWith) {
-        this.connectedWith = connectedWith;
-    }
-
-    public boolean isConnected() {
-        return isConnected;
-    }
-
-    public void setConnected(boolean connected) {
-        isConnected = connected;
+    public void setParent(UUID parent) {
+        this.mParent = parent;
     }
 
     public int getIterations() {

@@ -10,7 +10,7 @@ public class TimerDbSchema {
         public static final class Cols {
             public static final String TITLE = "timer_title";
             public static final String UUID = "timer_uuid";
-            public static final String CONNECTEDWITH = "timer_connected_with";
+            public static final String PARENTUUID = "timer_parent_uuid";
             public static final String ITERATIONS = "timer_iterations";
             public static final String PREPARING = "timer_preparing";
             public static final String WORKOUT = "timer_workout";

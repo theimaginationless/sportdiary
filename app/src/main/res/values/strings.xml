@@ -177,4 +177,5 @@
     <string name="info_summary_weight_diff">Изменение веса: </string>
     <string name="timer_template_title">Название шаблона таймера</string>
     <string name="timer_template_no_title">Шаблон таймера без названия</string>
+    <string name="timer_empty_text">Добавьте таймеры</string>
 </resources>

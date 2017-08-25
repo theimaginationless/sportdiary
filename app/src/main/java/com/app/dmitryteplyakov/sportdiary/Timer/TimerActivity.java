@@ -1,5 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary.Timer;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,13 +11,21 @@ import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
 
+import java.util.UUID;
+
 /**
  * Created by dmitry21 on 19.08.17.
  */
 
 public class TimerActivity extends AppCompatActivity {
     private Toolbar mToolbar;
+    private static final String EXTRA_TIMER_UUID = "com.app.timeractivity.extra_timer_uuid";
 
+    public static Intent newIntent(Context context, UUID uuid) {
+        Intent intent = new Intent(context, TimerActivity.class);
+        intent.putExtra(EXTRA_TIMER_UUID, uuid);
+        return intent;
+    }
 
 
     @Override

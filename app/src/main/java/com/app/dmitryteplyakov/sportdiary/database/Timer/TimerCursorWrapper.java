@@ -21,7 +21,7 @@ public class TimerCursorWrapper extends CursorWrapper {
     public Timer getTimer() {
         String titleString = getString(getColumnIndex(TimerTable.Cols.TITLE));
         String uuidString = getString(getColumnIndex(TimerTable.Cols.UUID));
-        String uuidConnectedWithString = getString(getColumnIndex(TimerTable.Cols.CONNECTEDWITH));
+        String parentUuidString = getString(getColumnIndex(TimerTable.Cols.PARENTUUID));
         int iterationsInt = getInt(getColumnIndex(TimerTable.Cols.ITERATIONS));
         int preparingInt = getInt(getColumnIndex(TimerTable.Cols.PREPARING));
         int workoutInt = getInt(getColumnIndex(TimerTable.Cols.WORKOUT));
@@ -29,13 +29,11 @@ public class TimerCursorWrapper extends CursorWrapper {
         int setsInt = getInt(getColumnIndex(TimerTable.Cols.SETS));
         int restBetweenSetsInt = getInt(getColumnIndex(TimerTable.Cols.RESTBETWEENSETS));
         int calmDownInt = getInt(getColumnIndex(TimerTable.Cols.CALMDOWN));
-        boolean isConnected = getInt(getColumnIndex(TimerTable.Cols.ISCONNECTED)) != 0;
 
         Timer timer = new Timer();
         timer.setTitle(titleString);
         timer.setId(UUID.fromString(uuidString));
-        timer.setConnectedWith(UUID.fromString(uuidConnectedWithString));
-        timer.setConnected(isConnected);
+        timer.setParent(UUID.fromString(parentUuidString));
         timer.setIterations(iterationsInt);
         timer.setPreparing(preparingInt);
         timer.setWorkout(workoutInt);
