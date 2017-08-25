@@ -194,19 +194,22 @@ public class ProgramsListFragment extends Fragment {
             ExerciseStorage.get(getActivity()).deleteExercisesByParentId(id);
             TrainingStorage.get(getActivity()).deleteTraining(id);
             updateUI(false, num);
-        }
-        if(requestCode == REQUEST_TRAINING_TITLE) {
+        } else if(requestCode == REQUEST_TRAINING_TITLE) {
             id = (UUID) data.getSerializableExtra(TitlePickerFragment.EXTRA_NEW_UUID);
             Training training = TrainingStorage.get(getActivity()).getTraining(id);
             int num = TrainingStorage.get(getActivity()).getTrainings().indexOf(training);
             updateUI(true, num);
-        }
-        /*if(resultCode == Activity.RESULT_OK) {
-            updateUI();
-        } */if((resultCode == Activity.RESULT_CANCELED) && (requestCode != REQUEST_TRAINING_EDIT_TITLE)) {
+        } else if((resultCode == Activity.RESULT_CANCELED) && (requestCode != REQUEST_TRAINING_EDIT_TITLE)) {
             TrainingStorage.get(getActivity()).deleteTraining(id);
             updateUI();
             Log.d("ProgramsListFragment", "Training is delete!");
+        } else if(requestCode == REQUEST_TRAINING_EDIT_TITLE) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateUI();
+                }
+            });
         }
     }
 }

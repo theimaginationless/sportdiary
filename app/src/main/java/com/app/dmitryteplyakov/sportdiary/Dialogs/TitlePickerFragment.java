@@ -113,7 +113,10 @@ public class TitlePickerFragment extends DialogFragment {
                             }
                         } else {
                             if (training.getTitle() == null) {
-                                int num = TrainingStorage.get(getActivity()).getTrainings().indexOf(training) + 1;
+                                int num = TrainingStorage.get(getActivity()).getTrainings().size();
+                                training.setTitle(getString(R.string.training_no_title) + " " + Integer.toString(num));
+                            } else if (training.getTitle().equals("")) {
+                                int num = TrainingStorage.get(getActivity()).getTrainings().size() - TrainingStorage.get(getActivity()).getTrainings().indexOf(training);
                                 training.setTitle(getString(R.string.training_no_title) + " " + Integer.toString(num));
                             }
                             TrainingStorage.get(getActivity()).updateTraining(training);
