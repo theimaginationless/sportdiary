@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -50,8 +51,7 @@ public class WeightPickerFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_weightpicker, null);
         mWeightEditText = (EditText) v.findViewById(R.id.weight_picker_edit_text);
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
         if(getTargetRequestCode() == WeightListFragment.REQUEST_WEIGHT_EDIT) {
             Weight weight = WeightStorage.get(getActivity()).getWeight((UUID) getArguments().getSerializable(ARG_WEIGHT_UUID));
             mWeightEditText.setText(Float.toString(weight.getValue()));
@@ -73,6 +73,7 @@ public class WeightPickerFragment extends DialogFragment {
                 //
             }
         });
+
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.action_weight_tab_title)
@@ -102,8 +103,6 @@ public class WeightPickerFragment extends DialogFragment {
 
     private void sendResult(int resultCode) {
         Log.d("WPF", Boolean.toString(getTargetFragment() == null) + " " + Boolean.toString(resultCode == Activity.RESULT_CANCELED));
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         if(getTargetFragment() == null) return;
         Intent intent = new Intent();
         intent.putExtra(EXTRA_NEW_WEIGHT, mWeight);
