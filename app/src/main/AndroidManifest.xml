@@ -31,6 +31,7 @@
             android:name=".Nutrition.NutritionActivity"
             android:parentActivityName=".GeneralActivity"/>
         <activity android:name=".Timer.TimerDisplayActivity"/>
+        <activity android:name=".Timer.TimerListActivity"/>
         <activity
             android:name=".Nutrition.NutritionListActivity"
             android:parentActivityName=".GeneralActivity"/>

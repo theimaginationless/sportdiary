@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.app.dmitryteplyakov.sportdiary.Core.Timer.TimerStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplate;
 import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplateStorage;
 import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
@@ -213,6 +214,7 @@ public class TimerTemplatesListFragment extends Fragment {
             } else if(requestCode == REQUEST_DELETE_TEMPLATE) {
                 TimerTemplate template = TimerTemplateStorage.get(getActivity()).getTemplate((UUID) data.getSerializableExtra(DeleteFragment.EXTRA_RETURN_DELETE_UUID));
                 final int num = TimerTemplateStorage.get(getActivity()).getTemplates().indexOf(template);
+                TimerStorage.get(getActivity()).deleteTimersByParentId(template.getId());
                 TimerTemplateStorage.get(getActivity()).deleteTemplate(template);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override

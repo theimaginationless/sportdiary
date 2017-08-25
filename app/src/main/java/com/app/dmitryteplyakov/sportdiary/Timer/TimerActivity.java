@@ -27,6 +27,11 @@ public class TimerActivity extends AppCompatActivity {
         return intent;
     }
 
+    public Fragment createFragment() {
+        return TimerFragment.newInstance((UUID) getIntent().getSerializableExtra(EXTRA_TIMER_UUID));
+    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class TimerActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.common_fragment_container);
         if(fragment == null) {
-            fragment = new TimerFragment();
+            fragment = createFragment();
             fm.beginTransaction()
                     .add(R.id.common_fragment_container, fragment)
                     .commit();

@@ -18,6 +18,11 @@ public class Timer {
     private int restBetweenSets;
     private int calmDown;
 
+    public Timer() {
+        mId = UUID.randomUUID();
+        mParent = UUID.randomUUID();
+    }
+
     public String getTitle() {
         return mTitle;
     }

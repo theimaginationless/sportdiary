@@ -110,6 +110,11 @@ public class TitlePickerFragment extends DialogFragment {
                             if(title == null) {
                                 int num = TimerTemplateStorage.get(getActivity()).getTemplates().size() + 1;
                                 title = (getString(R.string.timer_template_no_title) + " " + Integer.toString(num));
+                            } else if(title.equals("")) {
+                                TimerTemplate template = TimerTemplateStorage.get(getActivity()).getTemplate((UUID) getArguments().getSerializable(ARG_TRAINING_UUID));
+                                int num = TimerTemplateStorage.get(getActivity()).getTemplates().size() - TimerTemplateStorage.get(getActivity()).getTemplates().indexOf(template);
+                                Log.d("TPF", Integer.toString(TimerTemplateStorage.get(getActivity()).getTemplates().size()) + " " + Integer.toString(TimerTemplateStorage.get(getActivity()).getTemplates().indexOf(template)));
+                                title = (getString(R.string.timer_template_no_title) + " " + Integer.toString(num));
                             }
                         } else {
                             if (training.getTitle() == null) {

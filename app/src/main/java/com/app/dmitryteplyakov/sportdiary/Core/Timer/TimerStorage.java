@@ -129,4 +129,10 @@ public class TimerStorage {
                 new String[]{timer.getId().toString()}
         );
     }
+
+    public void deleteTimersByParentId(UUID id) {
+        mDatabase.delete(TimerTable.NAME, TimerTable.Cols.PARENTUUID + " = ?",
+                new String[]{id.toString()}
+        );
+    }
 }
