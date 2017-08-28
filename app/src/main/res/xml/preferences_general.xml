@@ -15,4 +15,15 @@
             android:defaultValue="@array/entries_badges"
             android:dependency="switch_on_badges"/>
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_personal">
+        <ListPreference
+            android:defaultValue="@string/lose_weight"
+            android:entries="@array/entries_personal_target"
+            android:entryValues="@array/entries_personal_target"
+            android:key="weight_target"
+            android:title="@string/settings_personal_target"
+            android:summary="@string/settings_personal_target_desc">
+        </ListPreference>
+    </PreferenceCategory>
 </PreferenceScreen>

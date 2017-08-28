@@ -55,7 +55,6 @@ public class GeneralActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
-    private TextView mUsernameTextView;
     private BottomBar mBottomBar;
     private Intent mIntentToSet;
 
@@ -74,8 +73,6 @@ public class GeneralActivity extends AppCompatActivity {
         checkBadges(R.id.action_nutrition_tab, R.id.action_weight_tab);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_general);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mUsernameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.username);
-        mUsernameTextView.setText(sharedPreferences.getString("username_nav_draw", getString(R.string.username_default)));
         mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {

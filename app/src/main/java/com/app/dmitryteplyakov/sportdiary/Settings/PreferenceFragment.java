@@ -68,8 +68,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
                 });
             } else if (sett.equals("timer"))
                 addPreferencesFromResource(R.xml.preference_timer);
-            else if (sett.equals("personal"))
-                addPreferencesFromResource(R.xml.preference_personal);
         }
         else
             addPreferencesFromResource(R.xml.preferences);
