@@ -28,7 +28,7 @@ public class CompTrainingStorage {
 
     private CompTrainingStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new CompTrainingBaseHelper(mContext).getWritableDatabase();
+        mDatabase = CompTrainingBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     public static CompTrainingStorage get(Context context) {

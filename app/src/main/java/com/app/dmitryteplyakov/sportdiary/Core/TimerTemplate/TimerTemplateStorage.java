@@ -32,7 +32,7 @@ public class TimerTemplateStorage {
 
     private TimerTemplateStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new TimerTemplateBaseHelper(mContext).getWritableDatabase();
+        mDatabase = TimerTemplateBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(TimerTemplate template) {

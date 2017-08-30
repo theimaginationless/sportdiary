@@ -13,8 +13,16 @@ import static com.app.dmitryteplyakov.sportdiary.database.Exercise.ExerciseDbSch
 public class CompExerciseBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "CompExercisesBase.db";
+    private static CompExerciseBaseHelper mInstance = null;
 
-    public CompExerciseBaseHelper(Context context) {
+    public static CompExerciseBaseHelper getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new CompExerciseBaseHelper(context);
+        }
+        return mInstance;
+    }
+
+    private CompExerciseBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

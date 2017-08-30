@@ -32,7 +32,7 @@ public class NutritionStorage {
 
     private NutritionStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new NutritionBaseHelper(mContext).getWritableDatabase();
+        mDatabase = NutritionBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(Nutrition nutrition) {

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.app.dmitryteplyakov.sportdiary.database.TimerTemplate.TimerTemplateBaseHelper;
+
 import static com.app.dmitryteplyakov.sportdiary.database.Training.TrainingDbSchema.TrainingTable;
 
 /**
@@ -13,8 +15,16 @@ import static com.app.dmitryteplyakov.sportdiary.database.Training.TrainingDbSch
 public class CompTrainingBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "completedTrainingBase.db";
+    private static CompTrainingBaseHelper mInstance = null;
 
-    public CompTrainingBaseHelper(Context context) {
+    public static CompTrainingBaseHelper getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new CompTrainingBaseHelper(context);
+        }
+        return mInstance;
+    }
+
+    private CompTrainingBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

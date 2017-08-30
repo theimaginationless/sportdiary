@@ -36,7 +36,7 @@ public class NutritionDayStorage {
 
     private NutritionDayStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new NutritionDayBaseHelper(mContext).getWritableDatabase();
+        mDatabase = NutritionDayBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(NutritionDay nutritionDay) {

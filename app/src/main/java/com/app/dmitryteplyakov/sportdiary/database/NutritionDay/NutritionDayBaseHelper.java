@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.app.dmitryteplyakov.sportdiary.database.Nutrition.NutritionBaseHelper;
+
 import static com.app.dmitryteplyakov.sportdiary.database.NutritionDay.NutritionDayDbSchema.*;
 
 /**
@@ -13,8 +15,16 @@ import static com.app.dmitryteplyakov.sportdiary.database.NutritionDay.Nutrition
 public class NutritionDayBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "nutritionsDayBase.db";
+    private static NutritionDayBaseHelper mInstance = null;
 
-    public NutritionDayBaseHelper(Context context) {
+    public static NutritionDayBaseHelper getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new NutritionDayBaseHelper(context);
+        }
+        return mInstance;
+    }
+
+    private NutritionDayBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

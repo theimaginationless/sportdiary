@@ -34,7 +34,7 @@ public class WeightStorage {
 
     private WeightStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new WeightBaseHelper(mContext).getWritableDatabase();
+        mDatabase = WeightBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(Weight weight) {

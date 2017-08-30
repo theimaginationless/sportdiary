@@ -13,8 +13,17 @@ import static com.app.dmitryteplyakov.sportdiary.database.Weight.WeightDbSchema.
 public class WeightBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "weightBase.db";
+    private static WeightBaseHelper mInstance = null;
 
-    public WeightBaseHelper(Context context) {
+    public static WeightBaseHelper getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new WeightBaseHelper(context);
+        }
+        return mInstance;
+    }
+
+
+    private WeightBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

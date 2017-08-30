@@ -173,9 +173,15 @@
     <string name="color_indigo">Индиго тёмный</string>
     <string name="color_pink">Розовый</string>
     <string name="target_weight">Цель</string>
-    <string name="select_time_title">Время</string>
+    <string name="select_time_preparing">Подготовка</string>
+    <string name="select_time_working">Занятие</string>
+    <string name="select_time_rest">Отдых</string>
+    <string name="select_time_iterations">Повторы</string>
+    <string name="select_time_sets">Сеты</string>
     <string name="info_summary_weight_diff">Изменение веса: </string>
     <string name="timer_template_title">Название шаблона таймера</string>
     <string name="timer_template_no_title">Шаблон таймера без названия</string>
     <string name="timer_empty_text">Добавьте таймеры</string>
+    <string name="timer_seconds">Секунд</string>
+
 </resources>

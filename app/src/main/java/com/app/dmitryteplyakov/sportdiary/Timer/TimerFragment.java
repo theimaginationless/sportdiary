@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.NumberPicker;
 
 import com.app.dmitryteplyakov.sportdiary.R;
@@ -16,7 +17,11 @@ import java.util.UUID;
  */
 
 public class TimerFragment extends Fragment {
-    private NumberPicker mSecondPicker;
+    private Button mPreparingTimePicker;
+    private Button mWorkingTimePicker;
+    private Button mRestTimePicker;
+    private Button mIterationsTimePicker;
+    private Button mSetsTimePicker;
     private static final String ARG_TIMER_UUID = "com.app.timerfragment.arg_timer_uuid";
 
     public static Fragment newInstance(UUID id) {
@@ -30,8 +35,12 @@ public class TimerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_timer, parent, false);
-        mSecondPicker = (NumberPicker) v.findViewById(R.id.number_picker);
-        mSecondPicker.setMinValue(0);
+        mPreparingTimePicker = (Button) v.findViewById(R.id.preparing_picker);
+        mWorkingTimePicker = (Button) v.findViewById(R.id.working_picker);
+        mRestTimePicker = (Button) v.findViewById(R.id.rest_picker);
+        mIterationsTimePicker = (Button) v.findViewById(R.id.iterations_picker);
+        mSetsTimePicker = (Button) v.findViewById(R.id.sets_picker);
+
         return v;
     }
 }

@@ -13,8 +13,16 @@ import static com.app.dmitryteplyakov.sportdiary.database.Timer.TimerDbSchema.*;
 public class TimerBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "timersBase.db";
+    private static TimerBaseHelper mInstance = null;
 
-    public TimerBaseHelper(Context context) {
+    public static TimerBaseHelper getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new TimerBaseHelper(context);
+        }
+        return mInstance;
+    }
+
+    private TimerBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

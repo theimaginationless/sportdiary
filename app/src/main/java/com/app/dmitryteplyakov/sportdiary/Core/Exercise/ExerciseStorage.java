@@ -33,7 +33,7 @@ public class ExerciseStorage {
 
     private ExerciseStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new ExerciseBaseHelper(mContext).getWritableDatabase();
+        mDatabase = ExerciseBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(Exercise exercise) {

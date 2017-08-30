@@ -13,8 +13,16 @@ import static com.app.dmitryteplyakov.sportdiary.database.Day.DayDbSchema.*;
 public class DaysBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "daysBase.db";
+    private static DaysBaseHelper mInstance = null;
 
-    public DaysBaseHelper(Context context) {
+    public static DaysBaseHelper getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new DaysBaseHelper(context);
+        }
+        return mInstance;
+    }
+
+    private DaysBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

@@ -36,7 +36,7 @@ public class DayStorage {
 
     private DayStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new DaysBaseHelper(mContext).getWritableDatabase();
+        mDatabase = DaysBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(Day day) {

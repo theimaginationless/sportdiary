@@ -27,7 +27,7 @@ public class TrainingStorage {
 
     private TrainingStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new TrainingBaseHelper(mContext).getWritableDatabase();
+        mDatabase = TrainingBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     public static TrainingStorage get(Context context) {

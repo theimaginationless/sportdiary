@@ -34,7 +34,7 @@ public class CompExerciseStorage {
 
     private CompExerciseStorage(Context context) {
         mContext = context.getApplicationContext();
-        mDatabase = new CompExerciseBaseHelper(mContext).getWritableDatabase();
+        mDatabase = CompExerciseBaseHelper.getInstance(mContext).getWritableDatabase();
     }
 
     private static ContentValues getContentValues(Exercise exercise) {
