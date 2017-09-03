@@ -338,7 +338,6 @@ public class OverviewFragment extends Fragment {
         List<Weight> weights = WeightStorage.get(getActivity()).getWeights();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM");
         boolean skipFlag;
-        //int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
         mWeightMaxY = 0;
         for (int j = 0; j < 7; j++) {
             skipFlag = false;

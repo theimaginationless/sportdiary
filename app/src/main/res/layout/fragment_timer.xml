@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:hint="@string/timer_title"
+                    android:id="@+id/timer_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -22,15 +34,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <Button
-                style="?borderlessButtonStyle"
+            <EditText
                 android:id="@+id/preparing_picker"
-                tools:text="20 сек"
                 android:layout_width="match_parent"
+                android:inputType="numberDecimal"
+                android:digits="0123456789"
+                android:hint="@string/timer_sec_hint"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
         </LinearLayout>
-        <View style="@style/Divider"/>
+
 
         <LinearLayout
             android:orientation="horizontal"
@@ -43,16 +56,15 @@
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-            <Button
-                style="?borderlessButtonStyle"
+            <EditText
                 android:id="@+id/working_picker"
-                tools:text="20 сек"
                 android:layout_width="match_parent"
+                android:inputType="numberDecimal"
+                android:digits="0123456789"
+                android:hint="@string/timer_sec_hint"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
         </LinearLayout>
-        <View style="@style/Divider"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -65,16 +77,16 @@
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-            <Button
-                style="?borderlessButtonStyle"
+            <EditText
                 android:id="@+id/rest_picker"
-                tools:text="20 сек"
                 android:layout_width="match_parent"
+                android:inputType="numberDecimal"
+                android:digits="0123456789"
+                android:hint="@string/timer_sec_hint"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
+
         </LinearLayout>
-        <View style="@style/Divider"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -87,16 +99,15 @@
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-            <Button
-                style="?borderlessButtonStyle"
+            <EditText
                 android:id="@+id/iterations_picker"
-                tools:text="20 сек"
+                android:inputType="numberDecimal"
+                android:digits="0123456789"
+                android:hint="@string/timer_sec_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
         </LinearLayout>
-        <View style="@style/Divider"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -109,16 +120,15 @@
                 android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-            <Button
-                style="?borderlessButtonStyle"
+            <EditText
                 android:id="@+id/sets_picker"
-                tools:text="20 сек"
+                android:hint="@string/timer_sec_hint"
+                android:inputType="numberDecimal"
+                android:digits="0123456789"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
         </LinearLayout>
-        <View style="@style/Divider"/>
 
     </LinearLayout>
 

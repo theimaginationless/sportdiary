@@ -183,5 +183,10 @@
     <string name="timer_template_no_title">Шаблон таймера без названия</string>
     <string name="timer_empty_text">Добавьте таймеры</string>
     <string name="timer_seconds">Секунд</string>
-
+    <string name="backup_and_restore_title">Резервное копирование и восстановление</string>
+    <string name="create_backup">Создать резервную копию</string>
+    <string name="restore_backup">Восстановить резервную копию</string>
+    <string name="timer_sec_hint">Сек</string>
+    <string name="timer_title">Название таймера</string>
+    <string name="timer_no_title">Таймер без названия</string>
 </resources>

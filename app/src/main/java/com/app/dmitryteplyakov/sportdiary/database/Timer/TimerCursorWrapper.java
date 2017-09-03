@@ -40,6 +40,7 @@ public class TimerCursorWrapper extends CursorWrapper {
         timer.setRest(restInt);
         timer.setRestBetweenSets(restBetweenSetsInt);
         timer.setCalmDown(calmDownInt);
+        timer.setSets(setsInt);
 
         return timer;
     }

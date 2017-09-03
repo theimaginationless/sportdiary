@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +105,7 @@ public class TimerListFragment extends Fragment {
         public void bindTimer(Timer timer) {
             mTimer = timer;
             mTitle.setText(mTimer.getTitle());
-            mTimeSequence.setText(Integer.toString(mTimer.getPreparing()) + "-" + Integer.toString(mTimer.getWorkout()) + "-" + Integer.toString(mTimer.getRest()) + "-" + Integer.toString(mTimer.getCalmDown()));
+            mTimeSequence.setText(Integer.toString(mTimer.getPreparing()) + " - " + Integer.toString(mTimer.getWorkout()) + " - " + Integer.toString(mTimer.getRest()) + " - " + Integer.toString(mTimer.getSets()) + " x" + Integer.toString(mTimer.getIterations()));
         }
 
         @Override
@@ -197,6 +198,7 @@ public class TimerListFragment extends Fragment {
                 updateUI();
             }
         });
+        Log.d("TLF", "RESUME");
     }
 
     @Override
