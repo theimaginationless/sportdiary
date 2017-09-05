@@ -189,4 +189,5 @@
     <string name="timer_sec_hint">Сек</string>
     <string name="timer_title">Название таймера</string>
     <string name="timer_no_title">Таймер без названия</string>
+    <string name="timer_display_timer_template_title">Шаблон таймера</string>
 </resources>

@@ -18,7 +18,6 @@ public class TimerDisplayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.timer_display, container, false);
-        mCronometer = (Chronometer) v.findViewById(R.id.chronometer);
         return v;
     }
 }

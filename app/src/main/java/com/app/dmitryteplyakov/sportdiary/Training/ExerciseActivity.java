@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.app.dmitryteplyakov.sportdiary.Timer.TimerDisplayActivity;
 
 import java.util.UUID;
 
@@ -68,7 +69,8 @@ public class ExerciseActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.start_timer:
-                //
+                Intent intent = new Intent(ExerciseActivity.this, TimerDisplayActivity.class);
+                startActivity(intent);
                 return true;
         }
 

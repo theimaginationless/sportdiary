@@ -183,7 +183,6 @@ public class ProgramsListFragment extends Fragment {
             mFab.show();
         }
     }
-    //Todo: Exercise/Training to CompExercise/CompTraining
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         UUID id = null;
@@ -195,10 +194,16 @@ public class ProgramsListFragment extends Fragment {
             TrainingStorage.get(getActivity()).deleteTraining(id);
             updateUI(false, num);
         } else if(requestCode == REQUEST_TRAINING_TITLE) {
-            id = (UUID) data.getSerializableExtra(TitlePickerFragment.EXTRA_NEW_UUID);
-            Training training = TrainingStorage.get(getActivity()).getTraining(id);
-            int num = TrainingStorage.get(getActivity()).getTrainings().indexOf(training);
-            updateUI(true, num);
+            if(resultCode == Activity.RESULT_CANCELED) {
+                id = (UUID) data.getSerializableExtra(TitlePickerFragment.EXTRA_NEW_UUID);
+                ExerciseStorage.get(getActivity()).deleteExercisesByParentId(id);
+                TrainingStorage.get(getActivity()).deleteTraining(id);
+            } else {
+                id = (UUID) data.getSerializableExtra(TitlePickerFragment.EXTRA_NEW_UUID);
+                Training training = TrainingStorage.get(getActivity()).getTraining(id);
+                int num = TrainingStorage.get(getActivity()).getTrainings().indexOf(training);
+                updateUI(true, num);
+            }
         } else if((resultCode == Activity.RESULT_CANCELED) && (requestCode != REQUEST_TRAINING_EDIT_TITLE)) {
             TrainingStorage.get(getActivity()).deleteTraining(id);
             updateUI();
