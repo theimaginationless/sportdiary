@@ -26,6 +26,10 @@ public class TimerTemplate {
         mId = id;
     }
 
+    public String toString() {
+        return mTitle;
+    }
+
     @Override
     public boolean equals(Object o) {
         if(this.getId().equals(((TimerTemplate) o).getId()))
