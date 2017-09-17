@@ -20,12 +20,12 @@ public class Timer {
     private int restBetweenSets;
     private int calmDown;
     /*
-    0 - iterations
-    1 - preparing
-    2 - workout
-    3 - rest
-    4 - sets
-    5 restbetweensets
+    4 - iterations
+    0 - preparing
+    1 - workout
+    2 - rest
+    5 - sets
+    3 restbetweensets
     6 - calmDown
      */
     private List<Integer> timerValues;
@@ -34,7 +34,7 @@ public class Timer {
         timerValues = new ArrayList<>();
         mId = UUID.randomUUID();
         mParent = UUID.randomUUID();
-        for(int i = 0; i < 7; i++)
+        for(int i = 0; i < 6; i++)
             timerValues.add(i, 0);
     }
 
@@ -67,59 +67,60 @@ public class Timer {
     }
 
     public int getIterations() {
-        return timerValues.get(0);
-    }
-
-    public void setIterations(int iterations) {
-        timerValues.add(0, iterations);
-    }
-
-    public int getPreparing() {
-        return timerValues.get(1);
-    }
-
-    public void setPreparing(int preparing) {
-        timerValues.add(1, preparing);
-    }
-
-    public int getWorkout() {
-        return timerValues.get(2);
-    }
-
-    public void setWorkout(int workout) {
-        timerValues.add(2, workout);
-    }
-
-    public int getRest() {
-        return timerValues.get(3);
-    }
-
-    public void setRest(int rest) {
-        timerValues.add(3, rest);
-    }
-
-    public int getSets() {
         return timerValues.get(4);
     }
 
-    public void setSets(int sets) {
-        timerValues.add(4, sets);
+    public void setIterations(int iterations) {
+        timerValues.set(4, iterations);
     }
 
-    public int getRestBetweenSets() {
+    public int getPreparing() {
+        return timerValues.get(0);
+    }
+
+    public void setPreparing(int preparing) {
+        timerValues.set(0, preparing);
+    }
+
+    public int getWorkout() {
+        return timerValues.get(1);
+    }
+
+    public void setWorkout(int workout) {
+        timerValues.set(1, workout);
+    }
+
+    public int getRest() {
+        return timerValues.get(2);
+    }
+
+    public void setRest(int rest) {
+        timerValues.set(2, rest);
+    }
+
+    public int getSets() {
         return timerValues.get(5);
     }
 
+    public void setSets(int sets) {
+        timerValues.set(5, sets);
+    }
+
+    public int getRestBetweenSets() {
+        return timerValues.get(3);
+    }
+
     public void setRestBetweenSets(int restBetweenSets) {
-        timerValues.add(5, restBetweenSets);
+        timerValues.set(3, restBetweenSets);
     }
 
     public int getCalmDown() {
-        return timerValues.get(6);
+        //return timerValues.get(6);
+        return 0;
     }
 
     public void setCalmDown(int calmDown) {
-        timerValues.add(6, calmDown);
+        //timerValues.set(6, calmDown);
     }
 
     @Override

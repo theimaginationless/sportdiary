@@ -22,6 +22,7 @@ import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplate;
 import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplateStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,10 +42,11 @@ public class TimerDisplayFragment extends Fragment {
     private long startMills;
     private List<Timer> mTimers;
     private int iterator;
+    private int mTimerPosition;
+    private int mTimerSetsIterator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        iterator = 0;
         View v = inflater.inflate(R.layout.timer_display, container, false);
         mTimerTemplateSpinner = (Spinner) v.findViewById(R.id.timer_template_spinner);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
@@ -62,17 +64,17 @@ public class TimerDisplayFragment extends Fragment {
                 mId = id;
                 mTimers = TimerStorage.get(getActivity()).getTimersByParentId(TimerTemplateStorage.get(getActivity()).getTemplates().get(position).getId());
                 mFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-                mFab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        nextTimer(position);
-                    }
-                });
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                mPosition = 0;
+            }
+        });
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextTimer(mPosition);
             }
         });
 
@@ -81,12 +83,17 @@ public class TimerDisplayFragment extends Fragment {
     }
 
     private void nextTimer(int position) {
+        mTimerTemplateSpinner.setEnabled(false);
+        mTimerPosition = position;
+        iterator = 0;
+        Log.d("TDF", "Pos: " + Integer.toString(mTimerPosition));
         startTimer(mTimers.get(position).getTimerValues().get(0) * 1000);
     }
 
     private void startTimer(final long mills) {
         if(!alreadyPaused)
             startMills = mills;
+        Log.d("TDF", "Current: " + Integer.toString(iterator));
         mFab.setImageResource(R.drawable.ic_pause_white_24dp);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +110,9 @@ public class TimerDisplayFragment extends Fragment {
             @Override
             public void onTick(long leftTimeInMills) {
                 mProgressBar.setProgress((int) (startMills - leftTimeInMills));
-                mSeconds.setText(Long.toString((leftTimeInMills) / 1000));
+                mSeconds.setText(Long.toString(((leftTimeInMills) / 1000) + 1));
                 futureMills = leftTimeInMills;
-                Log.d("TDF", Long.toString(futureMills));
+                //Log.d("TDF", Long.toString(futureMills));
             }
 
             @Override
@@ -126,10 +133,31 @@ public class TimerDisplayFragment extends Fragment {
                         }
                     }
                 });
-                if((futureMills <= 50) && iterator < mTimers.get(0).getTimerValues().size() - 1) {
+                if((futureMills <= 50) && iterator < mTimers.get(mTimerPosition).getTimerValues().size() - 1) {
                     futureMills = 0;
                     alreadyPaused = false;
-                    startTimer(mTimers.get(0).getTimerValues().get(++iterator) * 1000);
+                    startTimer(mTimers.get(mTimerPosition).getTimerValues().get(++iterator) * 1000);
+                } else if(mTimerPosition + 1 < mTimers.size()) {
+                    nextTimer(++mTimerPosition);
+                } else if(mTimerSetsIterator == mTimers.get(mTimerPosition).getIterations()){
+                    mTimerTemplateSpinner.setEnabled(true);
+                    mTimerPosition = 0;
+                    futureMills = 0;
+                    iterator = 0;
+                    alreadyPaused = false;
+                    mFab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            nextTimer(mPosition);
+                        }
+                    });
+                } else {
+                    mTimerPosition = 0;
+                    futureMills = 0;
+                    iterator = 0;
+                    alreadyPaused = false;
+                    mTimerSetsIterator++;
+                    nextTimer(mPosition);
                 }
             }
         };

@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Timer.Timer;
 import com.app.dmitryteplyakov.sportdiary.Core.Timer.TimerStorage;
+import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplate;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.util.UUID;
@@ -28,6 +29,7 @@ public class TimerFragment extends Fragment {
     private EditText mIterationsTimePicker;
     private EditText mSetsTimePicker;
     private EditText mTimerTitle;
+    private EditText mRestBetweenSetsPicker;
     private static final String ARG_TIMER_UUID = "com.app.timerfragment.arg_timer_uuid";
     Timer mTimer;
 
@@ -48,12 +50,14 @@ public class TimerFragment extends Fragment {
         mIterationsTimePicker = (EditText) v.findViewById(R.id.iterations_picker);
         mSetsTimePicker = (EditText) v.findViewById(R.id.sets_picker);
         mTimerTitle = (EditText) v.findViewById(R.id.timer_title);
+        mRestBetweenSetsPicker = (EditText) v.findViewById(R.id.restbetweensets);
         mTimer = TimerStorage.get(getActivity()).getTimer((UUID) getArguments().getSerializable(ARG_TIMER_UUID));
         mPreparingTimePicker.setText(Integer.toString(mTimer.getPreparing()));
         mWorkingTimePicker.setText(Integer.toString(mTimer.getWorkout()));
         mRestTimePicker.setText(Integer.toString(mTimer.getRest()));
         mIterationsTimePicker.setText(Integer.toString(mTimer.getIterations()));
         mSetsTimePicker.setText(Integer.toString(mTimer.getSets()));
+        mRestBetweenSetsPicker.setText(Integer.toString(mTimer.getRestBetweenSets()));
 
         if(mTimer.getTitle() != null)
             mTimerTitle.setText(mTimer.getTitle());
@@ -97,7 +101,8 @@ public class TimerFragment extends Fragment {
                 else
                     mTimer.setPreparing(Integer.parseInt(c.toString()));
                 TimerStorage.get(getActivity()).updateTimer(mTimer);
-
+                for(Integer i : mTimer.getTimerValues())
+                    Log.d("TF", "CHANGED!" + Integer.toString(i));
             }
         });
 
@@ -118,6 +123,27 @@ public class TimerFragment extends Fragment {
                     mTimer.setWorkout(0);
                 else
                     mTimer.setWorkout(Integer.parseInt(c.toString()));
+                TimerStorage.get(getActivity()).updateTimer(mTimer);
+            }
+        });
+
+        mRestBetweenSetsPicker.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence c, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence c, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable c) {
+                if (c.toString().equals(""))
+                    mTimer.setRestBetweenSets(0);
+                else
+                    mTimer.setRestBetweenSets(Integer.parseInt(c.toString()));
                 TimerStorage.get(getActivity()).updateTimer(mTimer);
             }
         });
