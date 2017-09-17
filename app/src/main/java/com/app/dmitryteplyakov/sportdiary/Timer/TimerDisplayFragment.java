@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,11 @@ public class TimerDisplayFragment extends Fragment {
     private long futureMills;
     private long startMills;
     private List<Timer> mTimers;
+    private int iterator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        iterator = 0;
         View v = inflater.inflate(R.layout.timer_display, container, false);
         mTimerTemplateSpinner = (Spinner) v.findViewById(R.id.timer_template_spinner);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
@@ -62,7 +65,6 @@ public class TimerDisplayFragment extends Fragment {
                 mFab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //nextTimer(position);
                         nextTimer(position);
                     }
                 });
@@ -79,7 +81,7 @@ public class TimerDisplayFragment extends Fragment {
     }
 
     private void nextTimer(int position) {
-        startTimer(mTimers.get(position).getPreparing() * 1000);
+        startTimer(mTimers.get(position).getTimerValues().get(0) * 1000);
     }
 
     private void startTimer(final long mills) {
@@ -103,6 +105,7 @@ public class TimerDisplayFragment extends Fragment {
                 mProgressBar.setProgress((int) (startMills - leftTimeInMills));
                 mSeconds.setText(Long.toString((leftTimeInMills) / 1000));
                 futureMills = leftTimeInMills;
+                Log.d("TDF", Long.toString(futureMills));
             }
 
             @Override
@@ -115,12 +118,19 @@ public class TimerDisplayFragment extends Fragment {
                     public void onClick(View v) {
                         if(alreadyPaused) {
                             alreadyPaused = false;
-                            startTimer(10 * 1000);
-                        } else {
+                            //startTimer(10 * 1000);
                             startTimer(futureMills);
+                        } else {
+                            //alreadyPaused = false;
+                            //startTimer(futureMills);
                         }
                     }
                 });
+                if((futureMills <= 50) && iterator < mTimers.get(0).getTimerValues().size() - 1) {
+                    futureMills = 0;
+                    alreadyPaused = false;
+                    startTimer(mTimers.get(0).getTimerValues().get(++iterator) * 1000);
+                }
             }
         };
         mCountDownTimer.start();

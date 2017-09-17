@@ -1,5 +1,7 @@
 package com.app.dmitryteplyakov.sportdiary.Core.Timer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,10 +19,27 @@ public class Timer {
     private int sets;
     private int restBetweenSets;
     private int calmDown;
+    /*
+    0 - iterations
+    1 - preparing
+    2 - workout
+    3 - rest
+    4 - sets
+    5 restbetweensets
+    6 - calmDown
+     */
+    private List<Integer> timerValues;
 
     public Timer() {
+        timerValues = new ArrayList<>();
         mId = UUID.randomUUID();
         mParent = UUID.randomUUID();
+        for(int i = 0; i < 7; i++)
+            timerValues.add(i, 0);
+    }
+
+    public List<Integer> getTimerValues() {
+        return timerValues;
     }
 
     public String getTitle() {
@@ -48,59 +67,59 @@ public class Timer {
     }
 
     public int getIterations() {
-        return iterations;
+        return timerValues.get(0);
     }
 
     public void setIterations(int iterations) {
-        this.iterations = iterations;
+        timerValues.add(0, iterations);
     }
 
     public int getPreparing() {
-        return preparing;
+        return timerValues.get(1);
     }
 
     public void setPreparing(int preparing) {
-        this.preparing = preparing;
+        timerValues.add(1, preparing);
     }
 
     public int getWorkout() {
-        return workout;
+        return timerValues.get(2);
     }
 
     public void setWorkout(int workout) {
-        this.workout = workout;
+        timerValues.add(2, workout);
     }
 
     public int getRest() {
-        return rest;
+        return timerValues.get(3);
     }
 
     public void setRest(int rest) {
-        this.rest = rest;
+        timerValues.add(3, rest);
     }
 
     public int getSets() {
-        return sets;
+        return timerValues.get(4);
     }
 
     public void setSets(int sets) {
-        this.sets = sets;
+        timerValues.add(4, sets);
     }
 
     public int getRestBetweenSets() {
-        return restBetweenSets;
+        return timerValues.get(5);
     }
 
     public void setRestBetweenSets(int restBetweenSets) {
-        this.restBetweenSets = restBetweenSets;
+        timerValues.add(5, restBetweenSets);
     }
 
     public int getCalmDown() {
-        return calmDown;
+        return timerValues.get(6);
     }
 
     public void setCalmDown(int calmDown) {
-        this.calmDown = calmDown;
+        timerValues.add(6, calmDown);
     }
 
     @Override
