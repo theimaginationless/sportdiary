@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,7 +21,6 @@ import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplate;
 import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplateStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,6 +42,7 @@ public class TimerDisplayFragment extends Fragment {
     private int iterator;
     private int mTimerPosition;
     private int mTimerSetsIterator;
+    private int mTimerReplaysIterator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +62,8 @@ public class TimerDisplayFragment extends Fragment {
                 mPosition = position;
                 mId = id;
                 mTimers = TimerStorage.get(getActivity()).getTimersByParentId(TimerTemplateStorage.get(getActivity()).getTemplates().get(position).getId());
+                mTimerSetsIterator = mTimers.get(mPosition).getReplays();
+                mTimerReplaysIterator = mTimers.get(mPosition).getReplays();
                 mFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
             }
 
@@ -74,7 +75,7 @@ public class TimerDisplayFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextTimer(mPosition);
+                //nextTimer(mPosition);
             }
         });
 
@@ -139,7 +140,7 @@ public class TimerDisplayFragment extends Fragment {
                     startTimer(mTimers.get(mTimerPosition).getTimerValues().get(++iterator) * 1000);
                 } else if(mTimerPosition + 1 < mTimers.size()) {
                     nextTimer(++mTimerPosition);
-                } else if(mTimerSetsIterator == mTimers.get(mTimerPosition).getIterations()){
+                } else if(mTimerSetsIterator == mTimers.get(mTimerPosition).getReplays()){
                     mTimerTemplateSpinner.setEnabled(true);
                     mTimerPosition = 0;
                     futureMills = 0;

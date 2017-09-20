@@ -40,7 +40,7 @@ public class TimerStorage {
         values.put(TimerTable.Cols.TITLE, timer.getTitle());
         values.put(TimerTable.Cols.UUID, timer.getId().toString());
         values.put(TimerTable.Cols.PARENTUUID, timer.getParent().toString());
-        values.put(TimerTable.Cols.ITERATIONS, timer.getIterations());
+        values.put(TimerTable.Cols.ITERATIONS, timer.getReplays());
         values.put(TimerTable.Cols.PREPARING, timer.getPreparing());
         values.put(TimerTable.Cols.WORKOUT, timer.getWorkout());
         values.put(TimerTable.Cols.REST, timer.getRest());

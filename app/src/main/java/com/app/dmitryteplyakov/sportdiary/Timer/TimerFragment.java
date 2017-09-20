@@ -9,11 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Timer.Timer;
 import com.app.dmitryteplyakov.sportdiary.Core.Timer.TimerStorage;
-import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplate;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.util.UUID;
@@ -55,7 +53,7 @@ public class TimerFragment extends Fragment {
         mPreparingTimePicker.setText(Integer.toString(mTimer.getPreparing()));
         mWorkingTimePicker.setText(Integer.toString(mTimer.getWorkout()));
         mRestTimePicker.setText(Integer.toString(mTimer.getRest()));
-        mIterationsTimePicker.setText(Integer.toString(mTimer.getIterations()));
+        mIterationsTimePicker.setText(Integer.toString(mTimer.getReplays()));
         mSetsTimePicker.setText(Integer.toString(mTimer.getSets()));
         mRestBetweenSetsPicker.setText(Integer.toString(mTimer.getRestBetweenSets()));
 
@@ -183,9 +181,9 @@ public class TimerFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable c) {
                 if(c.toString().equals(""))
-                    mTimer.setIterations(0);
+                    mTimer.setReplays(0);
                 else
-                    mTimer.setIterations(Integer.parseInt(c.toString()));
+                    mTimer.setReplays(Integer.parseInt(c.toString()));
                 TimerStorage.get(getActivity()).updateTimer(mTimer);
             }
         });

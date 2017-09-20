@@ -21,7 +21,6 @@ import com.app.dmitryteplyakov.sportdiary.Core.Timer.Timer;
 import com.app.dmitryteplyakov.sportdiary.Core.Timer.TimerStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.TimerTemplate.TimerTemplateStorage;
 import com.app.dmitryteplyakov.sportdiary.Dialogs.DeleteFragment;
-import com.app.dmitryteplyakov.sportdiary.Dialogs.TitlePickerFragment;
 import com.app.dmitryteplyakov.sportdiary.R;
 
 import java.util.List;
@@ -105,7 +104,7 @@ public class TimerListFragment extends Fragment {
         public void bindTimer(Timer timer) {
             mTimer = timer;
             mTitle.setText(mTimer.getTitle());
-            mTimeSequence.setText(Integer.toString(mTimer.getPreparing()) + " - " + Integer.toString(mTimer.getWorkout()) + " - " + Integer.toString(mTimer.getRest()) + " - " + Integer.toString(mTimer.getSets()) + " x" + Integer.toString(mTimer.getIterations()));
+            mTimeSequence.setText(Integer.toString(mTimer.getPreparing()) + " - " + Integer.toString(mTimer.getWorkout()) + " - " + Integer.toString(mTimer.getRest()) + " - " + Integer.toString(mTimer.getSets()) + " x" + Integer.toString(mTimer.getReplays()));
         }
 
         @Override

@@ -34,7 +34,7 @@ public class TimerCursorWrapper extends CursorWrapper {
         timer.setTitle(titleString);
         timer.setId(UUID.fromString(uuidString));
         timer.setParent(UUID.fromString(parentUuidString));
-        timer.setIterations(iterationsInt);
+        timer.setReplays(iterationsInt);
         timer.setPreparing(preparingInt);
         timer.setWorkout(workoutInt);
         timer.setRest(restInt);

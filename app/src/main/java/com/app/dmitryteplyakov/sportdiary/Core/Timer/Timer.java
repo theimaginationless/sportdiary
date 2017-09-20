@@ -12,7 +12,7 @@ public class Timer {
     private String mTitle;
     private UUID mId;
     private UUID mParent;
-    private int iterations;
+    private int mReplays;
     private int preparing;
     private int workout;
     private int rest;
@@ -20,11 +20,11 @@ public class Timer {
     private int restBetweenSets;
     private int calmDown;
     /*
-    4 - iterations
+    //4 - mReplays
     0 - preparing
     1 - workout
     2 - rest
-    5 - sets
+    //5 - sets
     3 restbetweensets
     6 - calmDown
      */
@@ -34,7 +34,7 @@ public class Timer {
         timerValues = new ArrayList<>();
         mId = UUID.randomUUID();
         mParent = UUID.randomUUID();
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 4; i++)
             timerValues.add(i, 0);
     }
 
@@ -66,12 +66,12 @@ public class Timer {
         this.mParent = parent;
     }
 
-    public int getIterations() {
-        return timerValues.get(4);
+    public int getReplays() {
+        return mReplays;
     }
 
-    public void setIterations(int iterations) {
-        timerValues.set(4, iterations);
+    public void setReplays(int replays) {
+        this.mReplays = replays;
     }
 
     public int getPreparing() {
@@ -99,11 +99,11 @@ public class Timer {
     }
 
     public int getSets() {
-        return timerValues.get(5);
+        return sets;
     }
 
     public void setSets(int sets) {
-        timerValues.set(5, sets);
+        this.sets = sets;
     }
 
     public int getRestBetweenSets() {
