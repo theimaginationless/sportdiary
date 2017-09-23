@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,6 +54,7 @@ public class WeightListFragment extends Fragment {
     public static final int REQUEST_WEIGHT_DELETE = 17;
     public static final int REQUEST_WEIGHT_EDIT = 18;
     private static final String DIALOG_WEIGHT_DELETE = "com.app.weightlistfragment.dialog_weight_delete";
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +62,10 @@ public class WeightListFragment extends Fragment {
         Log.d("WLF", "CREATE");
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.training_list_fragment_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mFab = (FloatingActionButton) getActivity().findViewById(R.id.activity_common_fab_add);
         mBottomBar = (BottomBar) getActivity().findViewById(R.id.bottom_bar);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

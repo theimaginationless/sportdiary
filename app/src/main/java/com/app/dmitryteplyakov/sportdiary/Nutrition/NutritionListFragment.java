@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class NutritionListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private NutritionAdapter mAdapter;
     private FloatingActionButton mFab;
+    private LinearLayoutManager mLinearLayoutManager;
 
     public static NutritionListFragment newInstance(UUID id) {
         Bundle args = new Bundle();
@@ -51,7 +53,10 @@ public class NutritionListFragment extends Fragment {
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_programs_empty_text);
         mEmptyTextView.setText(getString(R.string.fragment_new_nutrition_in_day));
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_list_programs_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mFab = (FloatingActionButton) v.findViewById(R.id.fragment_list_programs_add_program_action_fab);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

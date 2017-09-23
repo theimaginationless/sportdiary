@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class ExerciseListFragment extends Fragment {
     private static final String ARG_DAY_UUID = "com.app.exerciselistfragment.arg_day_uuid";
     private RecyclerView mRecyclerView;
     private ExerciseAdapter mAdapter;
+    private LinearLayoutManager mLinearLayoutManager;
     public static final int REQUEST_BACK = 15;
 
     public static ExerciseListFragment newInstance(UUID dayId) {
@@ -50,7 +52,10 @@ public class ExerciseListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_program_exercise, null);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_list_program_exercise_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(CompTrainingStorage.get(getActivity()).getTrainingByParentDayId((UUID) getArguments().getSerializable(ARG_DAY_UUID)).getTitle());
         updateUI();
         return v;

@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -58,7 +59,9 @@ public class DaysListFragment extends Fragment {
         mFAB = (FloatingActionButton) getActivity().findViewById(R.id.activity_common_fab_add);
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
         mEmptyTextView.setText(getString(R.string.fragment_days_list_empty_text));
-
+        mRecyclerView.setLayoutManager(manager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), manager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

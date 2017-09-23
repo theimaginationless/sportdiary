@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class NutritionDaysListFragment extends Fragment {
     private static final int REQUEST_DELETE_DAY = 15;
     private static final String DIALOG_DELETE_DAY = "com.app.nutritiondayslistfragment.dialog_delete_day";
     private BottomBar mBottomBar;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +69,10 @@ public class NutritionDaysListFragment extends Fragment {
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
         mEmptyTextView.setText(getString(R.string.fragment_nutrition_days_empty_text));
         mRecyclerView = (RecyclerView) v.findViewById(R.id.training_list_fragment_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

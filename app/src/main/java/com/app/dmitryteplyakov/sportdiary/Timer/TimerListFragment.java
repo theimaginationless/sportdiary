@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class TimerListFragment extends Fragment {
     private FloatingActionButton mFab;
     private static final int REQUEST_TIMER_DELETE = 20;
     private static final String DIALOG_DELETE = "com.app.timerlistfragment.dialog_delete";
+    private LinearLayoutManager mLinearLayoutManager;
 
     public static TimerListFragment newInstance(UUID id) {
         Bundle args = new Bundle();
@@ -51,9 +53,11 @@ public class TimerListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_programs, container, false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_list_programs_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(TimerTemplateStorage.get(getActivity()).getTemplate((UUID) getArguments().getSerializable(ARG_TEMPLATE_UUID)).getTitle());
-
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_programs_empty_text);
         mEmptyTextView.setText(getString(R.string.timer_empty_text));
 

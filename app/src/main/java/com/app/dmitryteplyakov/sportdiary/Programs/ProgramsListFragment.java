@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class ProgramsListFragment extends Fragment {
     private static final int REQUEST_TRAINING_TITLE = 3;
     public static final int REQUEST_TRAINING_DELETE = 4;
     private static final int REQUEST_TRAINING_EDIT_TITLE = 6;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +49,10 @@ public class ProgramsListFragment extends Fragment {
 
         mEmptyListTextView = (TextView) v.findViewById(R.id.fragment_list_programs_empty_text);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_list_programs_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mFab = (FloatingActionButton) v.findViewById(R.id.fragment_list_programs_add_program_action_fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override

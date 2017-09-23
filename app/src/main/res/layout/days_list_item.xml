@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="0dp"
     android:foreground="?attr/selectableItemBackground"
-    android:layout_marginLeft="-3dp"
-    android:layout_marginRight="-3dp"
-    android:layout_marginTop="-3dp"
-    android:layout_marginBottom="-3dp"
-    app:cardUseCompatPadding="true"
-    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
         <LinearLayout
@@ -81,4 +72,4 @@
                     tools:text="Первая программа"/>
             </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </FrameLayout>
