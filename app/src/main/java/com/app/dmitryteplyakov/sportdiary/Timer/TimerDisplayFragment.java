@@ -62,8 +62,8 @@ public class TimerDisplayFragment extends Fragment {
                 mPosition = position;
                 mId = id;
                 mTimers = TimerStorage.get(getActivity()).getTimersByParentId(TimerTemplateStorage.get(getActivity()).getTemplates().get(position).getId());
-                mTimerSetsIterator = mTimers.get(mPosition).getReplays();
-                mTimerReplaysIterator = mTimers.get(mPosition).getReplays();
+                //mTimerSetsIterator = mTimers.get(mPosition).getSets();
+                //mTimerReplaysIterator = mTimers.get(mPosition).getReplays();
                 mFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
             }
 
@@ -88,7 +88,7 @@ public class TimerDisplayFragment extends Fragment {
         mTimerPosition = position;
         iterator = 0;
         Log.d("TDF", "Pos: " + Integer.toString(mTimerPosition));
-        startTimer(mTimers.get(position).getTimerValues().get(0) * 1000);
+        startTimer(mTimers.get(mTimerPosition).getTimerValues().get(0) * 1000);
     }
 
     private void startTimer(final long mills) {
@@ -134,26 +134,41 @@ public class TimerDisplayFragment extends Fragment {
                         }
                     }
                 });
-                Log.d("TDF", Integer.toString(mTimerReplaysIterator) + " " + Integer.toString(iterator));
-                if((futureMills <= 50) && ((iterator + 1) / 2) < mTimerReplaysIterator) {
+                Log.d("TDF", Long.toString(futureMills) + " " + Integer.toString(iterator));
+                Log.d("TDF", Integer.toString(mTimers.get(mTimerPosition).getReplays()));
+
+                if((futureMills <= 60) && ((iterator + 1) / 2) < mTimers.get(mTimerPosition).getReplays() + 1) {
                     futureMills = 0;
                     alreadyPaused = false;
+                    Log.d("TDF", " iterator + 1 < getReplays " + Integer.toString(iterator + 1));
                     startTimer(mTimers.get(mTimerPosition).getTimerValues().get((++iterator) % 2) * 1000);
                 } else if(mTimerPosition + 1 < mTimers.size()) {
                     nextTimer(++mTimerPosition);
-                } else if(mTimerSetsIterator == mTimers.get(mTimerPosition).getReplays()){
-                    mTimerTemplateSpinner.setEnabled(true);
-                    mTimerPosition = 0;
-                    futureMills = 0;
-                    iterator = 0;
-                    alreadyPaused = false;
-                    mFab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            nextTimer(mPosition);
-                        }
-                    });
+                } else if(mTimerSetsIterator + 1 == mTimers.get(mTimerPosition).getSets()) {
+                    /*if(mTimerSetsIterator < mTimers.get(mTimerPosition).getSets()) {
+                        mTimerSetsIterator++;
+                        futureMills = 0;
+                        iterator = 0;
+                        alreadyPaused = false;
+                        Log.d("TDF", "Set! " + Integer.toString(mTimerSetsIterator));
+                        nextTimer(mPosition);
+                    } else {*/
+                        mTimerTemplateSpinner.setEnabled(true);
+                        mTimerPosition = 0;
+                        mTimerSetsIterator = 0;
+                        mTimerReplaysIterator = 0;
+                        futureMills = 0;
+                        iterator = 0;
+                        alreadyPaused = false;
+                        mFab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                nextTimer(mPosition);
+                            }
+                        });
+                   // }
                 } else {
+                    Log.d("TDF", "END " + Integer.toString(mTimerReplaysIterator));
                     mTimerPosition = 0;
                     futureMills = 0;
                     iterator = 0;

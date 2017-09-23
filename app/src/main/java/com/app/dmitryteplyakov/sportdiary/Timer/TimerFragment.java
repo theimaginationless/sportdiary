@@ -202,7 +202,7 @@ public class TimerFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable c) {
                 if(c.toString().equals(""))
-                    mTimer.setSets(0);
+                    mTimer.setSets(1);
                 else
                     mTimer.setSets(Integer.parseInt(c.toString()));
                 TimerStorage.get(getActivity()).updateTimer(mTimer);
