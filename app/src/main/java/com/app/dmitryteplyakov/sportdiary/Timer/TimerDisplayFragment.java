@@ -75,7 +75,7 @@ public class TimerDisplayFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //nextTimer(mPosition);
+                nextTimer(mPosition);
             }
         });
 
@@ -134,10 +134,11 @@ public class TimerDisplayFragment extends Fragment {
                         }
                     }
                 });
-                if((futureMills <= 50) && iterator < mTimers.get(mTimerPosition).getTimerValues().size() - 1) {
+                Log.d("TDF", Integer.toString(mTimerReplaysIterator) + " " + Integer.toString(iterator));
+                if((futureMills <= 50) && ((iterator + 1) / 2) < mTimerReplaysIterator) {
                     futureMills = 0;
                     alreadyPaused = false;
-                    startTimer(mTimers.get(mTimerPosition).getTimerValues().get(++iterator) * 1000);
+                    startTimer(mTimers.get(mTimerPosition).getTimerValues().get((++iterator) % 2) * 1000);
                 } else if(mTimerPosition + 1 < mTimers.size()) {
                     nextTimer(++mTimerPosition);
                 } else if(mTimerSetsIterator == mTimers.get(mTimerPosition).getReplays()){
