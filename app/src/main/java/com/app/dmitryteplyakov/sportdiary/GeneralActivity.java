@@ -106,9 +106,9 @@ public class GeneralActivity extends AppCompatActivity {
                     case R.id.programs:
                         mIntentToSet = new Intent(GeneralActivity.this, ProgramsListActivity.class);
                         break;
-                    case R.id.timer_templates:
+                    /*case R.id.timer_templates:
                         mIntentToSet = new Intent(GeneralActivity.this, TimerTemplatesListActivity.class);
-                        break;
+                        break; */
                     case R.id.settings:
                         mIntentToSet = new Intent(GeneralActivity.this, SettingsActivity.class);
                         break;

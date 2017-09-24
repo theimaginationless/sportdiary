@@ -3,9 +3,9 @@
     <item
         android:id="@+id/programs"
         android:title="@string/programs_title"/>
-    <item
+    <!--<item
         android:id="@+id/timer_templates"
-        android:title="@string/timer_templates"/>
+        android:title="@string/timer_templates"/> -->
     <item android:id="@+id/settings"
           android:title="@string/settings_title"/>
 </menu>

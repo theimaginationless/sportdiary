@@ -56,7 +56,7 @@ public class ExerciseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ExerciseActivity.this);
-        boolean timerEnable = sharedPreferences.getBoolean("switch_on_timer", true);
+        boolean timerEnable = sharedPreferences.getBoolean("switch_on_timer", false);
         if(timerEnable)
             getMenuInflater().inflate(R.menu.current_exercise_actionbar, menu);
         return true;
