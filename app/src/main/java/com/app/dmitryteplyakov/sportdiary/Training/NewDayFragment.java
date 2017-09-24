@@ -78,7 +78,7 @@ public class NewDayFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = ExerciseListActivity.newIntent(getActivity(), DayStorage.get(getActivity()).getDays().get(mPosition).getId());
                 startActivityForResult(intent, REQUEST_NEW_DAY_FRAGMENT);
-                getActivity().onBackPressed();
+                getActivity().finish();
             }
         });
 
