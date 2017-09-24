@@ -43,6 +43,8 @@ public class TimerDisplayFragment extends Fragment {
     private int mTimerPosition;
     private int mTimerSetsIterator;
     private int mTimerReplaysIterator;
+    private boolean mFirstIterationOfSet;
+    private boolean mFirstRun;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class TimerDisplayFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextTimer(mPosition);
+                nextTimer(mPosition, 0);
             }
         });
 
@@ -83,12 +85,14 @@ public class TimerDisplayFragment extends Fragment {
         return v;
     }
 
-    private void nextTimer(int position) {
+    private void nextTimer(int position, int start) {
         mTimerTemplateSpinner.setEnabled(false);
         mTimerPosition = position;
         iterator = 0;
+        if(start == 0)
+            mFirstRun = true;
         Log.d("TDF", "Pos: " + Integer.toString(mTimerPosition));
-        startTimer(mTimers.get(mTimerPosition).getTimerValues().get(0) * 1000);
+        startTimer(mTimers.get(mTimerPosition).getTimerValues().get(start) * 1000);
     }
 
     private void startTimer(final long mills) {
@@ -136,14 +140,27 @@ public class TimerDisplayFragment extends Fragment {
                 });
                 Log.d("TDF", Long.toString(futureMills) + " " + Integer.toString(iterator));
                 Log.d("TDF", Integer.toString(mTimers.get(mTimerPosition).getReplays()));
+                Log.d("TDF", Boolean.toString(mFirstIterationOfSet));
 
-                if((futureMills <= 60) && ((iterator + 1) / 2) < mTimers.get(mTimerPosition).getReplays() + 1) {
+                if(((iterator) / 2) < mTimers.get(mTimerPosition).getReplays() + 1) {
                     futureMills = 0;
                     alreadyPaused = false;
                     Log.d("TDF", " iterator + 1 < getReplays " + Integer.toString(iterator + 1));
-                    startTimer(mTimers.get(mTimerPosition).getTimerValues().get((++iterator) % 2) * 1000);
+                    if(mFirstIterationOfSet) {
+                        Log.d("TDF", "FirstIterationOfSet ");
+                        startTimer(mTimers.get(mTimerPosition).getRestBetweenSets() * 1000);
+                        mFirstIterationOfSet = false;
+                    } else {
+                        if(mFirstRun) {
+                            mFirstRun = false;
+                            startTimer(mTimers.get(mTimerPosition).getTimerValues().get((++iterator) % 3) * 1000);
+                        } else
+                            startTimer(mTimers.get(mTimerPosition).getTimerValues().get(((++iterator) % 3) + 1) * 1000);
+                        Log.d("TDF", "iter: " + Integer.toString(iterator));
+                    }
                 } else if(mTimerPosition + 1 < mTimers.size()) {
-                    nextTimer(++mTimerPosition);
+                    nextTimer(++mTimerPosition, 0);
+                    Log.d("TDF", "TimerPos");
                 } else if(mTimerSetsIterator + 1 == mTimers.get(mTimerPosition).getSets()) {
                     /*if(mTimerSetsIterator < mTimers.get(mTimerPosition).getSets()) {
                         mTimerSetsIterator++;
@@ -163,18 +180,19 @@ public class TimerDisplayFragment extends Fragment {
                         mFab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                nextTimer(mPosition);
+                                nextTimer(mPosition, 0);
                             }
                         });
                    // }
                 } else {
-                    Log.d("TDF", "END " + Integer.toString(mTimerReplaysIterator));
-                    mTimerPosition = 0;
+                    Log.d("TDF", "END " + Integer.toString(mTimerSetsIterator));
+                    //mTimerPosition = 0;
                     futureMills = 0;
                     iterator = 0;
                     alreadyPaused = false;
+                    mFirstIterationOfSet = true;
                     mTimerSetsIterator++;
-                    nextTimer(mPosition);
+                    nextTimer(mPosition, 1);
                 }
             }
         };
