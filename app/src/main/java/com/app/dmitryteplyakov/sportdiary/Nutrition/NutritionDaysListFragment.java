@@ -105,19 +105,14 @@ public class NutritionDaysListFragment extends Fragment {
             itemView.setOnLongClickListener(this);
             mDateTextView = (TextView) itemView.findViewById(R.id.nutritions_day_list_item_date_text_view);
             mSummaryEnergyTextView = (TextView) itemView.findViewById(R.id.nutritions_day_list_item_summary_energy_text_view);
-            mAssociatedDay = (TextView) itemView.findViewById(R.id.nutritions_day_list_item_associated_day_text_view);
             options = new CharSequence[] {getString(R.string.menu_delete_item)};
         }
 
         public void bindNutritionDay(NutritionDay nutritionDay) {
             mNutritionDay = nutritionDay;
-            SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy, HH:mm");
+            SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
             mDateTextView.setText(format.format(mNutritionDay.getDate()));
             Log.d("NDLF", format.format(mNutritionDay.getDate()));
-            if(mNutritionDay.isAssociatedWithDay())
-                mAssociatedDay.setText(getString(R.string.nutritions_day_list_item_associated_day) + format.format(DayStorage.get(getActivity()).getDay(mNutritionDay.getAssociatedDay()).getDate()));
-            else
-                mAssociatedDay.setText(getString(R.string.nutritions_day_list_item_no_associated_day));
             List<Nutrition> nutritionList = NutritionStorage.get(getActivity()).getNutritionsByParentDayId(mNutritionDay.getId());
             int summaryEnergy = 0;
             for(Nutrition nutrition : nutritionList)

@@ -4,8 +4,8 @@
     <string name="action_training_tab_title">Тренировки</string>
     <string name="action_nutrition_tab_title">Питание</string>
     <string name="settings_title">Настройки</string>
-    <string name="programs_title">Программа</string>
-    <string name="fragment_list_programs_empty_text">Добавьте программу</string>
+    <string name="programs_title">Тренировки</string>
+    <string name="fragment_list_programs_empty_text">Добавьте тренировку</string>
     <string name="fragment_list_programs_empty_text_exercises">Добавьте упражнения</string>
     <string name="fragment_days_list_empty_text">Начните тренироваться</string>
     <string name="add_program">Добавление упражнения</string>
@@ -29,7 +29,7 @@
     <string name="fragment_new_day_spinner_trainings_title">Группа упражнений:</string>
     <string name="fragment_new_day_start_training">Начать тренировку</string>
     <string name="snackbar_day_deleted">День удалён</string>
-    <string name="training_is_empty_snackbar">Сначала добавьте программу</string>
+    <string name="training_is_empty_snackbar">Сначала добавьте тренировку</string>
     <string name="add">Добавить</string>
     <string name="confirm_delete_training_dialog">Вы действительно хотите удалить?</string>
     <plurals name="confirm_delete_training_with_day_dialog_plural">
@@ -43,7 +43,7 @@
     <string name="fragment_program_pull_counter_title">Счётчик подтягиваний</string>
     <string name="fragment_using_exercise_start_date_training">Начало тренировки: </string>
     <string name="fragment_using_exercise_end_date_training">Окончание тренировки: </string>
-    <string name="days_list_item_group_exercises_text_view">Программа: </string>
+    <string name="days_list_item_group_exercises_text_view">Занятие: </string>
     <string name="days_list_item_duration_exercises_text_view">Продолжительность: </string>
     <string name="days_list_item_count_exercises_text_view">Выполнено упражнений: </string>
     <string name="fragment_using_exercise_end_training_waiting">Ожидание</string>
@@ -77,7 +77,7 @@
     <string name="fragment_new_nutrition_in_day">Добавьте приём пищи</string>
     <string name="nutritions_day_list_item_no_associated_day">Нет связанной тренировки</string>
     <string name="nutritions_day_list_item_associated_day">Связан с тренировкой </string>
-    <string name="nutritions_day_list_item_summary_energy">Общая энергия: </string>
+    <string name="nutritions_day_list_item_summary_energy">Суммарная энергия: </string>
     <string name="fragment_nutrition_title_hint">Название блюда</string>
     <string name="fragment_nutrition_energy">Энергетическая ценность в 100г.: </string>
     <string name="fragment_nutrition_weight">Масса: </string>
