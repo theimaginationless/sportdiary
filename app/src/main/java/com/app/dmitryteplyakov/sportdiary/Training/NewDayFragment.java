@@ -1,5 +1,6 @@
 package com.app.dmitryteplyakov.sportdiary.Training;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
@@ -37,6 +39,8 @@ public class NewDayFragment extends Fragment {
     private int mCounterOfSpinner;
     private int mPosition;
     private long mId;
+    private Button mStartButton;
+    public static int REQUEST_NEW_DAY_FRAGMENT = 24;
 
     public static NewDayFragment newInstance(UUID id) {
         Bundle args = new Bundle();
@@ -50,6 +54,8 @@ public class NewDayFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_new_day, null);
         mPosition = -1;
         mTrainingsSpinner = (Spinner) v.findViewById(R.id.trainings_spinner);
+        mStartButton = (Button) v.findViewById(R.id.fragment_new_day_start_training_button);
+
         final List<Training> listTrainings = TrainingStorage.get(getActivity()).getTrainings();
         ArrayAdapter<Training> adapter = new ArrayAdapter<Training>(getActivity(), android.R.layout.simple_spinner_item, listTrainings);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -63,9 +69,19 @@ public class NewDayFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //
+                mPosition = 0;
             }
         });
+
+        mStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ExerciseListActivity.newIntent(getActivity(), DayStorage.get(getActivity()).getDays().get(mPosition).getId());
+                startActivityForResult(intent, REQUEST_NEW_DAY_FRAGMENT);
+                getActivity().onBackPressed();
+            }
+        });
+
         return v;
     }
 

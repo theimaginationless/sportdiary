@@ -20,5 +20,5 @@
         android:id="@+id/fragment_new_day_start_training_button"
         android:text="@string/fragment_new_day_start_training"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>
