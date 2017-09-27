@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "131315179500",
+    "project_id": "sportdiary-120af"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131315179500:android:dfda9d958181e55f",
+        "android_client_info": {
+          "package_name": "com.app.dmitryteplyakov.sportdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131315179500-dltsa9rb15170hmogd1jikkj3mg64ebf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.dmitryteplyakov.sportdiary",
+            "certificate_hash": "86c7ac35c8d0db8b67901e72fddb0d4bc41f36d4"
+          }
+        },
+        {
+          "client_id": "131315179500-frihsed7djnq9f1pgkernra0hehh9p11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASGHxe7m7aDxePMQhOqmxV-dojKl6HEFE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
