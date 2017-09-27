@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.Day;
 import com.app.dmitryteplyakov.sportdiary.Core.Day.DayStorage;
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
@@ -35,6 +36,7 @@ import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesListActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
 import com.app.dmitryteplyakov.sportdiary.Weight.WeightListFragment;
+import com.google.android.gms.ads.MobileAds;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;

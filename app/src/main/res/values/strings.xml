@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SportDiary</string>
+    <string name="app_name" translatable="false">SportDiary</string>
     <string name="action_overview_tab_title">Сводка</string>
     <string name="action_training_tab_title">Тренировки</string>
     <string name="action_nutrition_tab_title">Питание</string>
@@ -192,4 +192,6 @@
     <string name="timer_display_timer_template_title">Шаблон таймера</string>
     <string name="timer_title_toolbar">Таймер</string>
     <string name="restbetweensets_picker">Отдых между сетами</string>
+    <string name="purchase_adoff">Отключить рекламу</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-8664711496353901/8606245113</string>
 </resources>

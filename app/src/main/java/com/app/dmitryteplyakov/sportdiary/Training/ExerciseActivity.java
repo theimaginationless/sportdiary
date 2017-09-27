@@ -11,9 +11,13 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.app.dmitryteplyakov.sportdiary.R;
 import com.app.dmitryteplyakov.sportdiary.Timer.TimerDisplayActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.UUID;
 
@@ -42,6 +46,11 @@ public class ExerciseActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-8664711496353901~9647864045");
+        AdView mAdView = (AdView) findViewById(R.id.adView_newday);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.setVisibility(View.VISIBLE);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.common_fragment_container);

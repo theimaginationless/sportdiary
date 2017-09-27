@@ -11,9 +11,13 @@ import android.support.v7.widget.MenuItemHoverListener;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.app.dmitryteplyakov.sportdiary.Core.Exercise.ExerciseStorage;
 import com.app.dmitryteplyakov.sportdiary.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.UUID;
 
@@ -41,17 +45,22 @@ public class ProgramActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_programs_common);
+        setContentView(R.layout.activity_common);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-8664711496353901~9647864045");
+        AdView mAdView = (AdView) findViewById(R.id.adView_newday);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.setVisibility(View.VISIBLE);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.programs_fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.common_fragment_container);
         if(fragment == null) {
             fragment = createFragment();
             fm.beginTransaction()
-                    .add(R.id.programs_fragment_container, fragment)
+                    .add(R.id.common_fragment_container, fragment)
                     .commit();
         }
     }
