@@ -55,7 +55,6 @@ public class NewDayFragment extends Fragment {
         mPosition = -1;
         mTrainingsSpinner = (Spinner) v.findViewById(R.id.trainings_spinner);
         mStartButton = (Button) v.findViewById(R.id.fragment_new_day_start_training_button);
-
         final List<Training> listTrainings = TrainingStorage.get(getActivity()).getTrainings();
         ArrayAdapter<Training> adapter = new ArrayAdapter<Training>(getActivity(), android.R.layout.simple_spinner_item, listTrainings);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -76,7 +75,8 @@ public class NewDayFragment extends Fragment {
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ExerciseListActivity.newIntent(getActivity(), DayStorage.get(getActivity()).getDays().get(mPosition).getId());
+                DayStorage dayStorage = DayStorage.get(getActivity());
+                Intent intent = ExerciseListActivity.newIntent(getActivity(), DayStorage.get(getActivity()).getDay((UUID) getArguments().getSerializable(ARG_NEW_DAY_UUID)).getId());
                 startActivityForResult(intent, REQUEST_NEW_DAY_FRAGMENT);
                 getActivity().finish();
             }

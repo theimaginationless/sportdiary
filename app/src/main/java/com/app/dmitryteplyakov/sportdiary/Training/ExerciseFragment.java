@@ -213,6 +213,7 @@ public class ExerciseFragment extends Fragment {
                 calendar.setTime(mExercise.getStartDate());
                 Calendar newTime = Calendar.getInstance();
                 newTime.setTime(date);
+                calendar.set(Calendar.DAY_OF_MONTH, newTime.get(Calendar.DAY_OF_MONTH));
                 calendar.set(Calendar.HOUR_OF_DAY, newTime.get(Calendar.HOUR_OF_DAY));
                 calendar.set(Calendar.MINUTE, newTime.get(Calendar.MINUTE));
                 calendar.set(Calendar.SECOND, newTime.get(Calendar.SECOND));
@@ -225,6 +226,7 @@ public class ExerciseFragment extends Fragment {
                 calendar.setTime(mExercise.getStartDate());
                 Calendar newTime = Calendar.getInstance();
                 newTime.setTime(date);
+                calendar.set(Calendar.DAY_OF_MONTH, newTime.get(Calendar.DAY_OF_MONTH));
                 calendar.set(Calendar.HOUR_OF_DAY, newTime.get(Calendar.HOUR_OF_DAY));
                 calendar.set(Calendar.MINUTE, newTime.get(Calendar.MINUTE));
                 calendar.set(Calendar.SECOND, newTime.get(Calendar.SECOND));

@@ -61,6 +61,7 @@ public class WeightListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_days_list, container, false);
         Log.d("WLF", "CREATE");
         mEmptyTextView = (TextView) v.findViewById(R.id.fragment_days_list_empty_text_view);
+        mEmptyTextView.setText(getString(R.string.fragment_weight_days_empty_text));
         mRecyclerView = (RecyclerView) v.findViewById(R.id.training_list_fragment_recycler_view);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);

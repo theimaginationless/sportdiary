@@ -54,6 +54,7 @@ public class NewDayActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
