@@ -189,5 +189,4 @@ This training was performed on %1$s days.</item>
     <string name="timer_title_toolbar">Таймер</string>
     <string name="restbetweensets_picker">Отдых между сетами</string>
     <string name="purchase_adoff">Disable ads</string>
-    <string name="banner_ad_unit_id">ca-app-pub-8664711496353901/8606245113</string>
 </resources>
