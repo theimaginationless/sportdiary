@@ -38,5 +38,4 @@ dependencies {
     implementation 'com.android.support:preference-v7:26.0.1'
     implementation 'com.roughike:bottom-bar:2.3.1'
     implementation 'com.android.billingclient:billing:1.0'
-    implementation 'com.google.android.gms:play-services-ads:11.0.4'
 }

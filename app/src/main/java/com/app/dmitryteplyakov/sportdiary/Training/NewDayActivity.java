@@ -10,9 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.app.dmitryteplyakov.sportdiary.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+
 
 import java.util.UUID;
 
@@ -39,10 +37,6 @@ public class NewDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-8664711496353901~9647864045");
-        AdView mAdView = (AdView) findViewById(R.id.adView_newday);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FragmentManager fm = getSupportFragmentManager();

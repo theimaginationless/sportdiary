@@ -36,7 +36,6 @@ import com.app.dmitryteplyakov.sportdiary.Timer.TimerTemplatesListActivity;
 import com.app.dmitryteplyakov.sportdiary.Training.DaysListFragment;
 import com.app.dmitryteplyakov.sportdiary.Training.NewDayActivity;
 import com.app.dmitryteplyakov.sportdiary.Weight.WeightListFragment;
-import com.google.android.gms.ads.MobileAds;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;

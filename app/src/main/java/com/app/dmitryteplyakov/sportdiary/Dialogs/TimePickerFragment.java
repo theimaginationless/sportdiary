@@ -1,6 +1,5 @@
 package com.app.dmitryteplyakov.sportdiary.Dialogs;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
